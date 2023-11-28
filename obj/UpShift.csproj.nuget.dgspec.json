@@ -1,30 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hgp85\\Documents\\GitHub\\LI4\\UpShift.csproj": {}
+    "/home/hgp/Repos/LI4/UpShift.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hgp85\\Documents\\GitHub\\LI4\\UpShift.csproj": {
+    "/home/hgp/Repos/LI4/UpShift.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hgp85\\Documents\\GitHub\\LI4\\UpShift.csproj",
+        "projectUniqueName": "/home/hgp/Repos/LI4/UpShift.csproj",
         "projectName": "UpShift",
-        "projectPath": "C:\\Users\\hgp85\\Documents\\GitHub\\LI4\\UpShift.csproj",
-        "packagesPath": "C:\\Users\\hgp85\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hgp85\\Documents\\GitHub\\LI4\\obj\\",
+        "projectPath": "/home/hgp/Repos/LI4/UpShift.csproj",
+        "packagesPath": "/home/hgp/.nuget/packages/",
+        "outputPath": "/home/hgp/Repos/LI4/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\hgp85\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/hgp/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net8.0"
+          "net6.0"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0": {
-            "targetAlias": "net8.0",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {}
           }
         },
@@ -35,8 +35,8 @@
         }
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "imports": [
             "net461",
             "net462",
@@ -48,6 +48,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -56,7 +70,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/hgp/.dotnet/sdk/8.0.100/RuntimeIdentifierGraph.json"
         }
       }
     }

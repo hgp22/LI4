@@ -1,0 +1,77 @@
+{
+  "Version": 1,
+  "Hash": "DZpD9ude1pbzrC0n0vLP/s5+qrcz7Z9S3TD/kRcqOg0=",
+  "Source": "UpShift",
+  "BasePath": "_content/UpShift",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "UpShift/wwwroot",
+      "Source": "UpShift",
+      "ContentRoot": "/home/hgp/Repos/LI4/wwwroot/",
+      "BasePath": "_content/UpShift",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/home/hgp/Repos/LI4/obj/Debug/net6.0/scopedcss/bundle/UpShift.styles.css",
+      "SourceId": "UpShift",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/hgp/Repos/LI4/obj/Debug/net6.0/scopedcss/bundle/",
+      "BasePath": "_content/UpShift",
+      "RelativePath": "UpShift.styles.css",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ApplicationBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/home/hgp/Repos/LI4/obj/Debug/net6.0/scopedcss/bundle/UpShift.styles.css"
+    },
+    {
+      "Identity": "/home/hgp/Repos/LI4/obj/Debug/net6.0/scopedcss/projectbundle/UpShift.bundle.scp.css",
+      "SourceId": "UpShift",
+      "SourceType": "Computed",
+      "ContentRoot": "/home/hgp/Repos/LI4/obj/Debug/net6.0/scopedcss/projectbundle/",
+      "BasePath": "_content/UpShift",
+      "RelativePath": "UpShift.bundle.scp.css",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ProjectBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/home/hgp/Repos/LI4/obj/Debug/net6.0/scopedcss/projectbundle/UpShift.bundle.scp.css"
+    },
+    {
+      "Identity": "/home/hgp/Repos/LI4/wwwroot/favicon.ico",
+      "SourceId": "UpShift",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/hgp/Repos/LI4/wwwroot/",
+      "BasePath": "_content/UpShift",
+      "RelativePath": "favicon.ico",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/favicon.ico"
+    }
+  ]
+}

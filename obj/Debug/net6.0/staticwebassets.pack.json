@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "/home/hgp/Repos/LI4/obj/Debug/net6.0/scopedcss/projectbundle/UpShift.bundle.scp.css",
+      "PackagePath": "staticwebassets/UpShift.bundle.scp.css"
+    },
+    {
+      "Id": "/home/hgp/Repos/LI4/wwwroot/favicon.ico",
+      "PackagePath": "staticwebassets/favicon.ico"
+    },
+    {
+      "Id": "obj/Debug/net6.0/staticwebassets/msbuild.UpShift.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net6.0/staticwebassets/msbuild.build.UpShift.props",
+      "PackagePath": "build\\UpShift.props"
+    },
+    {
+      "Id": "obj/Debug/net6.0/staticwebassets/msbuild.buildMultiTargeting.UpShift.props",
+      "PackagePath": "buildMultiTargeting\\UpShift.props"
+    },
+    {
+      "Id": "obj/Debug/net6.0/staticwebassets/msbuild.buildTransitive.UpShift.props",
+      "PackagePath": "buildTransitive\\UpShift.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
