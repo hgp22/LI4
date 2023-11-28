@@ -1,2 +1,5 @@
 # Binary Folder
 bin
+
+# Object Files & Folders from Blazor
+obj
