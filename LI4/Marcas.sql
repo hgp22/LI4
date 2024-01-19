@@ -1,0 +1,5 @@
+CREATE TABLE [dbo].[Marcas]
+(
+  [Id] INT NOT NULL PRIMARY KEY,
+  [Nome] VARCHAR(50) NOT NULL
+);
