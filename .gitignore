@@ -3,3 +3,4 @@ bin
 
 # Object Files & Folders from Blazor
 obj
+/Data/WeatherForecast.cs

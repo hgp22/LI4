@@ -1,5 +1,33 @@
 ﻿@page "/"
-
+@inject IJSRuntime js
 <PageTitle>Index</PageTitle>
 
-<h1 class="text-xl underline decoration-dotted text-white ">Hello, world!</h1>
+<AuthorizeView>
+	<Authorized>
+		<h1>Hello, @context.User.Identity.Name!</h1>
+	</Authorized>
+
+	<NotAuthorized>
+		<h1>Hello, guest!</h1>
+	</NotAuthorized>
+</AuthorizeView>
+
+Welcome to UpShift.
+
+<AuthorizeView>
+	<Authorized>
+		<br /><br />
+		<button class="btn btn-outline-primary" @onclick="DisplayGreetingAlert">Display Greeting Alert</button>
+	</Authorized>
+</AuthorizeView>
+
+
+@code{
+	[CascadingParameter]
+	private Task<AuthenticationState> authenticationState {get; set;}
+	private async Task DisplayGreetingAlert(){
+		var authState = await authenticationState;
+		var message = $"Hello {authState.User.Identity.Name}";
+		await js.InvokeVoidAsync("Alert", message);
+	}
+}
