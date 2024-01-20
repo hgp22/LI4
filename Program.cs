@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components.Web;
 using UpShift;
 using UpShift.Authentication;
-using UpShift.Data;
+using UpShift.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,10 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthenticationCore();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddScoped<AuthenticationController>();
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddSingleton<UserAccountService>();
-builder.Services.AddSingleton<WeatherForecastService>();
 
 var app = builder.Build();
 
