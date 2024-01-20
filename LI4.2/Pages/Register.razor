@@ -1,0 +1,61 @@
+﻿@page "/register"
+@using BlazorServerAuthenticationAndAuthorization.Authentication
+@inject UserAccountService userAccountService
+@inject IJSRuntime js
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager navManager
+
+<div class="row">
+    <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
+        <div class="mb-3 text-center">
+            <h3>REGISTER</h3>
+        </div>
+        <div class="mb-5 text-center">
+            <label for="username" class="block text-sm font-semibold text-gray-600 text-center"></label>
+            <input @bind="model.UserName" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Username">
+        </div>
+
+        <div class="mb-5 text-center">
+            <label for="password" class="block text-sm font-semibold text-gray-600 text-center"></label>
+            <input @bind="model.Password" type="password" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Password">
+        </div>
+
+        <div class="mb-5 d-grid gap-2 text-center">
+            <button @onclick="RegisterAndLogin" class="mb-5 w-full bg-green-500 text-green px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200">
+                Register
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private class Model
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+
+    private Model model = new Model();
+
+    private async Task RegisterAndLogin()
+    {
+        var existingUser = userAccountService.GetByUserName(model.UserName);
+        if (existingUser != null)
+        {
+            await js.InvokeVoidAsync("alert", "Username already in use");
+            return;
+        }
+
+        var newUser = new UserAccount(model.UserName, model.Password, "User");
+
+        userAccountService.AddUser(newUser);
+
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        await customAuthStateProvider.UpdateAuthenticationState(new UserSession
+        {
+            UserName = newUser.UserName,
+            Role = newUser.Role
+        });
+        navManager.NavigateTo("/", true);
+    }
+}

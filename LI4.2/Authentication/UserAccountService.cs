@@ -8,11 +8,15 @@
         {
             _users = new List<UserAccount>
             {
-                new UserAccount{ UserName = "admin", Password = "admin", Role = "Administrator" },
-                new UserAccount{ UserName = "user", Password = "user", Role = "User" }
+                new UserAccount("admin", "admin", "Administrator"),
+                new UserAccount("user", "user", "User" )
             };
         }
 
+        public void AddUser( UserAccount user )
+        {
+            _users.Add( user );
+        }
         public UserAccount? GetByUserName(string userName)
         {
             return _users.FirstOrDefault(x => x.UserName == userName);
