@@ -5,23 +5,37 @@
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
 
+<style>
+    .username-input, .password-input {
+        background-color: #12232e;
+        border: #12232e;
+        color: #ffffff; 
+    }
+    .login-button {
+        background-color: #12232e; 
+    }
+    .login-title {
+        color: #ffffff; 
+    }
+</style>
+
 <div class="row">
     <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
         <div class="mb-3 text-center">
-            <h3>LOGIN</h3>
+            <h3 class="login-title">LOGIN</h3>
         </div>
         <div class="mb-5 text-center">
             <label for="username" class="block text-sm font-semibold text-gray-600 text-center"></label>
-            <input @bind="model.UserName" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Username">
+            <input @bind="model.UserName" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 username-input" placeholder="Username">
         </div>
 
         <div class="mb-5 text-center">
             <label for="password" class="block text-sm font-semibold text-gray-600 text-center"></label>
-            <input @bind="model.Password" type="password" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Password">
+            <input @bind="model.Password" type="password" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 password-input" placeholder="Password">
         </div>
 
         <div class="mb-5 d-grid gap-2 text-center">
-            <button @onclick="Authenticate" class="mb-5 w-full bg-blue-500 text-blue px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200">
+            <button @onclick="Authenticate" class="mb-5 w-full bg-blue-500 text-blue px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 login-button">
                 Log In
             </button>
         </div>
