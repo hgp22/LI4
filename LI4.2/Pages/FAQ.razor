@@ -1,22 +1,69 @@
 @page "/faq"
 
+@using System.Collections.Generic
+
+<style>
+    .faq-question {
+        cursor: pointer;
+        padding: 10px;
+        background-color: #0e235f;
+        border: 1px solid 0e235f;
+        margin-bottom: 10px;
+        color: #ffffff;
+    }
+
+    .faq-question:hover {
+        background-color: #f0f0f0;
+    }
+
+    .faq-answer {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-left: 1px solid #0e235f;
+        border-right: 1px solid #0e235f;
+        border-bottom: 1px solid #0e235f;
+    }
+</style>
+
 <div class="row">
     <!-- FAQ -->
     <div class="col-md-12">
         <h2 class="text-center">FAQ</h2>
         <hr />
-        <div class="panel-group" id="accordion">
-            @foreach (var faq in Faqs)
+        @foreach (var faq in Faqs.OrderBy(f => f.Id))
+        {
+            <div class="faq-question" @onclick="() => Toggle(faq.Id)">
+                <h4>@faq.Question</h4>
+            </div>
+            @if (faq.Id == expandedFaq)
             {
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#">
-                            </a>
-                        </h4>
-                    </div>
+                <div class="faq-answer">
+                    <p>@faq.Answer</p>
                 </div>
             }
-        </div>
+        }
     </div>
 </div>
+
+@code {
+    int expandedFaq = 0;
+
+    void Toggle(int id)
+    {
+        expandedFaq = expandedFaq == id ? 0 : id;
+    }
+    
+    public class faq
+    {
+        public int Id { get; set; }
+        public string Question { get; set; }
+        public string Answer { get; set; }
+    }
+
+    List<faq> Faqs = new List<faq>
+    {
+        new faq { Id = 1, Question = "What is your first question?", Answer = "This is the answer to the first question." },
+        new faq { Id = 2, Question = "What is your second question?", Answer = "This is the answer to the second question." },
+        // Adicione mais perguntas e respostas aqui
+    };    
+}
