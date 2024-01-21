@@ -14,11 +14,16 @@
 
     <main>
         <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            <a href="/faq">FAQ</a>
+            <AuthorizeView Roles ="Administrator">
+                <Authorized>
+                    <a href="/tickets">Tickets</a>
+                </Authorized>
+            </AuthorizeView>
             <AuthorizeView>
                 <Authorized>
+
                     <a @onclick="Logout" href="javascript:void(0)">Logout</a>
-                    <a href="/faq">FAQ</a>
                 </Authorized>
                 <NotAuthorized>
                     <a href="/login">Login</a>

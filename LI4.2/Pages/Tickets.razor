@@ -1,0 +1,56 @@
+﻿@page "/tickets"
+@using BlazorServerAuthenticationAndAuthorization.Data
+@inject TicketService ticketService
+@using BlazorServerAuthenticationAndAuthorization.Models
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager navManager
+
+<AuthorizeView Roles="Administrator">
+    <Authorized>
+        <h3 class="text-center mb-4">Tickets</h3>
+
+        @if (tickets != null && tickets.Any())
+        {
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                @foreach (var ticket in tickets)
+                {
+                    <div class="border p-4 rounded-md">
+                        <p class="font-bold">ID: @ticket.Id</p>
+                        <p>Nome: @ticket.Nome</p>
+                        <p>Email: @ticket.Email</p>
+                        <p>Telefone: @ticket.Telefone</p>
+                        <p>Mensagem: @ticket.Mensagem</p>
+                        <button class="bg-red-500 text-white p-2 mt-2 rounded-md" @onclick="() => DeleteTicket(ticket)">Excluir</button>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-center">Não há tickets :).</p>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p class="text-center">Sem permissão para aceder a esta página.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private List<Ticket> tickets;
+
+    protected override void OnInitialized()
+    {
+        LoadTickets();
+    }
+
+    private void LoadTickets()
+    {
+        tickets = ticketService.GetAll();
+    }
+
+    private void DeleteTicket(Ticket ticket)
+    {
+        ticketService.RemoveTicket(ticket);
+        LoadTickets();
+    }
+}
