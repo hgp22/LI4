@@ -38,33 +38,50 @@
 </div>
 
 <div>
-    <h4>Alterar Detalhes do Perfil</h4>
+    <h4>Alterar Password</h4>
 
     <div>
         <label for="passwordAntiga">Palavra-passe Antiga:</label>
-        <input type="password" id="passwordAntiga" />
+        <input type="password" id="passwordAntiga" @bind="passwordAntiga"/>
     </div>
     <div>
         <label for="novaPassword">Nova Palavra-passe:</label>
-        <input type="password" id="novaPassword" />
+        <input type="password" id="novaPassword" @bind="passwordNova" />
+    </div>
+    <div>
+        <label for="repetirNovaPassword">Repetir Nova Palavra-passe:</label>
+        <input type="password" id="repetirNovaPassword" @bind="passwordNovaRepeticao" />
     </div>
 
+    <button @onclick="AlterarPassword">Guardar nova password</button>
+    <p>@mensagem</p>
+</div>
+
+<div>
+    <h4>Alterar Email</h4>
+
     <div>
-        <label for="emailAntigo">Email Antigo:</label>
-        <input type="email" id="emailAntigo" />
+        <label for="passwordAntiga2">Palavra-passe Antiga:</label>
+        <input type="password" id="passwordAntiga2" @bind="passwordAntiga2" />
     </div>
     <div>
         <label for="novoEmail">Novo Email:</label>
-        <input type="email" id="novoEmail" />
+        <input type="email" id="novoEmail" @bind="emailNovo" />
     </div>
 
-    <button @onclick="AlterarDetalhes">Salvar Alterações</button>
+    <button @onclick="AlterarEmail">Guardar novo email</button>
 </div>
 
 @code {
+    private string passwordAntiga { get; set; }
+    private string passwordAntiga2 { get; set; }
+    private string passwordNova { get; set; }
+    private string passwordNovaRepeticao { get; set; }
+    private string emailNovo{ get; set; }
     private string username { get; set; }
     private CustomAuthenticationStateProvider customAuthStateProvider { get; set; }
     private UserAccount user { get; set; }
+    private string mensagem { get; set; }
 
     private async Task InitializeAsync()
     {
@@ -76,6 +93,31 @@
     protected override async Task OnInitializedAsync()
     {
         await InitializeAsync();
+    }
+
+    private void AlterarEmail()
+    {
+        if (VerificarPasswordAntiga(passwordAntiga2))
+        {
+            var user = userController.GetByUsername(username);
+            if (user != null)
+            {
+                user.Email = emailNovo;
+                if (userController.Update(user))
+                {
+                    mensagem = "Email alterado com sucesso!";
+                }
+            }
+            else
+            {
+                mensagem = "Erro ao alterar email!";
+            }
+        }
+        else
+        {
+            mensagem = "Password incorreta!";
+        }
+
     }
 
     private bool UserMetodoPagamento(int metodo)
@@ -116,8 +158,44 @@
         }
     }
 
-    private void AlterarDetalhes()
+    private async void AlterarPassword()
     {
-        // por fazer
+        if (VerificarPasswordAntiga(passwordAntiga) && NovaPasswordValida(passwordNova, passwordNovaRepeticao))
+        {
+            if (UpdatePassword(passwordNova))
+            {
+                mensagem = "Password atualizada com sucesso!";
+            }
+            else
+            {
+                mensagem = "Erro ao atualizar a password.";
+            }
+        }
+        else
+        {
+            mensagem = "As passwords não estão corretas";
+        }
+    }
+
+    private bool VerificarPasswordAntiga(string passwordAntiga)
+    {
+        var user = userController.GetByUsername(username);
+        return user != null && user.Password == passwordAntiga;
+    }
+
+    private bool NovaPasswordValida(string passwordNova, string passwordNovaRepeticao)
+    {
+        return !string.IsNullOrEmpty(passwordNova) && passwordNova == passwordNovaRepeticao;
+    }
+
+    private bool UpdatePassword(string passwordNova)
+    {
+        var user = userController.GetByUsername(username);
+        if (user != null)
+        {
+            user.Password = passwordNova;
+            return userController.Update(user);
+        }
+        return false;
     }
 }

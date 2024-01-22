@@ -51,6 +51,7 @@
 
             if (existingUser != null)
             {
+                existingUser.Password = user.Password;
                 existingUser.Email = user.Email;
                 existingUser.Role = user.Role;
                 existingUser.DetalhesEntrega = user.DetalhesEntrega;
