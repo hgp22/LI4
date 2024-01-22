@@ -1,0 +1,36 @@
+﻿@page "/listarleiloes"
+@inject NavigationManager NavigationManager
+@using Controllers
+@inject ILeilaoController leilaoController
+
+<PageTitle>Lista de Leilões</PageTitle>
+
+<h3>Lista de Leilões</h3>
+
+<div class="row">
+    <div class="col-md-12">
+        <ul class="list-group">
+            @foreach (var leilao in leilaoController.GetAll())
+            {
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <strong>@leilao.Titulo</strong> - @leilao.Marca @leilao.Modelo (@leilao.Ano) - @leilao.PrecoStart€ - <strong>Termina: (@leilao.FinalLeilao)</strong>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" @onclick="(() => VerLeilao(leilao.Id))">Ver</button>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+
+@code {
+    private void VerLeilao(int leilaoId)
+    {
+        NavigationManager.NavigateTo($"/detalhesleilao/{leilaoId}");
+    }
+}
+

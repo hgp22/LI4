@@ -20,6 +20,11 @@
             <input @bind="model.Password" type="password" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Password">
         </div>
 
+        <div class="mb-5 text-center">
+            <label for="email" class="block text-sm font-semibold text-gray-600 text-center"></label>
+            <input @bind="model.Email" type="email" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Email">
+        </div>
+
         <div class="mb-5 d-grid gap-2 text-center">
             <button @onclick="RegisterAndLogin" class="mb-5 w-full bg-green-500 text-green px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200">
                 Register
@@ -33,6 +38,7 @@
     {
         public string UserName { get; set; }
         public string Password { get; set; }
+        public string Email { get; set; }
     }
 
     private Model model = new Model();
@@ -40,13 +46,19 @@
     private async Task RegisterAndLogin()
     {
         var existingUser = userAccountService.GetByUserName(model.UserName);
+        var existingUser2 = userAccountService.GetByEmail(model.Email);
         if (existingUser != null)
         {
             await js.InvokeVoidAsync("alert", "Username already in use");
             return;
         }
+        if(existingUser2 != null)
+        {
+            await js.InvokeVoidAsync("alert", "Email already in use");
+            return;
+        }
 
-        var newUser = new UserAccount(model.UserName, model.Password, "User");
+        var newUser = new UserAccount(model.UserName, model.Password, model.Email, "User");
 
         userAccountService.AddUser(newUser);
 

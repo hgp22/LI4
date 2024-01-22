@@ -1,4 +1,5 @@
 using BlazorServerAuthenticationAndAuthorization.Authentication;
+using BlazorServerAuthenticationAndAuthorization.Controllers;
 using BlazorServerAuthenticationAndAuthorization.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -11,11 +12,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthenticationCore();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<TicketService>();
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-builder.Services.AddSingleton<UserAccountService>();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddHttpClient();
+
+builder.Services.AddTransient<IUserController, UserController>();
+builder.Services.AddTransient<ILeilaoController, LeilaoController>();
+builder.Services.AddTransient<ILicitacaoController, LicitacaoController>();
+builder.Services.AddSingleton<TicketService>();
+builder.Services.AddSingleton<UserAccountService>();
+builder.Services.AddSingleton<VeiculoLeilaoService>();
+builder.Services.AddSingleton<LicitacaoService>();
+
 
 var app = builder.Build();
 

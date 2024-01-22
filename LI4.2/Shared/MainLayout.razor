@@ -15,8 +15,10 @@
     <main>
         <div class="top-row px-4">
             <a href="/faq">FAQ</a>
+            <a href="/listarleiloes">Leilões</a>
             <AuthorizeView Roles ="Administrator">
                 <Authorized>
+                    <a href="/criarleilao">Criar Leilao</a>
                     <a href="/tickets">Tickets</a>
                 </Authorized>
             </AuthorizeView>
@@ -26,6 +28,7 @@
                     <a @onclick="Logout" href="javascript:void(0)">Logout</a>
                 </Authorized>
                 <NotAuthorized>
+                    <a href="/contactus">Contact Us</a>
                     <a href="/login">Login</a>
                     <a href="/register">Register</a>
                 </NotAuthorized>
@@ -37,7 +40,6 @@
         </article>
     </main>
     <footer>
-        <img src="caminho/para/sua/imagem.jpg">
     </footer>
 </div>
 

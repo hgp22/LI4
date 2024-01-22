@@ -1,0 +1,111 @@
+﻿@page "/detalhesleilao/{leilaoId:int}"
+@using Controllers
+@using Authentication
+@using Models
+@inject ILeilaoController leilaoController
+@inject IUserController userController
+@inject NavigationManager navigationManager
+@inject UserAccountService userAccountService
+@inject AuthenticationStateProvider authStateProvider
+
+<PageTitle>Detalhes do Leilão</PageTitle>
+
+<h3>Detalhes do Leilão</h3>
+
+@if (leilao == null)
+{
+    <p>Leilão não existe.</p>
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <h5>@leilao.Titulo</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Marca:</strong> @leilao.Marca</p>
+            <p><strong>Modelo:</strong> @leilao.Modelo</p>
+            <p><strong>Ano:</strong> @leilao.Ano</p>
+            <p><strong>Descrição:</strong> @leilao.Descricao</p>
+            <p><strong>Combustível:</strong> @leilao.Combustivel</p>
+            <p><strong>Cor:</strong> @leilao.Cor</p>
+            <p><strong>Kilometragem:</strong> @leilao.Kilometragem</p>
+            <p><strong>Cilindrada:</strong> @leilao.Cilindrada</p>
+            <p><strong>Potência:</strong> @leilao.Potencia</p>
+            <p><strong>Número de Portas:</strong> @leilao.Portas</p>
+            <p><strong>Preço Inicial:</strong> @leilao.PrecoStart€</p>
+            <p><strong>Licitação Mínima:</strong> @leilao.BidMinima€</p>
+            <p><strong>LICITAÇÃO ATUAL:</strong> @leilao.ValorAtual</p>
+
+            <div class="my-2">
+                <button class="btn btn-primary" @onclick="UserPodeLicitar">Licitar</button>
+            </div>
+
+            @if (mostrarInputLicitar)
+            {
+                <AuthorizeView>
+                    <Authorized>
+                        <div class="form-group">
+                            <label for="valorLicitar">Valor da Licitação:</label>
+                            <InputNumber class="form-control" id="valorLicitar" @bind-Value="valorLicitar" />
+                            <button class="btn btn-success" @onclick="EnviarLicitar">Confirmar Licitação</button>
+                        </div>
+                    </Authorized>
+                </AuthorizeView>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int? LeilaoId { get; set; }
+    private VeiculoLeilao leilao;
+
+    private bool mostrarInputLicitar = false;
+    private decimal valorLicitar;
+    protected override void OnInitialized()
+    {
+        if (LeilaoId.HasValue)
+        {
+            leilao = leilaoController.GetByID(LeilaoId.Value);
+        }
+        else
+        {
+            navigationManager.NavigateTo("/listarleiloes");
+        }
+    }
+
+    private async void UserPodeLicitar()
+    {
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        if (!((await customAuthStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated))
+        {
+            navigationManager.NavigateTo("/login");
+            return;
+        }
+
+        var username = (await customAuthStateProvider.GetAuthenticationStateAsync()).User.Identity.Name;
+        if (userController.HasMetodoPagamento(username) && userController.HasDetalhesEntrega(username))
+        {
+            ShowInputLicitar();
+
+        }
+        else
+        {
+            navigationManager.NavigateTo("/");
+        }
+    }
+    private void ShowInputLicitar()
+    {
+
+        mostrarInputLicitar = true;
+        valorLicitar = leilao.ValorAtual + leilao.BidMinima;
+
+    }
+
+    private void EnviarLicitar()
+    {
+        // por fazer
+    }
+}

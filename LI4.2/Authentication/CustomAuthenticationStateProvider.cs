@@ -18,7 +18,6 @@ namespace BlazorServerAuthenticationAndAuthorization.Authentication
         {
             try
             {
-                //await Task.Delay(5000);
                 var userSessionStorageResult = await _sessionStorage.GetAsync<UserSession>("UserSession");
                 var userSession = userSessionStorageResult.Success ? userSessionStorageResult.Value : null;
                 if (userSession == null)
@@ -56,6 +55,12 @@ namespace BlazorServerAuthenticationAndAuthorization.Authentication
             }
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
+        }
+
+        public async Task<bool> IsUserAuthenticatedAsync()
+        {
+            var authenticationState = await GetAuthenticationStateAsync();
+            return authenticationState.User.Identity.IsAuthenticated;
         }
     }
 }
