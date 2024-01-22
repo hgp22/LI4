@@ -44,5 +44,23 @@
         {
             return _users.FirstOrDefault(x => x.Email == email);
         }
+
+        public bool Update(UserAccount user)
+        {
+            var existingUser = _users.FirstOrDefault(x => x.UserName == user.UserName);
+
+            if (existingUser != null)
+            {
+                existingUser.Email = user.Email;
+                existingUser.Role = user.Role;
+                existingUser.DetalhesEntrega = user.DetalhesEntrega;
+                existingUser.MetodoPagamento = user.MetodoPagamento;
+
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

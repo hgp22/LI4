@@ -53,8 +53,7 @@ namespace BlazorServerAuthenticationAndAuthorization.Controllers
 
         bool IUserController.Update(UserAccount userAccount)
         {
-            //por fazer
-            return false;
+            return _userAccountService.Update(userAccount);
         }
 
         public bool HasMetodoPagamento(string username)
