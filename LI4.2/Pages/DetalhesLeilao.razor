@@ -36,7 +36,7 @@ else
             <p><strong>Número de Portas:</strong> @leilao.Portas</p>
             <p><strong>Preço Inicial:</strong> @leilao.PrecoStart€</p>
             <p><strong>Licitação Mínima:</strong> @leilao.BidMinima€</p>
-            <p><strong>LICITAÇÃO ATUAL:</strong> @leilao.ValorAtual</p>
+            <p><strong>LICITAÇÃO ATUAL:</strong> @leilao.ValorAtual€</p>
 
             <div class="my-2">
                 <button class="btn btn-primary" @onclick="UserPodeLicitar">Licitar</button>
@@ -132,6 +132,8 @@ else
             licitacao = new Licitacao(valorLicitar, username, leilao.Id);
             licitacaoController.Create(licitacao);
             leilao.ValorAtual = licitacao.Valor;
+            leilao.IdLicitacaoLider = licitacao.Id;
+            leilaoController.Update(leilao);
             mensagem = "";
         }
     }

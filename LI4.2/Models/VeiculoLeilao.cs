@@ -23,6 +23,7 @@
         public bool LeilaoAcabou { get; set; }
         public List<string> Imagens { get; set; }
         public List<string> Videos { get; set; }
+        public int IdLicitacaoLider { get; set; }
 
 
 
@@ -49,6 +50,7 @@
             Imagens = imagens;
             Videos = videos;
             ValorAtual = PrecoStart;
+            IdLicitacaoLider = -1;
         }
 
         public void updateValorAtual(Licitacao licitacao)

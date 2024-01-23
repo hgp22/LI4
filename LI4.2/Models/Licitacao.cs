@@ -9,6 +9,8 @@
         public int IdLeilao { get; set; }
         public Boolean Winner { get; set; }
 
+        
+
         public Licitacao() { }
         public Licitacao(decimal valor, string username, int idLeilao)
         {

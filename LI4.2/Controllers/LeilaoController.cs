@@ -64,10 +64,17 @@ namespace BlazorServerAuthenticationAndAuthorization.Controllers
             }
         }
 
-        bool ILeilaoController.Update(VeiculoLeilao veiculoLeilao)
+        public bool Update(VeiculoLeilao veiculoLeilao)
         {
-            //por fazer
-            return false;
+            try
+            {
+                _veiculoLeilaoService.Update(veiculoLeilao);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
