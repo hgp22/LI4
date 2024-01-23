@@ -7,6 +7,7 @@
 @inject NavigationManager navigationManager
 @inject UserAccountService userAccountService
 @inject AuthenticationStateProvider authStateProvider
+@inject ILicitacaoController licitacaoController
 
 <PageTitle>Detalhes do Leilão</PageTitle>
 
@@ -48,7 +49,8 @@ else
                         <div class="form-group">
                             <label for="valorLicitar">Valor da Licitação:</label>
                             <InputNumber class="form-control" id="valorLicitar" @bind-Value="valorLicitar" />
-                            <button class="btn btn-success" @onclick="EnviarLicitar">Confirmar Licitação</button>
+                            <button class="btn btn-success" @onclick="Licitar">Confirmar Licitação</button>
+                            @mensagem
                         </div>
                     </Authorized>
                 </AuthorizeView>
@@ -61,9 +63,18 @@ else
     [Parameter]
     public int? LeilaoId { get; set; }
     private VeiculoLeilao leilao;
-
+    private string mensagem { get; set; }
+    private string username { get; set; }
+    private CustomAuthenticationStateProvider customAuthStateProvider { get; set; }
     private bool mostrarInputLicitar = false;
     private decimal valorLicitar;
+
+    private async Task InitializeAsync()
+    {
+        customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        username = (await customAuthStateProvider.GetAuthenticationStateAsync()).User.Identity.Name;
+    }
+
     protected override void OnInitialized()
     {
         if (LeilaoId.HasValue)
@@ -74,6 +85,11 @@ else
         {
             navigationManager.NavigateTo("/listarleiloes");
         }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await InitializeAsync();
     }
 
     private async void UserPodeLicitar()
@@ -104,8 +120,19 @@ else
 
     }
 
-    private void EnviarLicitar()
+    private void Licitar()
     {
-        // por fazer
+        Licitacao licitacao;
+        if((leilao.ValorAtual + leilao.BidMinima) >= valorLicitar)
+        {
+            mensagem = "O valor inserido é demasiado baixo!";
+        }
+        else
+        {
+            licitacao = new Licitacao(valorLicitar, username, leilao.Id);
+            licitacaoController.Create(licitacao);
+            leilao.ValorAtual = licitacao.Valor;
+            mensagem = "";
+        }
     }
 }

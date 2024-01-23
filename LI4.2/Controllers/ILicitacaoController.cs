@@ -8,7 +8,7 @@ namespace BlazorServerAuthenticationAndAuthorization.Controllers
         bool Delete(Licitacao licitacao);
         bool MarkHasWinner(Licitacao licitacao);
         Licitacao GetByID(int id);
-        List<Licitacao> GetAllDeUser(int userID);
+        List<Licitacao> GetAllDeUser(string username);
         List<Licitacao> GetAllDeLeilao(int leilaoID);
         
     }

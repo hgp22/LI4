@@ -1,20 +1,28 @@
 ﻿using BlazorServerAuthenticationAndAuthorization.Models;
+using BlazorServerAuthenticationAndAuthorization.Pages;
 
 namespace BlazorServerAuthenticationAndAuthorization.Data
 {
     public class LicitacaoService
     {
-        private List<Licitacao> licitacoes = new List<Licitacao>();
+        private List<Licitacao> licitacoes;
         private int nextId = 1;
+
+        public LicitacaoService()
+        {
+            licitacoes = new List<Licitacao>
+            {
+            };
+        }
 
         public Licitacao GetByID(int id)
         {
             return licitacoes.FirstOrDefault(l => l.Id == id);
         }
 
-        public List<Licitacao> GetAllDeUser(int userId)
+        public List<Licitacao> GetAllDeUser(string username)
         {
-            return licitacoes.Where(l => l.IdUtilizador == userId).ToList();
+            return licitacoes.Where(l => l.Username == username).ToList();
         }
 
         public List<Licitacao> GetAllDeLeilao(int leilaoId)

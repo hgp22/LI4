@@ -45,9 +45,9 @@ namespace BlazorServerAuthenticationAndAuthorization.Controllers
             return _licitacaoService.GetAllDeLeilao(leilaoID);
         }
 
-        List<Licitacao> ILicitacaoController.GetAllDeUser(int userID)
+        List<Licitacao> ILicitacaoController.GetAllDeUser(string username)
         {
-            return _licitacaoService.GetAllDeUser(userID);
+            return _licitacaoService.GetAllDeUser(username);
         }
 
         Licitacao ILicitacaoController.GetByID(int id)
