@@ -5,26 +5,67 @@
 
 <PageTitle>Lista de Leilões</PageTitle>
 
-<h3>Lista de Leilões</h3>
-
-<div class="row">
-    <div class="col-md-12">
-        <ul class="list-group">
-            @foreach (var leilao in leilaoController.GetAll())
-            {
-                <li class="list-group-item">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <strong>@leilao.Titulo</strong> - @leilao.Marca @leilao.Modelo (@leilao.Ano) - @leilao.ValorAtual€ - <strong>Termina: (@leilao.FinalLeilao)</strong>
-                        </div>
-                        <div>
-                            <button class="btn btn-primary" @onclick="(() => VerLeilao(leilao.Id))">Ver</button>
-                        </div>
-                    </div>
-                </li>
-            }
-        </ul>
+<div class="text-white">
+    
+    <div class="text-3xl font-bold dark:bg-gray-800 p-4 px-16">
+        Auctions
     </div>
+
+    <div class="flex items-center justify-center min-h-screen">
+        <div style="width: 100rem; height: 30rem;" class="max-w-md">
+            <ul class="list-group">
+                @foreach (var leilao in leilaoController.GetAll())
+                {
+                    <li class="list-group-item">
+                        <div class="border border-blue-500 mb-8">
+                            <div class="grid grid-cols-2 flex p-4">
+
+                                <div class="mx-auto">
+                                    <a>Imagem</a>
+                                </div>
+
+                                <div class="mx-auto">
+
+                                    <div class="grid mb-4">
+
+                                        <div class="text-l font-bold mb-2">
+                                            <button @onclick="(() => VerLeilao(leilao.Id))">
+                                                @leilao.Titulo
+                                            </button>
+                                        </div>
+
+                                        <div class="text-blue-500 text-l mb-2">
+                                            <button @onclick="(() => VerLeilao(leilao.Id))">
+                                                €@leilao.ValorAtual
+                                            </button>
+                                        </div>
+
+                                        <div>
+                                            <a class="text-xs">
+                                                @leilao.Marca
+                                                @leilao.Modelo
+                                                (@leilao.Ano)
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-5 border-t"></div>
+
+                                    <div class="font-bold text-xs mb-2">
+                                        <button @onclick="(() => VerLeilao(leilao.Id))">
+                                            Time Left: (@leilao.FinalLeilao)
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
 </div>
 
 @code {
