@@ -1,4 +1,4 @@
-﻿@page "/detalhesleilao/{leilaoId:int}"
+@page "/detalhesleilao/{leilaoId:int}"
 @using Controllers
 @using Authentication
 @using Models
@@ -29,7 +29,7 @@ else
 
     <div class="grid grid-cols-2 text-white flex h-screen items-center justify-center">
     
-        <div style="width: 30rem; height: 20rem;" class="mx-auto dark:bg-gray-800 px-4 p-4">
+        <div  class="mx-auto dark:bg-gray-800 px-4 p-4">
             <div  class="flex items-center justify-center text-center">
                
             </div>
@@ -55,53 +55,66 @@ else
                     login-button mb-8" @onclick="UserPodeLicitar">
                         BID
                 </button>
+                @if (mostrarInputLicitar)
+                {
+                    <AuthorizeView>
+                        <Authorized>
+                            <div class="form-group">
+                                <label for="valorLicitar">Valor da Licitação:</label>
+                                <InputNumber class="form-control" id="valorLicitar" @bind-Value="valorLicitar" />
+                                <button class="btn btn-success" @onclick="Licitar">Confirmar Licitação</button>
+                                @mensagem
+                            </div>
+                        </Authorized>
+                    </AuthorizeView>
+                }
             </div>
 
         </div>
     
-        <div class="mx-auto dark:bg-gray-800">
-            <div style="width: 30rem; height: 20rem;" class="flex items-center justify-center text-center">
-                infos
+        <div class="mx-auto dark:bg-gray-800 px-4 p-4">
+            <div class="grid grid-cols-2 gap-2">
+                
+                
+                <div  class="text-xl font-bold">Car Details:</div>
+                <div></div>
+
+                <div>Model:</div>
+                <div>@leilao.Marca</div>
+
+                <div>Year:</div>
+                <div>@leilao.Ano</div>
+
+                <div>Doors:</div>
+                <div>@leilao.Portas</div>
+                
+                <div>Exterior Color:</div>
+                <div>@leilao.Cor</div>
+
+                <div class="border-t mb-4"></div>
+                <div></div>
+
+                <div  class="text-xl font-bold">Engine:</div><div></div>
+            
+                <div>Fuel Type:</div>
+                <div>@leilao.Combustivel</div>
+                
+                <div>Mileage:</div>
+                <div>@leilao.Kilometragem</div>
+                
+                <div>Power:</div>
+                <div>@leilao.Potencia (hp)</div>
+
+                <div class="border-t mb-4"></div>
             </div>
         </div>
 
     </div>
 
-    <div class="text-white">
-        <div class="card-body">
-            <p><strong>Marca:</strong> @leilao.Marca</p>
-            <p><strong>Modelo:</strong> @leilao.Modelo</p>
-            <p><strong>Ano:</strong> @leilao.Ano</p>
-            <p><strong>Descrição:</strong> @leilao.Descricao</p>
-            <p><strong>Combustível:</strong> @leilao.Combustivel</p>
-            <p><strong>Cor:</strong> @leilao.Cor</p>
-            <p><strong>Kilometragem:</strong> @leilao.Kilometragem</p>
-            <p><strong>Cilindrada:</strong> @leilao.Cilindrada</p>
-            <p><strong>Potência:</strong> @leilao.Potencia</p>
-            <p><strong>Número de Portas:</strong> @leilao.Portas</p>
-            <p><strong>Preço Inicial:</strong> @leilao.PrecoStart€</p>
-            <p><strong>Licitação Mínima:</strong> @leilao.BidMinima€</p>
-            <p><strong>LICITAÇÃO ATUAL:</strong> @leilao.ValorAtual€</p>
-
-            <div class="my-2">
-                <button class="btn btn-primary" @onclick="UserPodeLicitar">Licitar</button>
-            </div>
-
-            @if (mostrarInputLicitar)
-            {
-                <AuthorizeView>
-                    <Authorized>
-                        <div class="form-group">
-                            <label for="valorLicitar">Valor da Licitação:</label>
-                            <InputNumber class="form-control" id="valorLicitar" @bind-Value="valorLicitar" />
-                            <button class="btn btn-success" @onclick="Licitar">Confirmar Licitação</button>
-                            @mensagem
-                        </div>
-                    </Authorized>
-                </AuthorizeView>
-            }
-        </div>
+    <div class="text-white text-center w-screen h-screen">
+        @leilao.Descricao
     </div>
+
 }
 
 @code {
