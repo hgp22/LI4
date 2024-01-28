@@ -4,72 +4,117 @@
 @inject IUserController userController
 @inject AuthenticationStateProvider authStateProvider
 @attribute [Authorize(Roles = "Administrator,User")]
-<h3>Perfil</h3>
-<h2>Olá, @username</h2>
 
-<div>
-    <h4>Método de Pagamento</h4>
-    <label>
-        <input type="radio" name="metodoPagamento" value="1" checked="@UserMetodoPagamento(1)" @onclick="() => SelecionarMetodoPagamento(1)" />
-        MBWAY
-    </label>
-    <label>
-        <input type="radio" name="metodoPagamento" value="2" checked="@UserMetodoPagamento(2)" @onclick="() => SelecionarMetodoPagamento(2)" />
-        PAYPAL
-    </label>
-    <label>
-        <input type="radio" name="metodoPagamento" value="3" checked="@UserMetodoPagamento(3)" @onclick="() => SelecionarMetodoPagamento(3)" />
-        VISA
-    </label>
-    <label>
-        <input type="radio" name="metodoPagamento" value="4" checked="@UserMetodoPagamento(4)" @onclick="() => SelecionarMetodoPagamento(4)" />
-        MULTIBANCO
-    </label>
 
-    <h4>Detalhes de Entrega</h4>
-    <label>
-        <input type="radio" name="detalhesEntrega" value="1" checked="@UserDetalhesEntrega(1)" @onclick="() => SelecionarDetalhesEntrega(1)" />
-        Entrega em Casa
-    </label>
-    <label>
-        <input type="radio" name="detalhesEntrega" value="2" checked="@UserDetalhesEntrega(2)" @onclick="() => SelecionarDetalhesEntrega(2)" />
-        Levantamento na Loja
-    </label>
-</div>
+<div class="text-white">
 
-<div>
-    <h4>Alterar Password</h4>
-
-    <div>
-        <label for="passwordAntiga">Palavra-passe Antiga:</label>
-        <input type="password" id="passwordAntiga" @bind="passwordAntiga"/>
-    </div>
-    <div>
-        <label for="novaPassword">Nova Palavra-passe:</label>
-        <input type="password" id="novaPassword" @bind="passwordNova" />
-    </div>
-    <div>
-        <label for="repetirNovaPassword">Repetir Nova Palavra-passe:</label>
-        <input type="password" id="repetirNovaPassword" @bind="passwordNovaRepeticao" />
+    <div class="font-bold dark:bg-gray-800 p-4 px-16 mb-8">
+       <div class="text-3xl gap-4">Profile</div>
+       <div class="text-2xl">Hello, @username!</div>
     </div>
 
-    <button @onclick="AlterarPassword">Guardar nova password</button>
-    <p>@mensagem</p>
-</div>
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="grid grid-rows-3">
+            <!--Multibanco-->
+            <div class="dark:bg-gray-800 mb-8 p-4 px-4">
 
-<div>
-    <h4>Alterar Email</h4>
+                <div class="text-xl underline mb-8">Payment Method:</div>
 
-    <div>
-        <label for="passwordAntiga2">Palavra-passe Antiga:</label>
-        <input type="password" id="passwordAntiga2" @bind="passwordAntiga2" />
+                <div class="flex items-center justify-center">
+                    <div class="">
+
+                        <label>
+                            <input type="radio" name="metodoPagamento" value="1" checked="@UserMetodoPagamento(1)" @onclick="() => SelecionarMetodoPagamento(1)" />
+                                MBWAY
+                        </label>
+                        <a class="p-4"></a>
+                        <label>
+                            <input type="radio" name="metodoPagamento" value="2" checked="@UserMetodoPagamento(2)" @onclick="() => SelecionarMetodoPagamento(2)" />
+                                PAYPAL
+                        </label>
+                        <a class="p-4"></a>
+                        <label>
+                            <input type="radio" name="metodoPagamento" value="3" checked="@UserMetodoPagamento(3)" @onclick="() => SelecionarMetodoPagamento(3)" />
+                                VISA
+                        </label>
+                        <a class="p-4"></a>
+                        <label>
+                            <input type="radio" name="metodoPagamento" value="4" checked="@UserMetodoPagamento(4)" @onclick="() => SelecionarMetodoPagamento(4)" />
+                            MULTIBANCO
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!--Entrega-->
+            <div class="dark:bg-gray-800 mb-8 p-4 px-4">
+                <a class="text-xl underline">Delivery Details:</a>
+
+                <div class="flex items-center justify-center">
+                    <label>
+                        <input type="radio" name="detalhesEntrega" value="1" checked="@UserDetalhesEntrega(1)" @onclick="() => SelecionarDetalhesEntrega(1)" />
+                        Entrega em Casa
+                    </label>
+                    <a class="p-4"></a>
+                    <label>
+                        <input type="radio" name="detalhesEntrega" value="2" checked="@UserDetalhesEntrega(2)" @onclick="() => SelecionarDetalhesEntrega(2)" />
+                        Levantamento na Loja
+                    </label>
+                </div>
+            </div>
+
+            <!--Mudar PW/Email-->
+            <div class="dark:bg-gray-800 mb-8 p-4 px-4">
+                <a class="text-xl underline">Change Profile Details:</a>
+
+                <div>
+                    <label for="passwordAntiga">Palavra-passe Antiga:</label>
+                    <input type="password" id="passwordAntiga" @bind="passwordAntiga"/>
+                </div>
+        
+                <div>
+                    <label for="novaPassword">Nova Palavra-passe:</label>
+                    <input type="password" id="novaPassword" @bind="passwordNova" />
+                </div>
+        
+                <div>
+                    <label for="repetirNovaPassword">Repetir Nova Palavra-passe:</label>
+                    <input type="password" id="repetirNovaPassword" @bind="passwordNovaRepeticao" />
+                </div>
+
+                <div>
+                    <button class="mb-5 bg-blue-500 text-blue
+                    px-2 p-2 rounded-md hover:bg-blue-600 focus:outline-none
+                    focus:border-blue-700 focus:ring focus:ring-blue-200
+                    login-button mb-8"
+                            @onclick="AlterarPassword">Guardar nova password</button>
+                    <p>@mensagem</p>
+                </div>
+
+                <div>
+                    <h4>Alterar Email</h4>
+
+                    <div>
+                        <label for="passwordAntiga2">Palavra-passe Antiga:</label>
+                        <input type="password" id="passwordAntiga2" @bind="passwordAntiga2" />
+                    </div>
+                    <div>
+                        <label for="novoEmail">Novo Email:</label>
+                        <input type="email" id="novoEmail" @bind="emailNovo" />
+                    </div>
+
+                    <button class="mb-5 bg-blue-500 text-blue
+                    px-2 p-2 rounded-md hover:bg-blue-600 focus:outline-none
+                    focus:border-blue-700 focus:ring focus:ring-blue-200
+                    login-button mb-8"
+                            @onclick="AlterarEmail">Guardar novo email</button>
+                </div>
+
+
+            </div>
+        </div>
     </div>
-    <div>
-        <label for="novoEmail">Novo Email:</label>
-        <input type="email" id="novoEmail" @bind="emailNovo" />
-    </div>
 
-    <button @onclick="AlterarEmail">Guardar novo email</button>
 </div>
 
 @code {
