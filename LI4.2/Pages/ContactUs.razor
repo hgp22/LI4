@@ -1,0 +1,39 @@
+﻿@page "/contactus"
+@using BlazorServerAuthenticationAndAuthorization.Data
+@using BlazorServerAuthenticationAndAuthorization.Models
+@inject TicketService ticketService
+@inject NavigationManager navManager
+
+<h3>Contact Us</h3>
+<form @onsubmit="SubmitTicket">
+
+    <label for="id">Id:</label>
+    <input id="id" @bind="ticket.Id" required />
+
+    <label for="nome">Nome:</label>
+    <input id="nome" @bind="ticket.Nome" required />
+
+    <label for="email">Email:</label>
+    <input id="email" type="email" @bind="ticket.Email" required />
+
+    <label for="telefone">Telefone:</label>
+    <input id="telefone" @bind="ticket.Telefone" />
+
+    <label for="mensagem">Mensagem:</label>
+    <textarea id="mensagem" @bind="ticket.Mensagem" required></textarea>
+
+    <button type="submit">Enviar Ticket</button>
+</form>
+
+@code {
+    private Ticket ticket = new Ticket();
+
+    private void SubmitTicket()
+    {
+        ticketService.AddTicket(ticket);
+        Console.WriteLine($"Ticket added successfully");
+
+        ticket = new Ticket();
+    }
+}
+

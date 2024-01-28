@@ -1,0 +1,86 @@
+@page "/faq"
+
+@using System.Collections.Generic
+
+<style>
+    .faq-question {
+        box-sizing: border-box; 
+        cursor: pointer;
+        padding: 20px;
+        background-color: #071620;
+        color: #ffffff;
+        margin-bottom: 5px; 
+    }
+
+    .faq-question:hover {
+        background-color: #12232e;
+    }
+
+    .faq-answer {
+        box-sizing: border-box; 
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #071620;
+        border-top: 2px solid #ffffff;
+        color: #ffffff; 
+    }
+    .text-left {
+        color: #ffffff; 
+    }
+    .faq-question span {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 5px;
+        vertical-align: middle;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #ffffff; /* seta para baixo */
+    }
+
+    .faq-question.open span {
+        border-top: 0;
+        border-bottom: 5px solid #ffffff; /* seta para cima */
+    }
+</style>
+
+<div class="row">
+    <!-- FAQ -->
+    <div class="col-md-12">
+        <h2 class="text-left">FAQ</h2>
+        <hr />
+        @foreach (var faq in Faqs.OrderBy(f => f.Id))
+        {
+            <div class="faq-item">
+                <div class="faq-question @((faq.IsOpen) ? "open" : "")" @onclick="() => ToggleFaq(faq)">
+                    @faq.Question
+                    <span></span>
+                </div>
+                <div class="faq-answer" style="display: @(faq.IsOpen ? "block" : "none")">
+                    @faq.Answer
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    public class faq
+    {
+        public int Id { get; set; }
+        public string Question { get; set; }
+        public string Answer { get; set; }
+        public bool IsOpen { get; set; } // Adicione esta linha
+    }
+
+    List<faq> Faqs = new List<faq>
+    {
+        new faq { Id = 1, Question = "What is your first question?", Answer = "This is the answer to the first question." },
+        new faq { Id = 2, Question = "What is your second question?", Answer = "This is the answer to the second question." },
+    };
+
+    void ToggleFaq(faq faq)
+    {
+        faq.IsOpen = !faq.IsOpen;
+    }
+}

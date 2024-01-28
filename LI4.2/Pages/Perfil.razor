@@ -1,0 +1,201 @@
+﻿@page "/perfil"
+@using Controllers
+@using Authentication
+@inject IUserController userController
+@inject AuthenticationStateProvider authStateProvider
+@attribute [Authorize(Roles = "Administrator,User")]
+<h3>Perfil</h3>
+<h2>Olá, @username</h2>
+
+<div>
+    <h4>Método de Pagamento</h4>
+    <label>
+        <input type="radio" name="metodoPagamento" value="1" checked="@UserMetodoPagamento(1)" @onclick="() => SelecionarMetodoPagamento(1)" />
+        MBWAY
+    </label>
+    <label>
+        <input type="radio" name="metodoPagamento" value="2" checked="@UserMetodoPagamento(2)" @onclick="() => SelecionarMetodoPagamento(2)" />
+        PAYPAL
+    </label>
+    <label>
+        <input type="radio" name="metodoPagamento" value="3" checked="@UserMetodoPagamento(3)" @onclick="() => SelecionarMetodoPagamento(3)" />
+        VISA
+    </label>
+    <label>
+        <input type="radio" name="metodoPagamento" value="4" checked="@UserMetodoPagamento(4)" @onclick="() => SelecionarMetodoPagamento(4)" />
+        MULTIBANCO
+    </label>
+
+    <h4>Detalhes de Entrega</h4>
+    <label>
+        <input type="radio" name="detalhesEntrega" value="1" checked="@UserDetalhesEntrega(1)" @onclick="() => SelecionarDetalhesEntrega(1)" />
+        Entrega em Casa
+    </label>
+    <label>
+        <input type="radio" name="detalhesEntrega" value="2" checked="@UserDetalhesEntrega(2)" @onclick="() => SelecionarDetalhesEntrega(2)" />
+        Levantamento na Loja
+    </label>
+</div>
+
+<div>
+    <h4>Alterar Password</h4>
+
+    <div>
+        <label for="passwordAntiga">Palavra-passe Antiga:</label>
+        <input type="password" id="passwordAntiga" @bind="passwordAntiga"/>
+    </div>
+    <div>
+        <label for="novaPassword">Nova Palavra-passe:</label>
+        <input type="password" id="novaPassword" @bind="passwordNova" />
+    </div>
+    <div>
+        <label for="repetirNovaPassword">Repetir Nova Palavra-passe:</label>
+        <input type="password" id="repetirNovaPassword" @bind="passwordNovaRepeticao" />
+    </div>
+
+    <button @onclick="AlterarPassword">Guardar nova password</button>
+    <p>@mensagem</p>
+</div>
+
+<div>
+    <h4>Alterar Email</h4>
+
+    <div>
+        <label for="passwordAntiga2">Palavra-passe Antiga:</label>
+        <input type="password" id="passwordAntiga2" @bind="passwordAntiga2" />
+    </div>
+    <div>
+        <label for="novoEmail">Novo Email:</label>
+        <input type="email" id="novoEmail" @bind="emailNovo" />
+    </div>
+
+    <button @onclick="AlterarEmail">Guardar novo email</button>
+</div>
+
+@code {
+    private string passwordAntiga { get; set; }
+    private string passwordAntiga2 { get; set; }
+    private string passwordNova { get; set; }
+    private string passwordNovaRepeticao { get; set; }
+    private string emailNovo{ get; set; }
+    private string username { get; set; }
+    private CustomAuthenticationStateProvider customAuthStateProvider { get; set; }
+    private UserAccount user { get; set; }
+    private string mensagem { get; set; }
+
+    private async Task InitializeAsync()
+    {
+        customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        username = (await customAuthStateProvider.GetAuthenticationStateAsync()).User.Identity.Name;
+        user = userController.GetByUsername(username);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await InitializeAsync();
+    }
+
+    private void AlterarEmail()
+    {
+        if (VerificarPasswordAntiga(passwordAntiga2))
+        {
+            var user = userController.GetByUsername(username);
+            if (user != null)
+            {
+                user.Email = emailNovo;
+                if (userController.Update(user))
+                {
+                    mensagem = "Email alterado com sucesso!";
+                }
+            }
+            else
+            {
+                mensagem = "Erro ao alterar email!";
+            }
+        }
+        else
+        {
+            mensagem = "Password incorreta! ";
+        }
+
+    }
+
+    private bool UserMetodoPagamento(int metodo)
+    {
+        if (user != null)
+        {
+            return user.MetodoPagamento == metodo;
+        }
+        return false;
+    }
+
+    private bool UserDetalhesEntrega(int detalhes)
+    {
+        if (user != null)
+        {
+            return user.DetalhesEntrega == detalhes;
+        }
+        return false;
+    }
+
+    private void SelecionarMetodoPagamento(int metodo)
+    {
+        if (user != null)
+        {
+            user.MetodoPagamento = metodo;
+            userController.Update(user);
+            StateHasChanged();
+        }
+    }
+
+    private void SelecionarDetalhesEntrega(int detalhes)
+    {
+        if (user != null)
+        {
+            user.DetalhesEntrega = detalhes;
+            userController.Update(user);
+            StateHasChanged();
+        }
+    }
+
+    private async void AlterarPassword()
+    {
+        if (VerificarPasswordAntiga(passwordAntiga) && NovaPasswordValida(passwordNova, passwordNovaRepeticao))
+        {
+            if (UpdatePassword(passwordNova))
+            {
+                mensagem = "Password atualizada com sucesso!";
+            }
+            else
+            {
+                mensagem = "Erro ao atualizar a password.";
+            }
+        }
+        else
+        {
+            mensagem = "As passwords não estão corretas";
+        }
+    }
+
+    private bool VerificarPasswordAntiga(string passwordAntiga)
+    {
+        var user = userController.GetByUsername(username);
+        return user != null && user.Password == passwordAntiga;
+    }
+
+    private bool NovaPasswordValida(string passwordNova, string passwordNovaRepeticao)
+    {
+        return !string.IsNullOrEmpty(passwordNova) && passwordNova == passwordNovaRepeticao;
+    }
+
+    private bool UpdatePassword(string passwordNova)
+    {
+        var user = userController.GetByUsername(username);
+        if (user != null)
+        {
+            user.Password = passwordNova;
+            return userController.Update(user);
+        }
+        return false;
+    }
+}

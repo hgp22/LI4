@@ -2,16 +2,41 @@
     <div class="container mx-auto flex items-center justify-between">
         
         <div class="text-white font-bold text-lg">
-            Upshift
+            <a href="/" class="text-white">UpShift</a>
         </div>
 
         <div class="flex space-x-4">
-            <a href="#" class="text-white">Contact Us</a>
-            <a href="#" class="text-white">Auctions</a>
-            <a href="#" class="text-white">FAQ</a>
-            <a href="#" class="text-white">Login</a>
-            <a href="#" class="text-white">Register</a>
+            <a href="/contactus" class="text-white">Contact Us</a>
+            <a href="/auctions" class="text-white">Auctions</a>
+            <a href="/faq" class="text-white">FAQ</a>
+
+                <AuthorizeView Roles="Administrator">
+                    <Authorized>
+                        <a href="/addauction" class="text-white">Add Auction</a>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView Roles="Administrator, User">
+                    <Authorized>
+                        <a href="/myauctions" class="text-white">My Auctions</a>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView Roles="Administrator, User">
+                    <Authorized>
+                        <a href="/profile" class="text-white">Profile</a>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView>
+                    <Authorized>
+                        <a href="/logout" class="text-white">Logout</a>
+                    </Authorized>
+                </AuthorizeView>
+
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <a href="/login" class="text-white">Login</a>
+                        <a href="/register" class="text-white">Register</a>
+                    </NotAuthorized>
+                </AuthorizeView>
         </div>
-    
     </div>
 </nav>
