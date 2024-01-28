@@ -4,26 +4,85 @@
 @inject TicketService ticketService
 @inject NavigationManager navManager
 
-<h3>Contact Us</h3>
-<form @onsubmit="SubmitTicket">
+<style>
+    .form-box{
+        background-color: #12232e;
+    }
+</style>
 
-    <label for="id">Id:</label>
-    <input id="id" @bind="ticket.Id" required />
+<div class="flex grid grid-cols-2 text-white h-screen items-center">
 
-    <label for="nome">Nome:</label>
-    <input id="nome" @bind="ticket.Nome" required />
+    <!--Lado Direito-->
+    <div class="mx-auto text-white">
+        <p class="text-xl">Contact Us</p>
+            <form @onsubmit="SubmitTicket">
 
-    <label for="email">Email:</label>
-    <input id="email" type="email" @bind="ticket.Email" required />
+                <div class="mb-3">
+                    <label for="id" class="block text-sm font-semibold text-gray-600">Id??</label>
+                    <input id="id" @bind="ticket.Id" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 form-box" placeholder="Full Name" required />
+                </div>
 
-    <label for="telefone">Telefone:</label>
-    <input id="telefone" @bind="ticket.Telefone" />
+                <div class="mb-5">
+                    <label for="nome" class="block text-sm font-semibold text-gray-600">Name</label>
+                    <input id="nome" @bind="ticket.Nome" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 form-box" placeholder="Full Name" required />
+                </div>
 
-    <label for="mensagem">Mensagem:</label>
-    <textarea id="mensagem" @bind="ticket.Mensagem" required></textarea>
+                <div class="mb-5">
+                    <label for="email" class="block text-sm font-semibold text-gray-600">Email</label>
+                    <input id="email" type="email" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 form-box"  @bind="ticket.Email" placeholder="email@email.com" required />
+                </div>
 
-    <button type="submit">Enviar Ticket</button>
-</form>
+                <div class="mb-5">
+                    <label for="telefone" class="block text-sm font-semibold text-gray-600">Phone</label>
+                    <input id="telefone" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 form-box" placeholder="XXX-XXX-XXX"  @bind="ticket.Telefone" />
+                </div>
+
+                <div class="mb-5">
+                    <label for="mensagem" class="block text-sm font-semibold text-gray-600">Comment</label>
+                    <textarea id="mensagem" @bind="ticket.Mensagem" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 form-box" placeholder="Leave a message here" required></textarea>
+                </div>
+
+                <div class="">
+                <button type="submit" class="mb-5 w-full bg-blue-500 text-blue px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 login-button">Send</button>
+                </div>
+            </form>
+    </div>
+
+    <!--Lado Esquerdo-->
+    <div class="mx-auto dark:bg-gray-800">
+        <div style="width: 30rem; height: 30rem;" class="flex grid justify-center text-center h-screen items-center font-bold">
+
+            <!--Infos-->
+
+            <div class="mb-5"></div>
+
+            <!--Phone-->
+            <div class="mb-5 grid">
+                <a>Phone</a>
+                <a class="text-blue-500">+351 253 726 402</a>
+            </div>
+
+            <div class="mb-5 border-t-2 border-blue-500 w-11/12  mx-auto"></div>
+
+            <!--Email-->
+            <div class="mb-5 grid">
+                <a>Email</a>
+                <a class="text-blue-500">atendimento@upshift.com</a>
+            </div>
+
+            <div class="mb-5 border-t-2 border-blue-500 w-11/12 mx-auto"></div>
+
+            <!--Adress-->
+            <div class="mb-5 grid">
+                <a>Address</a>
+                <a class="text-blue-500">Rua da Cruz, Verim, Braga, nº 30</a>
+            </div>
+
+            <div class="mb-5"></div>
+
+        </div>
+    </div>
+</div>
 
 @code {
     private Ticket ticket = new Ticket();
