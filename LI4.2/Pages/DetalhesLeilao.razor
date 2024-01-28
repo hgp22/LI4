@@ -9,20 +9,65 @@
 @inject AuthenticationStateProvider authStateProvider
 @inject ILicitacaoController licitacaoController
 
-<PageTitle>Detalhes do Leilão</PageTitle>
-
-<h3>Detalhes do Leilão</h3>
+<PageTitle>@leilao.Titulo</PageTitle>
 
 @if (leilao == null)
 {
-    <p>Leilão não existe.</p>
+    <div class="flex items-center justify-center h-screen">
+        <p class="text-white text-4xl text-center font-bold underline decoration-pink-500/30">Uhhh... The auction you're looking for does not exist.</p>
+    </div>
 }
 else
 {
-    <div class="card">
-        <div class="card-header">
-            <h5>@leilao.Titulo</h5>
+    <div class="text-white text-3xl font-bold p-4 px-16">
+        @leilao.Titulo
+    </div>
+
+    <div class="text-white">
+        Imagens
+    </div>
+
+    <div class="grid grid-cols-2 text-white flex h-screen items-center justify-center">
+    
+        <div style="width: 30rem; height: 20rem;" class="mx-auto dark:bg-gray-800 px-4 p-4">
+            <div  class="flex items-center justify-center text-center">
+               
+            </div>
+
+            <div class="text-4xl capitalize mb-8">
+                <a>current bid: €@leilao.ValorAtual</a>
+            </div>
+
+            <div class="text-3xl capitalize mb-8">
+                Until: @leilao.FinalLeilao
+            </div>
+
+
+
+            <div class="text-xs mb-8">
+                Minimum Bid: €@leilao.BidMinima
+            </div>
+
+            <div class="flex items-center justify-center text-center">
+                <button class="text-3xl mb-5  bg-blue-500 text-blue
+                    px-8 py-4 rounded-md hover:bg-blue-600 focus:outline-none
+                    focus:border-blue-700 focus:ring focus:ring-blue-200
+                    login-button mb-8" @onclick="UserPodeLicitar">
+                        BID
+                </button>
+            </div>
+
         </div>
+    
+        <div class="mx-auto dark:bg-gray-800">
+            <div style="width: 30rem; height: 20rem;" class="flex items-center justify-center text-center">
+                infos
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-white">
         <div class="card-body">
             <p><strong>Marca:</strong> @leilao.Marca</p>
             <p><strong>Modelo:</strong> @leilao.Modelo</p>
