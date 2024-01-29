@@ -3,10 +3,92 @@
 @using Controllers
 @inject ILeilaoController leilaoController
 
+<style>
+    .form-box{
+        background-color: #12232e;
+    }
+</style>
+
 <PageTitle>Detalhes do Veículo</PageTitle>
 
+<div class="text-white">
+    <div class="font-bold dark:bg-gray-800 p-4 px-16 mb-8">
+       <div class="text-4xl gap-4">New Auction</div>
+    </div>
 
-<h3>Detalhes do Veículo</h3>
+    <EditForm Model="@veiculoLeilao" OnValidSubmit="Criar">
+
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="grid grid-rows-2 min-h-screen space-x-8 inline-block">
+
+                <div class="dark:bg-gray-800 mb-8 p-4 px-4">
+
+                    <div class="text-xl underline mb-4">Car Details</div>
+
+                    <div class="form-group mb-4">
+                        <label for="id" class="block text-sm font-semibold text-gray-600">ID</label>
+                            <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Id" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Id)"/>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="titulo" class="block text-sm font-semibold text-gray-600">Title</label>
+                            <InputText class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Titulo" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Titulo)"/>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="ano" class="block text-sm font-semibold text-gray-600">Year</label>
+                            <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Ano" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Ano)"/>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Model</label>
+                            <InputText class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Modelo" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Modelo)"/>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="descricao" class="block text-sm font-semibold text-gray-600">Description</label>
+                        <textarea class="text-white w-full px-4 py-2 border rounded-md
+                        focus:outline-none focus:border-blue-500
+                        form-box" placeholder="Leave a message here" required>
+                            <InputText class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Descricao" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Descricao)"/>
+                        </textarea>
+                    </div>
+
+                </div>
+
+                <div  class="dark:bg-gray-800 mb-8 p-4 px-4 inline block">
+
+                    <div class="text-xl underline mb-4">Other Details</div>
+
+                    <!--Combustivel-->
+
+                    <!--Cor-->
+
+                    <!--Portas-->
+
+                    <!--Potencia-->
+
+                    <!--Mileage-->
+
+                    <!---->
+
+                </div>
+            </div>    
+        </div>
+
+    </EditForm>
+
+</div>
 
 <div class="row">
     <div class="col-md-6">
