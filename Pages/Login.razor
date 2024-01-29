@@ -1,4 +1,4 @@
-@page "/login"
+﻿@page "/login"
 @using UpShift.Authentication
 @inject UserAccountService userAccountService
 @inject IJSRuntime js
@@ -6,62 +6,56 @@
 @inject NavigationManager navManager
 
 <style>
-    .username-input {
+    .username-input, .password-input {
         background-color: #12232e;
+        border: #12232e;
+        color: #ffffff; 
     }
-    .password-input {
-        background-color: #12232e;
+    .login-button {
+        background-color: #12232e; 
+    }
+    .login-title {
+        color: #ffffff; 
     }
 </style>
 
-<div class="flex grid grid-cols-2 text-white h-screen items-center">
-
-    <!-- Parte do Username e Pw-->
-    <div class="mx-auto">
-        <div class="mb-3">
-            <label>User Name</label>
-            <input @bind="model.Username" class="form-control username-input" placeholder="Username" />
+<div class="row">
+    <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
+        <div class="mb-3 text-center">
+            <h3 class="login-title">LOGIN</h3>
+        </div>
+        <div class="mb-5 text-center">
+            <label for="username" class="block text-sm font-semibold text-gray-600 text-center"></label>
+            <input @bind="model.UserName" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 username-input" placeholder="Username">
         </div>
 
-        <div class="mb-3">
-            <label>Password</label>
-            <input @bind="model.Password" type="password" class="form-control password-input" placeholder="Password" />
+        <div class="mb-5 text-center">
+            <label for="password" class="block text-sm font-semibold text-gray-600 text-center"></label>
+            <input @bind="model.Password" type="password" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 password-input" placeholder="Password">
         </div>
 
-        <button @onclick="Authenticate" class="mb-5 w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200">
-            Log In
-        </button>
-
-        <div class="mb-5">
-            <a>Don't have an account?</a>
-            <a href="/register" class="text-blue-500 underline">Register here</a>
+        <div class="mb-5 d-grid gap-2 text-center">
+            <button @onclick="Authenticate" class="mb-5 w-full bg-blue-500 text-blue px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 login-button">
+                Log In
+            </button>
         </div>
     </div>
-
-    <!-- O outro quadrado -->
-    <div class="mx-auto dark:bg-gray-800">
-        <div style="width: 30rem; height: 30rem;" class="flex items-center justify-center text-center">
-            <div style="padding-top: 150px; padding-right: 100px; padding-bottom: 150px; padding-left: 100px" class="border-2 border-blue-500 box-content">
-                <div class="text-lg font-bold">Log In</div>
-                <div>Welcome to UpShift!</div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 @code {
     private class Model
     {
-        public string Username { get; set; }
+        public string UserName { get; set; }
         public string Password { get; set; }
     }
 
     private Model model = new Model();
 
-    public async Task Authenticate()
+    private async Task Authenticate()
     {
-        var userAccount = userAccountService.GetByUsername(model.Username);
+        Console.WriteLine("Authenticate method called");
+
+        var userAccount = userAccountService.GetByUserName(model.UserName);
         if (userAccount == null || userAccount.Password != model.Password)
         {
             await js.InvokeVoidAsync("alert", "Invalid User Name or Password");
@@ -71,18 +65,9 @@
         var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
         await customAuthStateProvider.UpdateAuthenticationState(new UserSession
             {
-                Username = userAccount.Username,
+                UserName = userAccount.Username,
                 Role = userAccount.Role
             });
         navManager.NavigateTo("/", true);
-
-        /*
-        Console.WriteLine("Authenticate method called");
-        await JSRuntime.InvokeVoidAsync("console.log", "Authenticate method called");
-        await JSRuntime.InvokeVoidAsync("console.log", $"Username: {model.Username}");
-        await JSRuntime.InvokeVoidAsync("console.log", $"Password: {model.Password}");
-
-        await AuthController.LoginAsync(model.Username, model.Password);
-        */
     }
 }

@@ -7,27 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Data\WeatherForecast.cs" />
-    <Compile Remove="Data\WeatherForecastService.cs" />
+    <Compile Remove="Authentication\UserAccountService.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Shared\NavMenu.razor" />
-    <Content Remove="Shared\SurveyPrompt.razor" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Pages\teste.html" />
-    <None Remove="Shared\NavMenu.razor.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Views\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
+    <PackageReference Include="BlazorInputFile" Version="0.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

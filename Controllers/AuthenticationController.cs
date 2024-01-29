@@ -13,16 +13,16 @@ namespace UpShift.Controllers
         protected NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        protected UserAccountService UserAccountService { get; set; }
+        protected UserController UserAccountService { get; set; }
 
         public async Task LoginAsync(string username, string password)
         {
-            Utilizador utilizador = UserAccountService.GetByUsername(username);
+            Utilizador utilizador = UserController.GetByUserName(username);
             if (utilizador != null && password == utilizador.Password)
             {
                 var userSession = new UserSession
                 {
-                    Username = utilizador.Username,
+                    UserName = utilizador.Username,
                     Role = utilizador.Role
                 };
 

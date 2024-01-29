@@ -1,30 +1,55 @@
 ﻿namespace UpShift.Models
 {
-    public class Utilizador
-    {
+    public class Utilizador {
         public string Username { get; set; }
-        public string Password { get; set; }
         public string Email { get; set; }
-        public DateTime Birthdate { get; set; }
-        public string Nif { get; set; }
-        public int PaymentMethod { get; set; }
-        public int DeliveryMethod { get; set; }
+        public string Password { get; set; }
+        public int Nif { get; set; }
+        public string Nome { get; set; }
+        public DateTime DataNascimento { get; set; }
         public string Role { get; set; }
-        public List<Licitacao> LicitacoesEfetuadas { get; set; }
-        public List<VeiculoLeilao> LeiloesGanhos { get; set; }
+        public int MetodoPagamento { get; set; }
+        public int DetalhesEntrega { get; set; }
 
-        public Utilizador(string username, string password, string email, DateTime birthdate, string nif, int paymentMethod, int deliveryMethod, string role, List<Licitacao> licitacoes, List<VeiculoLeilao> leiloesGanhos)
+        public Utilizador(string username, string email, string password, int nif, string nome, DateTime dataNascimento, string role)
+        {
+            Username = username;
+            Email = email;
+            Password = password;
+            Nif = nif;
+            Nome = nome;
+            DataNascimento = dataNascimento;
+            Role = role;
+            MetodoPagamento = 0;
+            DetalhesEntrega = 0;
+        }
+
+        public Utilizador(string username, string password, string email, string role)
         {
             Username = username;
             Password = password;
             Email = email;
-            Birthdate = birthdate;
-            Nif = nif;
-            PaymentMethod = paymentMethod;
-            DeliveryMethod = deliveryMethod;
             Role = role;
-            LicitacoesEfetuadas = licitacoes;
-            LeiloesGanhos = leiloesGanhos;
+            MetodoPagamento = 0;
+            DetalhesEntrega = 0;
+        }
+
+        public bool HasMetodoPagamento()
+        {
+            if (MetodoPagamento > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool HasDetalhesEntrega()
+        {
+            if (DetalhesEntrega > 0)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

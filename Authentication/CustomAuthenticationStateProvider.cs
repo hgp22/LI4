@@ -13,19 +13,23 @@ namespace UpShift.Authentication
         {
             _sessionStorage = sessionStorage;
         }
+
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            try 
+            try
             {
                 var userSessionStorageResult = await _sessionStorage.GetAsync<UserSession>("UserSession");
                 var userSession = userSessionStorageResult.Success ? userSessionStorageResult.Value : null;
                 if (userSession == null)
-                {
                     return await Task.FromResult(new AuthenticationState(_anonymous));
-                }
-                var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim(ClaimTypes.Name, userSession.Username), new Claim(ClaimTypes.Role, userSession.Role) }, "CustomAuth"));
+                var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, userSession.UserName),
+                    new Claim(ClaimTypes.Role, userSession.Role)
+                }, "CustomAuth"));
                 return await Task.FromResult(new AuthenticationState(claimsPrincipal));
-            } catch
+            }
+            catch
             {
                 return await Task.FromResult(new AuthenticationState(_anonymous));
             }
@@ -35,10 +39,14 @@ namespace UpShift.Authentication
         {
             ClaimsPrincipal claimsPrincipal;
 
-            if(userSession != null) 
+            if (userSession != null)
             {
                 await _sessionStorage.SetAsync("UserSession", userSession);
-                claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim> { new Claim(ClaimTypes.Name, userSession.Username), new Claim(ClaimTypes.Role, userSession.Role) }));
+                claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, userSession.UserName),
+                    new Claim(ClaimTypes.Role, userSession.Role)
+                }));
             }
             else
             {
@@ -47,6 +55,12 @@ namespace UpShift.Authentication
             }
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
+        }
+
+        public async Task<bool> IsUserAuthenticatedAsync()
+        {
+            var authenticationState = await GetAuthenticationStateAsync();
+            return authenticationState.User.Identity.IsAuthenticated;
         }
     }
 }

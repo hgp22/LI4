@@ -1,54 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace UpShift.Models
+﻿namespace UpShift.Models
 {
     public class VeiculoLeilao
     {
-        // Propriedades do VeiculoLeilao
         public int Id { get; set; }
-        public string Modelo { get; set; }
-        public string Marca { get; set; }
         public string Titulo { get; set; }
         public int Ano { get; set; }
+        public string Marca { get; set; }
+        public string Modelo { get; set; }
         public string Descricao { get; set; }
-        public int TipoCombustivel { get; set; }
+        public string Combustivel { get; set; }
         public string Cor { get; set; }
         public int Lugares { get; set; }
-        public int Quilometragem { get; set; }
-        public int Portas { get; set; }
+        public int Kilometragem { get; set; }
+        public int Cilindrada { get; set; }
         public int Potencia { get; set; }
-        public decimal PrecoInicial { get; set; }
-        public decimal LicitacaoMinima { get; set; }
-        public DateTime DataFinalLeilao { get; set; }
-        public List<string> ImagensAssociadas { get; set; }
-        public List<string> VideosAssociados { get; set; }
-        public bool LeilaoAcabou { get; set; }
+        public int Portas { get; set; }
 
-        public VeiculoLeilao(int id, string modelo, string marca, string titulo, int ano, string descricao,
-                             int tipoCombustivel, string cor, int lugares, int quilometragem, int portas,
-                             int potencia, decimal precoInicial, decimal licitacaoMinima, DateTime dataFinalLeilao,
-                             List<string> imagensAssociadas, List<string> videosAssociados, bool leilaoAcabou)
+        public decimal PrecoStart { get; set; }
+        public decimal BidMinima { get; set; }
+        public decimal ValorAtual { get; set; }
+        public DateOnly FinalLeilao { get; set; }
+        public bool LeilaoAcabou { get; set; }
+        public List<string> Imagens { get; set; }
+        public List<string> Videos { get; set; }
+        public int IdLicitacaoLider { get; set; }
+
+
+
+        public VeiculoLeilao(int  id, string titulo, int ano, string marca, string modelo, string descricao, string combustivel, string cor, int lugares,
+                             int kilometragem, int cilindrada, int potencia, int portas, decimal precoStart, decimal bidMinima, DateOnly finalLeilao,
+                             bool leilaoAcabou, List<string> imagens, List<string> videos)
         {
             Id = id;
-            Modelo = modelo;
-            Marca = marca;
             Titulo = titulo;
             Ano = ano;
+            Marca = marca;
+            Modelo = modelo;
             Descricao = descricao;
-            TipoCombustivel = tipoCombustivel;
+            Combustivel = combustivel;
             Cor = cor;
             Lugares = lugares;
-            Quilometragem = quilometragem;
-            Portas = portas;
+            Kilometragem = kilometragem;
+            Cilindrada = cilindrada;
             Potencia = potencia;
-            PrecoInicial = precoInicial;
-            LicitacaoMinima = licitacaoMinima;
-            DataFinalLeilao = dataFinalLeilao;
-            ImagensAssociadas = imagensAssociadas;
-            VideosAssociados = videosAssociados;
-            LeilaoAcabou = leilaoAcabou;
+            Portas = portas;
+            PrecoStart = precoStart;
+            BidMinima = bidMinima;
+            FinalLeilao = finalLeilao;
+            Imagens = imagens;
+            Videos = videos;
+            ValorAtual = PrecoStart;
+            IdLicitacaoLider = -1;
         }
-    }
-}
 
+        public void updateValorAtual(Licitacao licitacao)
+        {
+            ValorAtual = licitacao.Valor;
+        }
+
+        public VeiculoLeilao() { }
+    }
+
+}

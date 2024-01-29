@@ -1,0 +1,49 @@
+﻿@page "/licitacoes"
+@using Controllers
+@using Authentication
+@using Models
+@inject ILicitacaoController licitacaoController
+@inject ILeilaoController leilaoController
+@inject AuthenticationStateProvider authStateProvider
+@attribute [Authorize(Roles = "Administrator,User")]
+<h3>Licitações</h3>
+
+@if (licitacoes != null && licitacoes.Any())
+{
+    <div class="row">
+        @foreach (var licitacao in licitacoes)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">@leilaoController.GetByID(licitacao.IdLeilao).Titulo @leilaoController.GetByID(licitacao.IdLeilao).Marca</h5>
+                        <p class="card-text">Valor da Licitação: @licitacao.Valor€</p>
+                        <p class="card-text">Data e Hora: @licitacao.Data</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>Sem licitações disponíveis.</p>
+}
+
+@code {
+    private List<Licitacao> licitacoes;
+
+    private async Task InitializeAsync()
+    {
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        var username = (await customAuthStateProvider.GetAuthenticationStateAsync()).User.Identity.Name;
+
+        licitacoes = licitacaoController.GetAllDeUser(username);
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await InitializeAsync();
+    }
+}
