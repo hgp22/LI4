@@ -25,12 +25,20 @@
                         <div class="grid p-4">
                             <div class="card ">
                                 <div class="card-body">
-                                    <div class="">@leilaoController.GetByID(licitacao.IdLeilao).Titulo @leilaoController.GetByID(licitacao.IdLeilao).Marca</div>
-                                    <div class="mb-2">Valor da Licitação: @licitacao.Valor€</div>
+                                    <div class="text-l font-bold mb-2">
+                                        @leilaoController.GetByID(licitacao.IdLeilao).Titulo
+                                    </div>
+                                    <div class="mb-2">
+                                        @leilaoController.GetByID(licitacao.IdLeilao).Marca
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <a>Valor da Licitação:</a> <a class="font-bold text-blue-500">@licitacao.Valor€</a>
+                                    </div>
 
                                     <div class="mb-2 border-t"></div>
 
-                                    <div class="">Data e Hora: @licitacao.CreatedAt</div>
+                                    <div class="font-bold text-xs">Data e Hora: @licitacao.CreatedAt</div>
                                 </div>
                             </div>
                         </div>
