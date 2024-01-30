@@ -5,29 +5,27 @@ namespace UpShift.Data
 {
     public class LicitacaoService
     {
-        private List<Licitacao> licitacoes;
+        private readonly DataBaseContext _ctx;
         private int nextId = 1;
 
-        public LicitacaoService()
+        public LicitacaoService(DataBaseContext ctx)
         {
-            licitacoes = new List<Licitacao>
-            {
-            };
+            _ctx = ctx;
         }
 
         public Licitacao GetByID(int id)
         {
-            return licitacoes.FirstOrDefault(l => l.Id == id);
+            return _ctx.Licitacoes.FirstOrDefault(l => l.Id == id);
         }
 
         public List<Licitacao> GetAllDeUser(string username)
         {
-            return licitacoes.Where(l => l.UsernameUtilizador == username).ToList();
+            return _ctx.Licitacoes.Where(l => l.UsernameUtilizador == username).ToList();
         }
 
         public List<Licitacao> GetAllDeLeilao(int leilaoId)
         {
-            return licitacoes.Where(l => l.IdLeilao == leilaoId).ToList();
+            return _ctx.Licitacoes.Where(l => l.IdLeilao == leilaoId).ToList();
         }
 
         public void Delete(int id)
@@ -35,7 +33,8 @@ namespace UpShift.Data
             var licitacao = GetByID(id);
             if (licitacao != null)
             {
-                licitacoes.Remove(licitacao);
+                _ctx.Licitacoes.Remove(licitacao);
+                _ctx.SaveChanges();
             }
         }
 
@@ -43,7 +42,8 @@ namespace UpShift.Data
         {
             novaLicitacao.Id = nextId++;
             novaLicitacao.Data = DateTime.Now;
-            licitacoes.Add(novaLicitacao);
+            _ctx.Licitacoes.Add(novaLicitacao);
+            _ctx.SaveChanges();
         }
     }
 }

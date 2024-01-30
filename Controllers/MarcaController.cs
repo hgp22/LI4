@@ -7,9 +7,9 @@ namespace UpShift.Controllers
     {
         private MarcaService _marcaService;
 
-        public MarcaController()
+        public MarcaController(MarcaService marcaService)
         {
-            _marcaService = new MarcaService();
+            _marcaService = marcaService;
         }
         public bool Create(Marca marca)
         {

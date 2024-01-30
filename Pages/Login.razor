@@ -59,7 +59,7 @@
         var userAccount = userController.GetByUsername(model.UserName);
         if (userAccount == null || userAccount.Password != model.Password)
         {
-            await js.InvokeVoidAsync("alert", "Invalid User Name or Password");
+            await js.InvokeVoidAsync("alert", "Invalid Username or Password");
             return;
         }
 
@@ -67,7 +67,7 @@
         await customAuthStateProvider.UpdateAuthenticationState(new UserSession
             {
                 UserName = userAccount.Username,
-                Role = userAccount.Role
+                IsAdmin = userAccount.IsAdmin
             });
         navManager.NavigateTo("/", true);
     }

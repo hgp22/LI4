@@ -1,5 +1,4 @@
-﻿using UpShift.Controllers;
-using UpShift.Models;
+﻿using UpShift.Models;
 
 
 namespace UpShift.Data
@@ -11,18 +10,14 @@ namespace UpShift.Data
         private readonly TimeSpan _interval = TimeSpan.FromSeconds(5);
         private Timer _timer;
 
-        private List<Leilao> _leiloes;
+        private readonly DataBaseContext _ctx;  
         private VeiculoService _veiculoService;
 
-        public LeilaoService(IServiceProvider serviceProvider, VeiculoService veiculoService)
+        public LeilaoService(IServiceProvider serviceProvider, VeiculoService veiculoService, DataBaseContext ctx)
         {
             Console.WriteLine("LeilaoService foi criado.");
-            _leiloes = new List<Leilao>()
-            {
-                new Leilao(1, "Leilao A", null, 2000, 100, new DateTime(2024, 01, 30, 23, 59, 59), false, null, "Amazing Car", "admin123", 1, -1),
-                new Leilao(2, "Leilao B", null, 5020, 200, new DateTime(2024, 01, 30, 23, 59, 59), false, null, "Luxury Car", "admin123", 2, -1)
-            };
-
+            
+            _ctx = ctx;
             _veiculoService = veiculoService;
             _serviceProvider = serviceProvider;
         }
@@ -56,7 +51,7 @@ namespace UpShift.Data
 
         public void ConcluirLeiloes()
         {
-            List<Leilao> leiloes = _leiloes.ToList();
+            List<Leilao> leiloes = _ctx.Leiloes.ToList();
             foreach (Leilao l in leiloes)
             {
                 if (DateTime.Now.CompareTo(l.DataFinal) >= 0)
@@ -70,26 +65,29 @@ namespace UpShift.Data
 
         public List<Leilao> GetAll()
         {
-            return _leiloes.ToList();
+            return _ctx.Leiloes.ToList();
         }
 
         public Leilao Get(int id)
         {
-            return _leiloes.FirstOrDefault(v => v.Id == id);
+            return _ctx.Leiloes.FirstOrDefault(v => v.Id == id);
         }
 
         public void Add(Leilao leilao)
         {
-            _leiloes.Add(leilao);
+            _ctx.Leiloes.Add(leilao);
+            _ctx.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var leilaoToDelete = _leiloes.FirstOrDefault(v => v.Id == id);
+            var leilaoToDelete = _ctx.Leiloes.FirstOrDefault(v => v.Id == id);
             if (leilaoToDelete != null)
             {
-                _leiloes.Remove(leilaoToDelete);
+                _ctx.Leiloes.Remove(leilaoToDelete);
+                _ctx.SaveChanges();
             }
+
         }
 
         public void Update(Leilao leilao)
@@ -101,8 +99,8 @@ namespace UpShift.Data
             }
             existingLeilao.Titulo = leilao.Titulo;
             existingLeilao.Fotografias = leilao.Fotografias;    
-            existingLeilao.PrecoStart = leilao.PrecoStart;
-            existingLeilao.BidMinima = leilao.BidMinima;
+            existingLeilao.ValorInicial = leilao.ValorInicial;
+            existingLeilao.AumentoMinimo = leilao.AumentoMinimo;
             existingLeilao.DataFinal = leilao.DataFinal;
             existingLeilao.LeilaoAcabou = leilao.LeilaoAcabou;
             existingLeilao.VideoLink = leilao.VideoLink;
@@ -110,6 +108,8 @@ namespace UpShift.Data
             existingLeilao.UsernameAdmin = leilao.UsernameAdmin;
             existingLeilao.IdVeiculo = leilao.IdVeiculo;
             existingLeilao.IdLicitacaoAtual = leilao.IdLicitacaoAtual;
+
+            _ctx.SaveChanges();
         }
 
         public Veiculo GetVeiculo(int id)

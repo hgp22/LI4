@@ -4,47 +4,37 @@ namespace UpShift.Data
 {
     public class MarcaService
     {
-        private List<Marca> _marcas;
+        private readonly DataBaseContext _ctx;
 
-        public MarcaService()
+        public MarcaService(DataBaseContext ctx)
         {
-            _marcas = new List<Marca>
-            {
-                new Marca(1, "Audi"),
-                new Marca(2, "BMW"),
-                new Marca(3, "Citroen"),
-                new Marca(4, "Fiat"),
-                new Marca(5, "Ford"),
-                new Marca(6, "Mercedes"),
-                new Marca(7, "Nissan"),
-                new Marca(8, "Opel"),
-                new Marca(9, "Peugeot"),
-                new Marca(10, "Renault")
-            };
+            _ctx = ctx;
         }
 
         public List<Marca> GetAll()
         {
-            return _marcas.ToList();
+            return _ctx.Marcas.ToList();
         }
 
         public Marca Get(int id)
         {
-            return _marcas.FirstOrDefault(v => v.Id == id);
+            return _ctx.Marcas.FirstOrDefault(v => v.Id == id);
         }
 
         public void Add(Marca marca)
         {
-            _marcas.Add(marca);
+            _ctx.Marcas.Add(marca);
+            _ctx.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var marcaToDelete = _marcas.FirstOrDefault(v => v.Id == id);
+            var marcaToDelete = _ctx.Marcas.FirstOrDefault(v => v.Id == id);
             if (marcaToDelete != null)
             {
-                _marcas.Remove(marcaToDelete);
+                _ctx.Marcas.Remove(marcaToDelete);
             }
+            _ctx.SaveChanges();
         }
 
         public void Update(Marca marca)
@@ -55,6 +45,7 @@ namespace UpShift.Data
                 return;
             }
             existingMarca.Nome = marca.Nome;
+            _ctx.SaveChanges();
         }
     }
 }

@@ -11,14 +11,15 @@ public class DataBaseContext : DbContext
 	public DbSet<Leilao> Leiloes { get; set; }
 	public DbSet<ClientMessage> ClientMessages { get; set; }
 
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+	public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
+
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		optionsBuilder.UseSqlServer("Data Source=DESKTOP-UTLMIHD\\LI4;Initial Catalog=LI4;Integrated Security=True;Encrypt=False");
+		modelBuilder.Entity<Utilizador>().HasKey(u => u.Username);
+		modelBuilder.Entity<Licitacao>()
+		.Property(l => l.Valor)
+		.HasColumnType("decimal(18, 0)");
 	}
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Utilizador>().HasKey(u => u.Username);
-    }
 }
 
 

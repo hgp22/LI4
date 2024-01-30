@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components.Web;
-using Hangfire;
-using System.Configuration;
-using Microsoft.Extensions.Configuration;
 using Hangfire.Dashboard;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
@@ -21,23 +19,26 @@ builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddHttpClient();
 
-builder.Services.AddHostedService<LeilaoService>();
+builder.Services.AddScoped<IUserController, UserController>();
+builder.Services.AddScoped<ILeilaoController, LeilaoController>();
+builder.Services.AddScoped<ILicitacaoController, LicitacaoController>();
+builder.Services.AddScoped<IVeiculoController, VeiculoController>();
+builder.Services.AddScoped<IMarcaController, MarcaController>();
+builder.Services.AddScoped<IModeloController, ModeloController>();
 
-builder.Services.AddTransient<IUserController, UserController>();
-builder.Services.AddTransient<ILeilaoController, LeilaoController>();
-builder.Services.AddTransient<ILicitacaoController, LicitacaoController>();
-builder.Services.AddTransient<IVeiculoController, VeiculoController>();
-builder.Services.AddTransient<IMarcaController, MarcaController>();
-builder.Services.AddTransient<IModeloController, ModeloController>();
-
-builder.Services.AddSingleton<TicketService>();
-builder.Services.AddSingleton<LeilaoService>();
-builder.Services.AddSingleton<LicitacaoService>();
-builder.Services.AddSingleton<UtilizadorService>();
-builder.Services.AddSingleton<ModeloService>();
-builder.Services.AddSingleton<VeiculoService>();
-builder.Services.AddSingleton<MarcaService>();
+builder.Services.AddScoped<TicketService>();
+builder.Services.AddScoped<LeilaoService>();
+builder.Services.AddScoped<LicitacaoService>();
+builder.Services.AddScoped<UtilizadorService>();
+builder.Services.AddScoped<ModeloService>();
+builder.Services.AddScoped<VeiculoService>();
+builder.Services.AddScoped<MarcaService>();
 builder.Services.AddScoped<DataBaseContext>();
+
+var configuration = builder.Configuration;
+
+builder.Services.AddDbContext<DataBaseContext>(options =>
+    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

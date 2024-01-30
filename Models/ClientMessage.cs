@@ -1,22 +1,25 @@
-﻿namespace UpShift.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace UpShift.Models
 {
     public class ClientMessage
     {
+        [Key]
         public int Id { get; set; }
-        public string NomeCliente { get; set; }
-        public string EmailCliente { get; set; }
-        public string TelefoneCliente { get; set; }
-        public string Mensagem { get; set; }
-        public DateTime Data { get; set; }
+        public string ClientName { get; set; }
+        public string ClientEmail { get; set; }
+        public string ClientPhoneNumber { get; set; }
+        public string Message { get; set; }
+        public DateTime Timestamp { get; set; }
 
         public ClientMessage(int id, string nome, string email, string telefone, string mensagem, DateTime data)
         {
             Id = id;
-            NomeCliente = nome;
-            EmailCliente = email;
-            TelefoneCliente = telefone;
-            Mensagem = mensagem;
-            Data = data;
+            ClientName = nome;
+            ClientEmail = email;
+            ClientPhoneNumber = telefone;
+            Message = mensagem;
+            Timestamp = data;
         }
 
         public ClientMessage()

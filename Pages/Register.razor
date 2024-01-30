@@ -60,7 +60,7 @@
             return;
         }
 
-        var newUser = new Utilizador(model.UserName, model.Password, model.Email, "User");
+        var newUser = new Utilizador(model.UserName, model.Password, model.Email, false);
 
         userController.Create(newUser);
 
@@ -68,7 +68,7 @@
         await customAuthStateProvider.UpdateAuthenticationState(new UserSession
         {
             UserName = newUser.Username,
-            Role = newUser.Role
+            IsAdmin = newUser.IsAdmin
         });
         navManager.NavigateTo("/", true);
     }

@@ -11,16 +11,16 @@
     <input id="id" @bind="ticket.Id" required />
 
     <label for="nome">Nome:</label>
-    <input id="nome" @bind="ticket.NomeCliente" required />
+    <input id="nome" @bind="ticket.ClientName" required />
 
     <label for="email">Email:</label>
-    <input id="email" type="email" @bind="ticket.EmailCliente" required />
+    <input id="email" type="email" @bind="ticket.ClientEmail" required />
 
     <label for="telefone">Telefone:</label>
-    <input id="telefone" @bind="ticket.TelefoneCliente" />
+    <input id="telefone" @bind="ticket.ClientPhoneNumber" />
 
     <label for="mensagem">Mensagem:</label>
-    <textarea id="mensagem" @bind="ticket.Mensagem" required></textarea>
+    <textarea id="mensagem" @bind="ticket.Message" required></textarea>
 
     <button type="submit">Enviar Ticket</button>
 </form>

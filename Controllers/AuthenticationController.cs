@@ -25,7 +25,7 @@ namespace UpShift.Controllers
                 var userSession = new UserSession
                 {
                     UserName = utilizador.Username,
-                    Role = utilizador.Role
+                    IsAdmin = utilizador.IsAdmin
                 };
 
                 await AuthenticationStateProvider.UpdateAuthenticationState(userSession);

@@ -6,12 +6,10 @@ namespace UpShift.Controllers
     public class LicitacaoController : ILicitacaoController
     {
         private LicitacaoService _licitacaoService;
-        //private readonly DataBaseContext _ctx;
 
         public LicitacaoController(LicitacaoService licitacaoService)
         {
             _licitacaoService = licitacaoService;
-            //_ctx = ctx
         }
 
         bool ILicitacaoController.Create(Licitacao licitacao)

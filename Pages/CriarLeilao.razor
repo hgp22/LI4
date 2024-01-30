@@ -53,9 +53,9 @@
             </div>
 
             <div class="form-group">
-                <label for="combustivel">Combustível:</label>
-                <InputNumber class="form-control" @bind-Value="veiculo.Combustivel" />
-                <ValidationMessage For="@(()=>veiculo.Combustivel)" />
+                <label for="TipoMotor">Tipo do Motor:</label>
+                <InputNumber class="form-control" @bind-Value="veiculo.TipoMotor" />
+                <ValidationMessage For="@(()=>veiculo.TipoMotor)" />
             </div>
 
             <div class="form-group">
@@ -88,15 +88,15 @@
             </div>
 
             <div class="form-group">
-                <label for="precoStart">Preço Inicial:</label>
-                <InputNumber class="form-control" @bind-Value="leilao.PrecoStart" />
-                <ValidationMessage For="@(()=>leilao.PrecoStart)" />
+                <label for="valorInicial">Preço Inicial:</label>
+                <InputNumber class="form-control" @bind-Value="leilao.ValorInicial" />
+                <ValidationMessage For="@(()=>leilao.ValorInicial)" />
             </div>
 
             <div class="form-group">
-                <label for="bidMinima">Licitação Mínima:</label>
-                <InputNumber class="form-control" @bind-Value="leilao.BidMinima" />
-                <ValidationMessage For="@(()=>leilao.BidMinima)" />
+                <label for="aumentoMinimo">Licitação Mínima:</label>
+                <InputNumber class="form-control" @bind-Value="leilao.AumentoMinimo" />
+                <ValidationMessage For="@(()=>leilao.AumentoMinimo)" />
             </div>
 
             <div class="form-group">

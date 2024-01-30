@@ -1,17 +1,24 @@
-﻿namespace UpShift.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace UpShift.Models
 {
     public class Leilao {
+        [Key]
         public int Id { get; set; }
         public string Titulo { get; set; }
         public string Fotografias { get; set; }
-        public int PrecoStart { get; set; }
-        public int BidMinima { get; set; }
+        public int ValorInicial { get; set; }
+        public int AumentoMinimo { get; set; }
         public DateTime DataFinal { get; set; }
         public bool LeilaoAcabou { get; set; }
         public string VideoLink { get; set; }
         public string Descricao { get; set; }
+        [ForeignKey("Utilizador")]
         public string UsernameAdmin { get; set; }
+        [ForeignKey("Veiculo")]
         public int IdVeiculo { get; set; }
+        [ForeignKey("Licitacao")]
         public int IdLicitacaoAtual { get; set; }
 
         public Leilao(int id, string titulo, string fotografias, int precoStart, int bidMinima, DateTime dataFinal, bool leilaoAcabou, string videoLink, string descricao, string usernameAdmin, int idVeiculo, int idLicitacaoAtual)
@@ -19,8 +26,8 @@
             Id = id;
             Titulo = titulo;
             Fotografias = fotografias;
-            PrecoStart = precoStart;
-            BidMinima = bidMinima;
+            ValorInicial = precoStart;
+            AumentoMinimo = bidMinima;
             DataFinal = dataFinal;
             LeilaoAcabou = leilaoAcabou;
             VideoLink = videoLink;

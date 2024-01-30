@@ -7,9 +7,9 @@ namespace UpShift.Controllers
     {
         private ModeloService _modeloService;
 
-        public ModeloController()
+        public ModeloController(ModeloService modeloService)
         {
-            _modeloService = new ModeloService();
+            _modeloService = modeloService;
         }
         public bool Create(Modelo modelo)
         {

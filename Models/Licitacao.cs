@@ -1,11 +1,18 @@
-﻿namespace UpShift.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace UpShift.Models
 {
     public class Licitacao {
+        [Key]
         public int Id { get; set; }
         public DateTime Data { get; set; }
         public decimal Valor { get; set; }
+        [ForeignKey("Utilizador")]
         public string UsernameUtilizador { get; set; }
+        [ForeignKey("Veiculo")]
         public int IdVeiculo { get; set; }
+        [ForeignKey("Leilao")]
         public int IdLeilao { get; set; }
 
         public Licitacao() { }

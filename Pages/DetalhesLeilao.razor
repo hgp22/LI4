@@ -30,15 +30,15 @@ else
             <p><strong>Modelo:</strong> @modeloController.GetById(veiculo.IdModelo).Nome</p>
             <p><strong>Ano:</strong> @veiculo.Ano</p>
             <p><strong>Descrição:</strong> @leilao.Descricao</p>
-            <p><strong>Combustível:</strong> @veiculo.Combustivel</p>
+            <p><strong>Tipo do Motor:</strong> @veiculo.TipoMotor</p>
             <p><strong>Cor:</strong> @veiculo.CorExterior</p>
             <p><strong>Kilometragem:</strong> @veiculo.Quilometragem</p>
             <p><strong>Cilindrada:</strong> @veiculo.Cilindrada</p>
             <p><strong>Potência:</strong> @veiculo.Potencia</p>
             <p><strong>Número de Portas:</strong> @veiculo.NumPortas</p>
-            <p><strong>Preço Inicial:</strong> @leilao.PrecoStart€</p>
-            <p><strong>Licitação Mínima:</strong> @leilao.BidMinima€</p>
-            <p><strong>LICITAÇÃO ATUAL:</strong> @(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.PrecoStart : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)€</p>
+            <p><strong>Preço Inicial:</strong> @leilao.ValorInicial€</p>
+            <p><strong>Licitação Mínima:</strong> @leilao.AumentoMinimo€</p>
+            <p><strong>LICITAÇÃO ATUAL:</strong> @(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.ValorInicial : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)€</p>
 
             <div class="my-2">
                 <button class="btn btn-primary" @onclick="UserPodeLicitar">Licitar</button>
@@ -122,11 +122,11 @@ else
         mostrarInputLicitar = true;
         if (licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null)
         {
-            valorLicitar = leilao.PrecoStart + leilao.BidMinima;
+            valorLicitar = leilao.ValorInicial + leilao.AumentoMinimo;
         }
         else
         {
-            valorLicitar = licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor + leilao.BidMinima;
+            valorLicitar = licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor + leilao.AumentoMinimo;
         }
     }
 
@@ -135,7 +135,7 @@ else
         Licitacao licitacao;
         if (licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null)
         {
-            if (leilao.PrecoStart + leilao.BidMinima > valorLicitar)
+            if (leilao.ValorInicial + leilao.AumentoMinimo > valorLicitar)
             {
                 Console.WriteLine("lmao");
                 mensagem = "O valor inserido é demasiado baixo!";
@@ -150,7 +150,7 @@ else
                 mensagem = "";
             }
         }
-        else if ((licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor + leilao.BidMinima) > valorLicitar)
+        else if ((licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor + leilao.AumentoMinimo) > valorLicitar)
         {
             mensagem = "O valor inserido é demasiado baixo!";
         }

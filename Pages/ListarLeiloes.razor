@@ -21,7 +21,7 @@
                         <div>
                             <strong>@leilao.Titulo</strong> - @marcaController.GetById(veiculoController.GetById(leilao.IdVeiculo).IdMarca).Nome @modeloController.GetById(veiculoController.GetById(leilao.IdVeiculo).IdModelo).Nome
                             (@veiculoController.GetById(leilao.IdVeiculo).Ano) -
-                            @(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.PrecoStart : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)€ - <strong>Termina: @(leilao.LeilaoAcabou ? "LEILÃO TERMINADO!" : @leilao.DataFinal)</strong>
+                            @(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.ValorInicial : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)€ - <strong>Termina: @(leilao.LeilaoAcabou ? "LEILÃO TERMINADO!" : @leilao.DataFinal)</strong>
                         </div>
                         <div>
                             <button class="btn btn-primary" @onclick="(() => VerLeilao(leilao.Id))">Ver</button>
