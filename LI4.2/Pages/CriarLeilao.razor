@@ -26,7 +26,7 @@
                     <div class="text-xl underline mb-4">Car Details</div>
 
                     <div class="form-group mb-4">
-                        <label for="id" class="block text-sm font-semibold text-gray-600">ID</label>
+                        <label for="titulo" class="block text-sm font-semibold text-gray-600">ID</label>
                             <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
                         focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Id" />
                             <ValidationMessage For="@(()=>veiculoLeilao.Id)"/>
@@ -44,6 +44,13 @@
                             <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
                         focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Ano" />
                             <ValidationMessage For="@(()=>veiculoLeilao.Ano)"/>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Brand</label>
+                            <InputText class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Marca" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Marca)"/>
                     </div>
 
                     <div class="form-group mb-4">
@@ -71,18 +78,98 @@
                     <div class="text-xl underline mb-4">Other Details</div>
 
                     <!--Combustivel-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Fuel</label>
+                            <InputText class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Combustivel" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Combustivel)"/>
+                    </div>
 
                     <!--Cor-->
-
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Color</label>
+                            <InputText class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Cor" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Cor)"/>
+                    </div>
                     <!--Portas-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Doors</label>
+                            <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Portas" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Portas)"/>
+                    </div>
+                    <!--Lugares-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Seats</label>
+                            <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Lugares" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Lugares)"/>
+                    </div>
+
+                    <!--Cilindrada-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Engine Capacity</label>
+                            <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Cilindrada" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Cilindrada)"/>
+                    </div>
 
                     <!--Potencia-->
-
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Power</label>
+                            <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Potencia" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Potencia)"/>
+                    </div>
+                
                     <!--Mileage-->
-
-                    <!---->
-
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Mileage</label>
+                            <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.Kilometragem" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.Kilometragem)"/>
+                    </div>
                 </div>
+                
+                <div  class="dark:bg-gray-800 mb-8 p-4 px-4 inline block">
+
+                    <div class="text-xl underline mb-4">Auction Details</div>
+
+                    <!--Start Price-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Start Price</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.PrecoStart" />
+                        <ValidationMessage For="@(()=>veiculoLeilao.PrecoStart)"/>
+                    </div>
+
+                    <!--Minimum Bid-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Minimum Bid</label>
+                            <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculoLeilao.BidMinima" />
+                            <ValidationMessage For="@(()=>veiculoLeilao.BidMinima)"/>
+                    </div>
+                    <!--End Date-->
+                    <div class="form-group mb-4">
+                        <label for="endDate" class="block text-sm font-medium text-gray-600">End Date</label>
+                        <InputDate id="endDate" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="@endDate"></InputDate>
+                    </div>
+                </div>
+                    
+
+                <div  class="dark:bg-gray-800 mb-8 p-4 px-4 inline block">
+
+                    <div class="text-xl underline mb-4">Images & Videos</div>
+                    <div>
+                        <input type="file" accept="image/*,video/*" multiple @onchange="HandleFiles">
+                    </div>
+                </div>
+            </div>
+            <div class="my-2">
+                <button type="submit" class="btn btn-primary">Começar Leilão</button>
             </div>    
         </div>
 
@@ -90,122 +177,16 @@
 
 </div>
 
-<div class="row">
-    <div class="col-md-6">
-        <EditForm Model="@veiculoLeilao" OnValidSubmit="Criar">
-            <DataAnnotationsValidator/>
-
-            <div class="form-group">
-                <label for="id">ID:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Id" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Id)"/>
-            </div>
-
-            <div class="form-group">
-                <label for="titulo">Título:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Titulo"/>
-                <ValidationMessage For="@(()=>veiculoLeilao.Titulo)"/>
-            </div>
-
-            <div class="form-group">
-                <label for="ano">Ano:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Ano" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Ano)" />
-            </div>
-
-            <div class="form-group">
-                <label for="marca">Marca:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Marca" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Marca)" />
-            </div>
-
-            <div class="form-group">
-                <label for="modelo">Modelo:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Modelo" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Modelo)" />
-            </div>
-
-            <div class="form-group">
-                <label for="descricao">Descricao:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Descricao" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Descricao)" />
-            </div>
-
-            <div class="form-group">
-                <label for="combustivel">Combustível:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Combustivel" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Combustivel)" />
-            </div>
-
-            <div class="form-group">
-                <label for="cor">Cor:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Cor" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Cor)" />
-            </div>
-            <div class="form-group">
-                <label for="kilometragem">Kilometragem:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Kilometragem" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Kilometragem)" />
-            </div>
-
-            <div class="form-group">
-                <label for="cilindrada">Cilindrada:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Cilindrada" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Cilindrada)" />
-            </div>
-
-            <div class="form-group">
-                <label for="potencia">Potência:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Potencia" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Potencia)" />
-            </div>
-
-            <div class="form-group">
-                <label for="portas">Número de Portas:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Portas" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Portas)" />
-            </div>
-
-            <div class="form-group">
-                <label for="precoStart">Preço Inicial:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.PrecoStart" />
-                <ValidationMessage For="@(()=>veiculoLeilao.PrecoStart)" />
-            </div>
-
-            <div class="form-group">
-                <label for="bidMinima">Licitação Mínima:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.BidMinima" />
-                <ValidationMessage For="@(()=>veiculoLeilao.BidMinima)" />
-            </div>
-
-            <div class="form-group">
-                <label for="finalLeilao">Licitação Mínima:</label>
-                <InputDate class="form-control" @bind-Value="veiculoLeilao.FinalLeilao" />
-                <ValidationMessage For="@(()=>veiculoLeilao.FinalLeilao)" />
-            </div>
-
-            <div class="my-2">
-                @message
-            </div>
-
-            <div class="my-2">
-                <button type="submit" class="btn btn-primary">Começar Leilão</button>
-            </div>
-
-        </EditForm>
-    </div>
-</div>
-
-
-
 
 @code {
-    [Parameter]
-    public int LeilaoID { get; set; }
+    
     private string message = string.Empty;
+    private DateTime endDate { get; set; } = DateTime.Now;
     Models.VeiculoLeilao veiculoLeilao = new();
+
     private void Criar()
     {
+        
         if (leilaoController.Create(veiculoLeilao))
         {
             message = "Adicionado com Sucesso!";
@@ -214,6 +195,16 @@
         else
         {
             message = "Leilão não foi adicionado!";
+        }
+    }
+
+    private async Task HandleFiles(ChangeEventArgs e)
+    {
+        var files = e.Value as IEnumerable<IBrowserFile>;
+        foreach (var file in files)
+        {
+            // Process each file here
+            // For example, you can read the file content and upload it to a server
         }
     }
 }
