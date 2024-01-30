@@ -1,6 +1,7 @@
 ﻿@page "/criarleilao"
 @inject NavigationManager NavigationManager
 @using Controllers
+@using Models
 @inject ILeilaoController leilaoController
 
 <PageTitle>Detalhes do Veículo</PageTitle>
@@ -15,8 +16,8 @@
 
             <div class="form-group">
                 <label for="id">ID:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Id" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Id)"/>
+                <InputNumber class="form-control" @bind-Value="leilao.Id" />
+                <ValidationMessage For="@(()=>leilao.Id)"/>
             </div>
 
             <div class="form-group">
@@ -119,12 +120,11 @@
 
 @code {
     [Parameter]
-    public int LeilaoID { get; set; }
-    private string message = string.Empty;
-    Models.VeiculoLeilao veiculoLeilao = new();
+    private int Id;
+
     private void Criar()
     {
-        if (leilaoController.Create(veiculoLeilao))
+        if (leilaoController.Create(leilao))
         {
             message = "Adicionado com Sucesso!";
             veiculoLeilao = new();

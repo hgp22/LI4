@@ -1,7 +1,8 @@
 ﻿@page "/register"
 @using UpShift.Authentication
 @using UpShift.Models
-@inject UserAccountService userAccountService
+@using UpShift.Controllers
+@inject UserController userController
 @inject IJSRuntime js
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
@@ -46,8 +47,8 @@
 
     private async Task RegisterAndLogin()
     {
-        var existingUser = userAccountService.GetByUserName(model.UserName);
-        var existingUser2 = userAccountService.GetByEmail(model.Email);
+        var existingUser = userController.GetByUsername(model.UserName);
+        var existingUser2 = userController.GetByEmail(model.Email);
         if (existingUser != null)
         {
             await js.InvokeVoidAsync("alert", "Username already in use");
@@ -61,7 +62,7 @@
 
         var newUser = new Utilizador(model.UserName, model.Password, model.Email, "User");
 
-        userAccountService.AddUser(newUser);
+        userController.Create(newUser);
 
         var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
         await customAuthStateProvider.UpdateAuthenticationState(new UserSession

@@ -5,9 +5,11 @@
 @inject ILeilaoController leilaoController
 @inject IUserController userController
 @inject NavigationManager navigationManager
-@inject UserAccountService userAccountService
+@inject UserController userController
 @inject AuthenticationStateProvider authStateProvider
 @inject ILicitacaoController licitacaoController
+@inject IMarcaController marcaController
+@inject IModeloController modeloController
 
 <PageTitle>Detalhes do Leilão</PageTitle>
 
@@ -24,19 +26,19 @@ else
             <h5>@leilao.Titulo</h5>
         </div>
         <div class="card-body">
-            <p><strong>Marca:</strong> @leilao.Marca</p>
-            <p><strong>Modelo:</strong> @leilao.Modelo</p>
-            <p><strong>Ano:</strong> @leilao.Ano</p>
+            <p><strong>Marca:</strong> @marcaController.GetById(veiculo.IdMarca).Nome</p>
+            <p><strong>Modelo:</strong> @modeloController.GetById(veiculo.IdModelo).Nome</p>
+            <p><strong>Ano:</strong> @veiculo.Ano</p>
             <p><strong>Descrição:</strong> @leilao.Descricao</p>
-            <p><strong>Combustível:</strong> @leilao.Combustivel</p>
-            <p><strong>Cor:</strong> @leilao.Cor</p>
-            <p><strong>Kilometragem:</strong> @leilao.Kilometragem</p>
-            <p><strong>Cilindrada:</strong> @leilao.Cilindrada</p>
-            <p><strong>Potência:</strong> @leilao.Potencia</p>
-            <p><strong>Número de Portas:</strong> @leilao.Portas</p>
+            <p><strong>Combustível:</strong> @veiculo.Combustivel</p>
+            <p><strong>Cor:</strong> @veiculo.CorExterior</p>
+            <p><strong>Kilometragem:</strong> @veiculo.Quilometragem</p>
+            <p><strong>Cilindrada:</strong> @veiculo.Cilindrada</p>
+            <p><strong>Potência:</strong> @veiculo.Potencia</p>
+            <p><strong>Número de Portas:</strong> @veiculo.NumPortas</p>
             <p><strong>Preço Inicial:</strong> @leilao.PrecoStart€</p>
             <p><strong>Licitação Mínima:</strong> @leilao.BidMinima€</p>
-            <p><strong>LICITAÇÃO ATUAL:</strong> @leilao.ValorAtual€</p>
+            <p><strong>LICITAÇÃO ATUAL:</strong> @licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor€</p>
 
             <div class="my-2">
                 <button class="btn btn-primary" @onclick="UserPodeLicitar">Licitar</button>
@@ -62,7 +64,8 @@ else
 @code {
     [Parameter]
     public int? LeilaoId { get; set; }
-    private VeiculoLeilao leilao;
+    private Leilao leilao;
+    private Veiculo veiculo;
     private string mensagem { get; set; }
     private string username { get; set; }
     private CustomAuthenticationStateProvider customAuthStateProvider { get; set; }
@@ -80,6 +83,7 @@ else
         if (LeilaoId.HasValue)
         {
             leilao = leilaoController.GetByID(LeilaoId.Value);
+            veiculo = leilaoController.GetVeiculo(LeilaoId.Value);
         }
         else
         {
@@ -116,14 +120,14 @@ else
     {
 
         mostrarInputLicitar = true;
-        valorLicitar = leilao.ValorAtual + leilao.BidMinima;
+        valorLicitar = licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor + leilao.BidMinima;
 
     }
 
     private void Licitar()
     {
         Licitacao licitacao;
-        if((leilao.ValorAtual + leilao.BidMinima) >= valorLicitar)
+        if ((licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor + leilao.BidMinima) >= valorLicitar)
         {
             mensagem = "O valor inserido é demasiado baixo!";
         }
@@ -131,8 +135,7 @@ else
         {
             licitacao = new Licitacao(valorLicitar, username, leilao.Id);
             licitacaoController.Create(licitacao);
-            leilao.ValorAtual = licitacao.Valor;
-            leilao.IdLicitacaoLider = licitacao.Id;
+            leilao.IdLicitacaoAtual = licitacao.Id;
             leilaoController.Update(leilao);
             mensagem = "";
         }

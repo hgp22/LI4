@@ -1,6 +1,7 @@
 ﻿@page "/login"
 @using UpShift.Authentication
-@inject UserAccountService userAccountService
+@using UpShift.Controllers
+@inject UserController userController
 @inject IJSRuntime js
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
@@ -55,7 +56,7 @@
     {
         Console.WriteLine("Authenticate method called");
 
-        var userAccount = userAccountService.GetByUserName(model.UserName);
+        var userAccount = userController.GetByUsername(model.UserName);
         if (userAccount == null || userAccount.Password != model.Password)
         {
             await js.InvokeVoidAsync("alert", "Invalid User Name or Password");

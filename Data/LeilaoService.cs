@@ -1,10 +1,12 @@
-﻿using UpShift.Models;
+﻿using UpShift.Controllers;
+using UpShift.Models;
 
 namespace UpShift.Data
 {
     public class LeilaoService
     {
         private List<Leilao> _leiloes;
+        private VeiculoController veiculoController = new VeiculoController();
 
         public LeilaoService()
         {
@@ -58,5 +60,10 @@ namespace UpShift.Data
             existingLeilao.IdVeiculo = leilao.IdVeiculo;
             existingLeilao.IdLicitacaoAtual = leilao.IdLicitacaoAtual;
         }
+
+        public Veiculo GetVeiculo(int id)
+        {
+            return veiculoController.GetById(Get(id).IdVeiculo);
+        }   
     }
 }

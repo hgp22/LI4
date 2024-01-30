@@ -5,13 +5,11 @@ namespace UpShift.Controllers
     public class UserController : IUserController
     {
         private UtilizadorService _utilizadorService;
-        //private readonly DataBaseContext _ctx;
-        public UserController(UtilizadorService utilizadorService) 
+        public UserController() 
         {
-            //_ctx = ctx
-            _utilizadorService = utilizadorService;
+            _utilizadorService = new UtilizadorService();
         }
-        bool IUserController.Create(Utilizador user)
+        public bool Create(Utilizador user)
         {
             try
             {
@@ -24,7 +22,7 @@ namespace UpShift.Controllers
             }
         }
 
-        bool IUserController.Delete(string username)
+        public bool Delete(string username)
         {
             try
             {
@@ -37,22 +35,21 @@ namespace UpShift.Controllers
             }
         }
 
-        List<Utilizador> IUserController.GetAll()
+        public List<Utilizador> GetAll()
         {
             return _utilizadorService.GetAll();
         }
 
-        Utilizador IUserController.GetByEmail(string email)
+        public Utilizador GetByEmail(string email)
         {
             return _utilizadorService.GetByEmail(email);
         }
 
-        Utilizador IUserController.GetByUsername(string username)
+        public Utilizador GetByUsername(string username)
         {
             return _utilizadorService.GetByUserName(username);
         }
-
-        bool IUserController.Update(Utilizador userAccount)
+        public bool Update(Utilizador userAccount)
         {
             return _utilizadorService.Update(userAccount);
         }
@@ -80,5 +77,6 @@ namespace UpShift.Controllers
             }
             return user.HasDetalhesEntrega();
         }
+
     }
 }

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using UpShift.Data;
 using UpShift.Models;
 
@@ -7,13 +6,11 @@ namespace UpShift.Controllers
     public class VeiculoController : IVeiculoController
     {
         private VeiculoService _veiculoService;
-        //private readonly DataBaseContext _ctx;
-        public VeiculoController(VeiculoService veiculoService)
+        public VeiculoController()
         {
-            //_ctx = ctx
-            _veiculoService = veiculoService;
+            _veiculoService = new VeiculoService();
         }
-        bool IVeiculoController.Create(Veiculo veiculo)
+        public bool Create(Veiculo veiculo)
         {
             try
             {
@@ -26,7 +23,7 @@ namespace UpShift.Controllers
             }
         }
 
-        bool IVeiculoController.Delete(int id)
+        public bool Delete(int id)
         {
             try
             {
@@ -39,17 +36,18 @@ namespace UpShift.Controllers
             }
         }
 
-        List<Veiculo> IVeiculoController.GetAll()
+        public List<Veiculo> GetAll()
         {
             return _veiculoService.GetAll();
         }
 
-        Veiculo IVeiculoController.GetById(int id)
+        public Veiculo GetById(int id)
         {
             return _veiculoService.Get(id);
         }
 
-        bool IVeiculoController.Update(Veiculo veiculo)
+
+        public bool Update(Veiculo veiculo)
         {
             return _veiculoService.Update(veiculo);
         }

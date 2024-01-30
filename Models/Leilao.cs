@@ -28,6 +28,6 @@
             UsernameAdmin = usernameAdmin;
             IdVeiculo = idVeiculo;
             IdLicitacaoAtual = idLicitacaoAtual;
-        }
+        }   
     }
 }

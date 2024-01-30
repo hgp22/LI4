@@ -21,8 +21,7 @@ builder.Services.AddTransient<IUserController, UserController>();
 builder.Services.AddTransient<ILeilaoController, LeilaoController>();
 builder.Services.AddTransient<ILicitacaoController, LicitacaoController>();
 builder.Services.AddSingleton<TicketService>();
-builder.Services.AddSingleton<UserAccountService>();
-builder.Services.AddSingleton<VeiculoLeilaoService>();
+builder.Services.AddSingleton<LeilaoService>();
 builder.Services.AddSingleton<LicitacaoService>();
 builder.Services.AddScoped<DataBaseContext>();
 

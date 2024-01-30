@@ -8,11 +8,9 @@ namespace UpShift.Controllers
     public class LeilaoController : ILeilaoController
     {
         private LeilaoService _leilaoService;
-        private readonly DataBaseContext _ctx;
         public LeilaoController(LeilaoService veiculoLeilaoService, DataBaseContext ctx)
         {
             _leilaoService = veiculoLeilaoService;
-            _ctx = ctx;
         }
         bool ILeilaoController.Create(Leilao leilao)
         {
@@ -75,6 +73,11 @@ namespace UpShift.Controllers
             {
                 return false;
             }
+        }
+
+        public Veiculo getVeiculo(int id)
+        {
+               return _leilaoService.GetVeiculo(id);
         }
     }
 }
