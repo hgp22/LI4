@@ -20,6 +20,10 @@ builder.Services.AddHttpClient();
 builder.Services.AddTransient<IUserController, UserController>();
 builder.Services.AddTransient<ILeilaoController, LeilaoController>();
 builder.Services.AddTransient<ILicitacaoController, LicitacaoController>();
+builder.Services.AddTransient<IVeiculoController, VeiculoController>();
+builder.Services.AddTransient<IMarcaController, MarcaController>();
+builder.Services.AddTransient<IModeloController, ModeloController>();
+
 builder.Services.AddSingleton<TicketService>();
 builder.Services.AddSingleton<LeilaoService>();
 builder.Services.AddSingleton<LicitacaoService>();

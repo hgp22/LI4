@@ -2,6 +2,10 @@
 @inject NavigationManager NavigationManager
 @using Controllers
 @inject ILeilaoController leilaoController
+@inject IMarcaController marcaController
+@inject IModeloController modeloController
+@inject IVeiculoController veiculoController
+@inject ILicitacaoController licitacaoController
 
 <PageTitle>Lista de Leilões</PageTitle>
 
@@ -15,7 +19,9 @@
                 <li class="list-group-item">
                     <div class="d-flex justify-content-between">
                         <div>
-                            <strong>@leilao.Titulo</strong> - @leilao.Marca @leilao.Modelo (@leilao.Ano) - @leilao.ValorAtual€ - <strong>Termina: (@leilao.FinalLeilao)</strong>
+                            <strong>@leilao.Titulo</strong> - @marcaController.GetById(veiculoController.GetById(leilao.IdVeiculo).IdMarca).Nome @modeloController.GetById(veiculoController.GetById(leilao.IdVeiculo).IdModelo).Nome
+                            (@veiculoController.GetById(leilao.IdVeiculo).Ano) -
+                            @(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.PrecoStart : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)€ - <strong>Termina: (@leilao.DataFinal)</strong>
                         </div>
                         <div>
                             <button class="btn btn-primary" @onclick="(() => VerLeilao(leilao.Id))">Ver</button>

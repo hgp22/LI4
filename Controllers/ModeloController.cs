@@ -3,7 +3,7 @@ using UpShift.Models;
 
 namespace UpShift.Controllers
 {
-    public class ModeloController
+    public class ModeloController : IModeloController
     {
         private ModeloService _modeloService;
 

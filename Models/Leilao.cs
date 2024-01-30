@@ -29,5 +29,7 @@
             IdVeiculo = idVeiculo;
             IdLicitacaoAtual = idLicitacaoAtual;
         }   
+
+        public Leilao() { }
     }
 }

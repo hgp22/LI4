@@ -11,5 +11,7 @@ namespace UpShift.Controllers
         Utilizador GetByUsername(string username);
         List<Utilizador> GetAll();
         bool HasMetodoPagamento(string username);
+
+        bool HasDetalhesEntrega(string username);
     }
 }

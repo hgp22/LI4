@@ -27,5 +27,7 @@
             IdMarca = idMarca;
             IdModelo = idModelo;
         }
+
+        public Veiculo() { }
     }
 }

@@ -3,6 +3,7 @@
 @using Controllers
 @using Models
 @inject ILeilaoController leilaoController
+@inject IVeiculoController veiculoController
 
 <PageTitle>Detalhes do Veículo</PageTitle>
 
@@ -11,7 +12,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <EditForm Model="@veiculoLeilao" OnValidSubmit="Criar">
+        <EditForm Model="@leilao" OnValidSubmit="Criar">
             <DataAnnotationsValidator/>
 
             <div class="form-group">
@@ -22,85 +23,85 @@
 
             <div class="form-group">
                 <label for="titulo">Título:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Titulo"/>
-                <ValidationMessage For="@(()=>veiculoLeilao.Titulo)"/>
+                <InputText class="form-control" @bind-Value="leilao.Titulo"/>
+                <ValidationMessage For="@(()=>leilao.Titulo)"/>
             </div>
 
             <div class="form-group">
                 <label for="ano">Ano:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Ano" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Ano)" />
+                <InputNumber class="form-control" @bind-Value="veiculo.Ano" />
+                <ValidationMessage For="@(()=>veiculo.Ano)" />
             </div>
 
             <div class="form-group">
                 <label for="marca">Marca:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Marca" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Marca)" />
+                <InputNumber class="form-control" @bind-Value="veiculo.IdMarca" />
+                <ValidationMessage For="@(()=>veiculo.IdMarca)" />
             </div>
 
             <div class="form-group">
                 <label for="modelo">Modelo:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Modelo" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Modelo)" />
+                <InputNumber class="form-control" @bind-Value="veiculo.IdModelo" />
+                <ValidationMessage For="@(()=>veiculo.IdModelo)" />
             </div>
 
             <div class="form-group">
                 <label for="descricao">Descricao:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Descricao" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Descricao)" />
+                <InputText class="form-control" @bind-Value="leilao.Descricao" />
+                <ValidationMessage For="@(()=>leilao.Descricao)" />
             </div>
 
             <div class="form-group">
                 <label for="combustivel">Combustível:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Combustivel" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Combustivel)" />
+                <InputNumber class="form-control" @bind-Value="veiculo.Combustivel" />
+                <ValidationMessage For="@(()=>veiculo.Combustivel)" />
             </div>
 
             <div class="form-group">
                 <label for="cor">Cor:</label>
-                <InputText class="form-control" @bind-Value="veiculoLeilao.Cor" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Cor)" />
+                <InputText class="form-control" @bind-Value="veiculo.CorExterior" />
+                <ValidationMessage For="@(()=>veiculo.CorExterior)" />
             </div>
             <div class="form-group">
                 <label for="kilometragem">Kilometragem:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Kilometragem" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Kilometragem)" />
+                <InputNumber class="form-control" @bind-Value="veiculo.Quilometragem" />
+                <ValidationMessage For="@(()=>veiculo.Quilometragem)" />
             </div>
 
             <div class="form-group">
                 <label for="cilindrada">Cilindrada:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Cilindrada" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Cilindrada)" />
+                <InputNumber class="form-control" @bind-Value="veiculo.Cilindrada" />
+                <ValidationMessage For="@(()=>veiculo.Cilindrada)" />
             </div>
 
             <div class="form-group">
                 <label for="potencia">Potência:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Potencia" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Potencia)" />
+                <InputNumber class="form-control" @bind-Value="veiculo.Potencia" />
+                <ValidationMessage For="@(()=>veiculo.Potencia)" />
             </div>
 
             <div class="form-group">
                 <label for="portas">Número de Portas:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.Portas" />
-                <ValidationMessage For="@(()=>veiculoLeilao.Portas)" />
+                <InputNumber class="form-control" @bind-Value="veiculo.NumPortas" />
+                <ValidationMessage For="@(()=>veiculo.NumPortas)" />
             </div>
 
             <div class="form-group">
                 <label for="precoStart">Preço Inicial:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.PrecoStart" />
-                <ValidationMessage For="@(()=>veiculoLeilao.PrecoStart)" />
+                <InputNumber class="form-control" @bind-Value="leilao.PrecoStart" />
+                <ValidationMessage For="@(()=>leilao.PrecoStart)" />
             </div>
 
             <div class="form-group">
                 <label for="bidMinima">Licitação Mínima:</label>
-                <InputNumber class="form-control" @bind-Value="veiculoLeilao.BidMinima" />
-                <ValidationMessage For="@(()=>veiculoLeilao.BidMinima)" />
+                <InputNumber class="form-control" @bind-Value="leilao.BidMinima" />
+                <ValidationMessage For="@(()=>leilao.BidMinima)" />
             </div>
 
             <div class="form-group">
                 <label for="finalLeilao">Licitação Mínima:</label>
-                <InputDate class="form-control" @bind-Value="veiculoLeilao.FinalLeilao" />
-                <ValidationMessage For="@(()=>veiculoLeilao.FinalLeilao)" />
+                <InputDate class="form-control" @bind-Value="leilao.DataFinal" />
+                <ValidationMessage For="@(()=>leilao.DataFinal)" />
             </div>
 
             <div class="my-2">
@@ -120,14 +121,22 @@
 
 @code {
     [Parameter]
-    private int Id;
+    public int LeilaoID { get; set; }
+    private Leilao leilao = new();
+    private Veiculo veiculo = new();
+    private string message = String.Empty;
 
     private void Criar()
     {
-        if (leilaoController.Create(leilao))
+        if (veiculoController.Create(veiculo))
         {
-            message = "Adicionado com Sucesso!";
-            veiculoLeilao = new();
+            leilao.IdVeiculo = veiculo.Id;
+            if (leilaoController.Create(leilao))
+            {
+                message = "Adicionado com Sucesso!";
+                veiculo = new();
+                leilao = new();
+            }
         }
         else
         {

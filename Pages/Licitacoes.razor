@@ -4,6 +4,10 @@
 @using Models
 @inject ILicitacaoController licitacaoController
 @inject ILeilaoController leilaoController
+@inject IVeiculoController veiculoController
+@inject IMarcaController marcaController
+@inject IModeloController modeloController
+@inject ILicitacaoController licitacaoController
 @inject AuthenticationStateProvider authStateProvider
 @attribute [Authorize(Roles = "Administrator,User")]
 <h3>Licitações</h3>
@@ -16,7 +20,7 @@
             <div class="col-md-4">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">@leilaoController.GetByID(licitacao.IdLeilao).Titulo @leilaoController.GetByID(licitacao.IdLeilao).Marca</h5>
+                        <h5 class="card-title">@leilaoController.GetByID(licitacao.IdLeilao).Titulo @marcaController.GetById(veiculoController.GetById(leilaoController.GetByID(licitacao.IdLeilao).IdVeiculo).IdMarca).Nome</h5>
                         <p class="card-text">Valor da Licitação: @licitacao.Valor€</p>
                         <p class="card-text">Data e Hora: @licitacao.Data</p>
                     </div>
