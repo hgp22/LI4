@@ -27,9 +27,11 @@
 
 @code {
     private ClientMessage ticket = new ClientMessage();
+   
 
     private void SubmitTicket()
     {
+        ticket.Timestamp = DateTime.Now;
         ticketService.AddTicket(ticket);
         Console.WriteLine($"Ticket added successfully");
 

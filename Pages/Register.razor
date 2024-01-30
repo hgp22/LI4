@@ -2,7 +2,7 @@
 @using UpShift.Authentication
 @using UpShift.Models
 @using UpShift.Controllers
-@inject UserController userController
+@inject IUserController userController
 @inject IJSRuntime js
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
@@ -60,9 +60,20 @@
             return;
         }
 
-        var newUser = new Utilizador(model.UserName, model.Password, model.Email, false);
+        var newUser = new Utilizador(model.UserName, model.Email, model.Password, 0, "teste", new DateTime(2020, 4, 4) , false);
+        if(newUser != null)
+        {
+            Console.WriteLine("New user created");
 
-        userController.Create(newUser);
+        }
+
+
+        if (userController.Create(newUser))
+        {
+            Console.WriteLine("New user added with success");
+
+        }
+
 
         var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
         await customAuthStateProvider.UpdateAuthenticationState(new UserSession
