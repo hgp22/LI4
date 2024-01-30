@@ -2,6 +2,12 @@
 
 @using System.Collections.Generic
 
+<div class="text-white">
+    <div class="text-3xl font-bold dark:bg-gray-800 p-4 px-16">
+        FAQ
+    </div>
+</div>
+
 <div class="flex justify-center items-center min-h-screen">
     <div class="flex w-3/4">
         <!-- Tipos de perguntas -->
@@ -16,7 +22,6 @@
 
         <!-- FAQ -->
         <div class="w-3/4 pl-10">
-            <h2 class="absolute top-20 left-20 text-white text-4xl">FAQ</h2>
             <h2 class="text-white text-3xl">@selectedItem</h2>
             <hr />
             @if (QuestionTypeFaqs.ContainsKey(selectedItem))
