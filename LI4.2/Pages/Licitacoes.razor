@@ -6,28 +6,56 @@
 @inject ILeilaoController leilaoController
 @inject AuthenticationStateProvider authStateProvider
 @attribute [Authorize(Roles = "Administrator,User")]
-<h3>Licitações</h3>
+
+<div class="text-white">
+
+    <div class="font-bold dark:bg-gray-800 p-4 px-16 mb-8">
+       <div class="text-3xl gap-4">My Auctions Record</div>
+    </div>
+
+</div>
 
 @if (licitacoes != null && licitacoes.Any())
 {
-    <div class="row">
-        @foreach (var licitacao in licitacoes)
-        {
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">@leilaoController.GetByID(licitacao.IdLeilao).Titulo @leilaoController.GetByID(licitacao.IdLeilao).Marca</h5>
-                        <p class="card-text">Valor da Licitação: @licitacao.Valor€</p>
-                        <p class="card-text">Data e Hora: @licitacao.CreatedAt</p>
+    <div class="row text-white flex justify-center">
+        <div class="grid grid-cols-3 gap-4">
+                @foreach (var licitacao in licitacoes)
+                {
+                    <div class="max-w-md border p-4">
+                        <div class="grid p-4">
+                            <div class="card ">
+                                <div class="card-body">
+                                    <div class="text-l font-bold mb-2">
+                                        @leilaoController.GetByID(licitacao.IdLeilao).Titulo
+                                    </div>
+                                    <div class="mb-2">
+                                        @leilaoController.GetByID(licitacao.IdLeilao).Marca
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <a>Valor da Licitação:</a> <a class="font-bold text-blue-500">@licitacao.Valor€</a>
+                                    </div>
+
+                                    <div class="mb-2 border-t"></div>
+
+                                    <div class="font-bold text-xs">Data e Hora: @licitacao.CreatedAt</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        }
+
+                    
+                }
+        </div>
     </div>
+    <div class="min-h-screen"></div>
 }
 else
 {
-    <p>Sem licitações disponíveis.</p>
+    <div class="text-white min-h-screen flex justify-center">
+        <p class="text-3xl px-8 p-8 underline decoration-double">Sem licitações disponíveis.</p>
+    </div>
+
 }
 
 @code {

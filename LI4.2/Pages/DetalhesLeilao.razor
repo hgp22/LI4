@@ -9,6 +9,12 @@
 @inject AuthenticationStateProvider authStateProvider
 @inject ILicitacaoController licitacaoController
 
+<style>
+    .form-box{
+        background-color: #12232e;
+    }
+</style>
+
 <PageTitle>@leilao.Titulo</PageTitle>
 
 @if (leilao == null)
@@ -48,7 +54,7 @@ else
                 Minimum Bid: €@leilao.BidMinima
             </div>
 
-            <div class="flex items-center justify-center text-center">
+            <div class="grid flex items-center justify-center text-center">
                 <button class="text-3xl mb-5  bg-blue-500 text-blue
                     px-8 py-4 rounded-md hover:bg-blue-600 focus:outline-none
                     focus:border-blue-700 focus:ring focus:ring-blue-200
@@ -57,16 +63,26 @@ else
                 </button>
                 @if (mostrarInputLicitar)
                 {
-                    <AuthorizeView>
-                        <Authorized>
-                            <div class="form-group">
-                                <label for="valorLicitar">Valor da Licitação:</label>
-                                <InputNumber class="form-control" id="valorLicitar" @bind-Value="valorLicitar" />
-                                <button class="btn btn-success" @onclick="Licitar">Confirmar Licitação</button>
-                                @mensagem
-                            </div>
-                        </Authorized>
-                    </AuthorizeView>
+                    <div class="">
+                        <AuthorizeView>
+                            <Authorized>
+                                <div class="form-group text-white">
+                                    <div class="mb-4">
+                                        <label for="block text-sm font-semibold text-gray-600">Bidding Price</label>
+                                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 form-box" id="valorLicitar" @bind-Value="valorLicitar" />
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <button class="mb-5 w-full bg-blue-500 text-blue px-4 py-2
+                                                    rounded-md hover:bg-blue-600 focus:outline-none
+                                                    focus:border-blue-700 focus:ring focus:ring-blue-200
+                                                    login-button" @onclick="Licitar">Confirmar Licitação</button>
+                                    </div>
+                                    <div>@mensagem</div>
+                                </div>
+                            </Authorized>
+                        </AuthorizeView>
+                    </div>
                 }
             </div>
 
@@ -181,7 +197,7 @@ else
     private void Licitar()
     {
         Licitacao licitacao;
-        if((leilao.ValorAtual + leilao.BidMinima) >= valorLicitar)
+        if((leilao.ValorAtual + leilao.BidMinima) < valorLicitar)
         {
             mensagem = "O valor inserido é demasiado baixo!";
         }
