@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Mvc;
 using UpShift.Data;
 using UpShift.Models;
 
@@ -12,6 +13,9 @@ namespace UpShift.Controllers
         {
             _leilaoService = veiculoLeilaoService;
         }
+
+
+
         public bool Create(Leilao leilao)
         {
             try
@@ -79,6 +83,7 @@ namespace UpShift.Controllers
         {
                return _leilaoService.GetVeiculo(id);
         }
+
     }
 }
 

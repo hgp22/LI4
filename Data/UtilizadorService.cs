@@ -55,7 +55,6 @@ namespace UpShift.Data
             {
                 return false;
             }
-            Console.WriteLine("User updated with success");
 
             existingUtilizador.Email = utilizador.Email;
             existingUtilizador.Password = utilizador.Password;
@@ -63,9 +62,7 @@ namespace UpShift.Data
             existingUtilizador.Nome = utilizador.Nome;
             existingUtilizador.DataNascimento = utilizador.DataNascimento;
             existingUtilizador.Role = utilizador.Role;
-            Console.WriteLine($"Método de pagamento: {utilizador.MetodoPagamento}");
             existingUtilizador.MetodoPagamento = utilizador.MetodoPagamento;
-            Console.WriteLine($"Detalhes de entrega: {utilizador.DetalhesEntrega}");
             existingUtilizador.DetalhesEntrega = utilizador.DetalhesEntrega;
 
             return true;

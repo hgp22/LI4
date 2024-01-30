@@ -1,4 +1,5 @@
-﻿@page "/criarleilao"
+﻿@using Microsoft.AspNetCore.Components.Forms
+@page "/criarleilao"
 @inject NavigationManager NavigationManager
 @using Controllers
 @using Models
@@ -100,7 +101,7 @@
 
             <div class="form-group">
                 <label for="finalLeilao">Licitação Mínima:</label>
-                <InputDate class="form-control" @bind-Value="leilao.DataFinal" />
+                <InputDate Type="InputDateType.DateTimeLocal" class="form-control" @bind-Value="leilao.DataFinal" />
                 <ValidationMessage For="@(()=>leilao.DataFinal)" />
             </div>
 
@@ -128,7 +129,6 @@
 
     private void Criar()
     {
-        Console.WriteLine($"Novo veiculo/leilao: Marca do veiculo: {veiculo.IdMarca}, Modelo do veiculo: {veiculo.IdModelo}");
         if (veiculoController.Create(veiculo))
         {
             Console.WriteLine("Returned: {true}");
@@ -136,8 +136,8 @@
             if (leilaoController.Create(leilao))
             {
                 message = "Adicionado com Sucesso!";
-                //veiculo = new();
-                //leilao = new();
+                veiculo = new();
+                leilao = new();
             }
         }
         else
