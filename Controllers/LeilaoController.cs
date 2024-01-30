@@ -12,7 +12,7 @@ namespace UpShift.Controllers
         {
             _leilaoService = veiculoLeilaoService;
         }
-        bool ILeilaoController.Create(Leilao leilao)
+        public bool Create(Leilao leilao)
         {
             try
             {
@@ -25,11 +25,11 @@ namespace UpShift.Controllers
             }
         }
 
-        bool ILeilaoController.Delete(Leilao leilao)
+        public bool Delete(int id)
         {
             try
             {
-                _leilaoService.Delete(leilao.Id); //mudar para a databse conection quando houver
+                _leilaoService.Delete(id); //mudar para a databse conection quando houver
                 return true;
             }
             catch (Exception ex)
@@ -38,7 +38,7 @@ namespace UpShift.Controllers
             }
         }
 
-        List<Leilao> ILeilaoController.GetAll()
+        public List<Leilao> GetAll()
         {
             try
             {
@@ -50,7 +50,7 @@ namespace UpShift.Controllers
             }
         }
 
-        Leilao ILeilaoController.GetByID(int id)
+        public Leilao GetByID(int id)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace UpShift.Controllers
             }
         }
 
-        public Veiculo getVeiculo(int id)
+        public Veiculo GetVeiculo(int id)
         {
                return _leilaoService.GetVeiculo(id);
         }
