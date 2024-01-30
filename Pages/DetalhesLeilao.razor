@@ -143,10 +143,15 @@ else
 
             else
             {
+                Console.WriteLine("1");
                 licitacao = new Licitacao(valorLicitar, username, leilao.Id);
+                Console.WriteLine("2");
                 licitacaoController.Create(licitacao);
+                Console.WriteLine("3");
                 leilao.IdLicitacaoAtual = licitacao.Id;
+                Console.WriteLine("4");
                 leilaoController.Update(leilao);
+                Console.WriteLine("5");
                 mensagem = "";
             }
         }

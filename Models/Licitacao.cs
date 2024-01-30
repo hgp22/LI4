@@ -10,8 +10,6 @@ namespace UpShift.Models
         public decimal Valor { get; set; }
         [ForeignKey("Utilizador")]
         public string UsernameUtilizador { get; set; }
-        [ForeignKey("Veiculo")]
-        public int IdVeiculo { get; set; }
         [ForeignKey("Leilao")]
         public int IdLeilao { get; set; }
 
