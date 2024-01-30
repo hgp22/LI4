@@ -19,6 +19,21 @@ namespace UpShift.Models
         [ForeignKey("Modelo")]
         public int IdModelo { get; set; }
 
+        public Veiculo( int ano, int quilometragem, string corExterior, int numPortas, int cilindrada, int potencia, int lugares, int combustivel, int idMarca, int idModelo)
+        {
+            Ano = ano;
+            Quilometragem = quilometragem;
+            CorExterior = corExterior;
+            NumPortas = numPortas;
+            Cilindrada = cilindrada;
+            Potencia = potencia;
+            Lugares = lugares;
+            TipoMotor = combustivel;
+            IdMarca = idMarca;
+            IdModelo = idModelo;
+        }
+
+
         public Veiculo(int id, int ano, int quilometragem, string corExterior, int numPortas, int cilindrada, int potencia, int lugares, int combustivel, int idMarca, int idModelo)
         {
             Id = id;

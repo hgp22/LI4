@@ -17,12 +17,6 @@
             <DataAnnotationsValidator/>
 
             <div class="form-group">
-                <label for="id">ID:</label>
-                <InputNumber class="form-control" @bind-Value="leilao.Id" />
-                <ValidationMessage For="@(()=>leilao.Id)"/>
-            </div>
-
-            <div class="form-group">
                 <label for="titulo">Título:</label>
                 <InputText class="form-control" @bind-Value="leilao.Titulo"/>
                 <ValidationMessage For="@(()=>leilao.Titulo)"/>
@@ -129,6 +123,7 @@
 
     private void Criar()
     {
+
         if (veiculoController.Create(veiculo))
         {
             Console.WriteLine("Returned: {true}");

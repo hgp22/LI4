@@ -21,6 +21,22 @@ namespace UpShift.Models
         [ForeignKey("Licitacao")]
         public int IdLicitacaoAtual { get; set; }
 
+        public Leilao(string titulo, string fotografias, int precoStart, int bidMinima, DateTime dataFinal, bool leilaoAcabou, string videoLink, string descricao, string usernameAdmin, int idVeiculo, int idLicitacaoAtual)
+        {
+            Titulo = titulo;
+            Fotografias = fotografias;
+            ValorInicial = precoStart;
+            AumentoMinimo = bidMinima;
+            DataFinal = dataFinal;
+            LeilaoAcabou = leilaoAcabou;
+            VideoLink = videoLink;
+            Descricao = descricao;
+            UsernameAdmin = usernameAdmin;
+            IdVeiculo = idVeiculo;
+            IdLicitacaoAtual = idLicitacaoAtual;
+        }
+
+
         public Leilao(int id, string titulo, string fotografias, int precoStart, int bidMinima, DateTime dataFinal, bool leilaoAcabou, string videoLink, string descricao, string usernameAdmin, int idVeiculo, int idLicitacaoAtual)
         {
             Id = id;
