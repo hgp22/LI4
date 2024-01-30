@@ -26,6 +26,10 @@ builder.Services.AddTransient<IModeloController, ModeloController>();
 builder.Services.AddSingleton<TicketService>();
 builder.Services.AddSingleton<LeilaoService>();
 builder.Services.AddSingleton<LicitacaoService>();
+builder.Services.AddSingleton<UtilizadorService>();
+builder.Services.AddSingleton<ModeloService>();
+builder.Services.AddSingleton<VeiculoService>();
+builder.Services.AddSingleton<MarcaService>();
 builder.Services.AddScoped<DataBaseContext>();
 
 var app = builder.Build();
