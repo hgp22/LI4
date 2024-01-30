@@ -7,7 +7,6 @@ namespace UpShift.Controllers
     public class AuthenticationController : ComponentBase
     {
 
-        UserController userController = new UserController();
 
         [Inject]
         protected CustomAuthenticationStateProvider AuthenticationStateProvider { get; set; }
@@ -16,7 +15,7 @@ namespace UpShift.Controllers
         protected NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        protected UserController UserAccountService { get; set; }
+        protected UserController userController { get; set; }
 
         public async Task LoginAsync(string username, string password)
         {

@@ -120,14 +120,37 @@ else
     {
 
         mostrarInputLicitar = true;
-        valorLicitar = licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor + leilao.BidMinima;
-
+        if (licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null)
+        {
+            valorLicitar = leilao.PrecoStart + leilao.BidMinima;
+        }
+        else
+        {
+            valorLicitar = licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor + leilao.BidMinima;
+        }
     }
 
     private void Licitar()
     {
         Licitacao licitacao;
-        if ((licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor + leilao.BidMinima) >= valorLicitar)
+        if (licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null)
+        {
+            if (leilao.PrecoStart + leilao.BidMinima > valorLicitar)
+            {
+                Console.WriteLine("lmao");
+                mensagem = "O valor inserido é demasiado baixo!";
+            }
+
+            else
+            {
+                licitacao = new Licitacao(valorLicitar, username, leilao.Id);
+                licitacaoController.Create(licitacao);
+                leilao.IdLicitacaoAtual = licitacao.Id;
+                leilaoController.Update(leilao);
+                mensagem = "";
+            }
+        }
+        else if ((licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor + leilao.BidMinima) > valorLicitar)
         {
             mensagem = "O valor inserido é demasiado baixo!";
         }

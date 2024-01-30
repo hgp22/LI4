@@ -1,7 +1,7 @@
 ﻿@page "/perfil"
 @using Controllers
 @using Authentication
-@using UpShift.Models
+@using Models
 @inject IUserController userController
 @inject AuthenticationStateProvider authStateProvider
 @attribute [Authorize(Roles = "Administrator,User")]

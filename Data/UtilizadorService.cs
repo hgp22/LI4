@@ -10,6 +10,7 @@ namespace UpShift.Data
         {
             _utilizadores = new List<Utilizador>()
             {
+                new Utilizador("admin", "admin@admin", "admin", 1, "admin", new DateTime(2020, 2, 20), "Administrator"),
                 new Utilizador("joao123", "joao123@gmail.com", "password123", 912345678, "João Papão", new DateTime(1999, 12, 31), "User"),
                 new Utilizador("maria123", "maria123@gmail.com", "password123", 912345678, "Maria Papoa", new DateTime(2001, 09, 12), "User"),
                 new Utilizador("carlos123", "carlos123@gmail.com", "password123", 912345678, "Carlos Papão", new DateTime(1998, 01, 01), "User"),
@@ -54,14 +55,17 @@ namespace UpShift.Data
             {
                 return false;
             }
+            Console.WriteLine("User updated with success");
+
             existingUtilizador.Email = utilizador.Email;
             existingUtilizador.Password = utilizador.Password;
-            existingUtilizador.Password= utilizador.Password;
             existingUtilizador.Nif = utilizador.Nif;
             existingUtilizador.Nome = utilizador.Nome;
             existingUtilizador.DataNascimento = utilizador.DataNascimento;
             existingUtilizador.Role = utilizador.Role;
+            Console.WriteLine($"Método de pagamento: {utilizador.MetodoPagamento}");
             existingUtilizador.MetodoPagamento = utilizador.MetodoPagamento;
+            Console.WriteLine($"Detalhes de entrega: {utilizador.DetalhesEntrega}");
             existingUtilizador.DetalhesEntrega = utilizador.DetalhesEntrega;
 
             return true;

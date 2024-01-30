@@ -128,14 +128,16 @@
 
     private void Criar()
     {
+        Console.WriteLine($"Novo veiculo/leilao: Marca do veiculo: {veiculo.IdMarca}, Modelo do veiculo: {veiculo.IdModelo}");
         if (veiculoController.Create(veiculo))
         {
+            Console.WriteLine("Returned: {true}");
             leilao.IdVeiculo = veiculo.Id;
             if (leilaoController.Create(leilao))
             {
                 message = "Adicionado com Sucesso!";
-                veiculo = new();
-                leilao = new();
+                //veiculo = new();
+                //leilao = new();
             }
         }
         else

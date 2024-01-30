@@ -6,9 +6,9 @@ namespace UpShift.Controllers
     public class VeiculoController : IVeiculoController
     {
         private VeiculoService _veiculoService;
-        public VeiculoController()
+        public VeiculoController(VeiculoService veiculoService)
         {
-            _veiculoService = new VeiculoService();
+            _veiculoService = veiculoService;
         }
         public bool Create(Veiculo veiculo)
         {

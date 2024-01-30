@@ -5,9 +5,9 @@ namespace UpShift.Controllers
     public class UserController : IUserController
     {
         private UtilizadorService _utilizadorService;
-        public UserController() 
+        public UserController(UtilizadorService utilizadorService) 
         {
-            _utilizadorService = new UtilizadorService();
+            _utilizadorService = utilizadorService;
         }
         public bool Create(Utilizador user)
         {
