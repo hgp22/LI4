@@ -13,7 +13,8 @@ public class DataBaseContext : DbContext
 
 	public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
 
-	protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.Entity<Utilizador>().HasKey(u => u.Username);
 		modelBuilder.Entity<Licitacao>()
