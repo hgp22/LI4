@@ -3,6 +3,7 @@
 @using Authentication
 @using Models
 @using Data
+@using System.Text.Json;
 @inject ILeilaoController leilaoController
 @inject IUserController userController
 @inject UtilizadorService userAccountService
@@ -28,17 +29,32 @@
 }
 else
 {
-    <div class="text-white text-3xl font-bold p-4 px-16">
-        @leilao.Titulo
+    <div class="text-white flex items-center justify-center flex-col">
+        @if (veiculo != null && leilao.Fotografias > 0)
+        {
+            <div class="mb-8">
+                <div class="mt-4 text-center">
+                    <img id="selectedImage" src="@selectedImage" alt="Selected Image" class="selected-image object-cover rounded mx-auto" style="width: 1000px; height: 500px;">
+                </div>
+                <div class="flex items-center mt-4 justify-center">
+                    <div class="text-center mt-4 flex flex-wrap">
+                        @foreach (var imagePath in GetImagesPaths(leilao.Fotografias))
+                        {
+                            <img src="@imagePath" alt="Vehicle Image" class="h-16 w-16 object-cover rounded mr-2 mb-2 cursor-pointer" style="width: 100px; height: 100px;" @onclick="() => SelectImage(imagePath)" />
+                        }
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 
-    <div class="text-white">
-        <img src="@GetFirstImage(leilao)">
-    </div>
 
-    <div class="grid grid-cols-2 text-white flex h-screen items-center justify-center">
 
-        <div class="mx-auto dark:bg-gray-800 px-4 p-4">
+
+
+    <div class="flex justify-center items-center space-x-4">
+        <!-- Caixa com Bid -->
+        <div class="w-96 h-full bg-gray-800 p-4 rounded-lg">
             <div class="flex items-center justify-center text-center">
             </div>
 
@@ -50,8 +66,6 @@ else
                 <span class="countdown" data-leilao-id="@leilao.Id" data-end-time="@leilao.DataFinal.ToString("o")"></span>
             </div>
 
-
-
             <div class="text-xs mb-8">
                 Minimum Bid: €@leilao.AumentoMinimo
             </div>
@@ -59,17 +73,16 @@ else
             <div class="grid flex items-center justify-center text-center">
                 @if (!leilao.LeilaoAcabou)
                 {
-                    <button class="text-3xl mb-5  bg-blue-500 text-blue
-                        px-8 py-4 rounded-md hover:bg-blue-600 focus:outline-none
-                        focus:border-blue-700 focus:ring focus:ring-blue-200
-                        login-button mb-8" @onclick="UserPodeLicitar">
+                    <button class="text-3xl mb-5 bg-blue-500 text-blue
+                    px-8 py-4 rounded-md hover:bg-blue-600 focus:outline-none
+                    focus:border-blue-700 focus:ring focus:ring-blue-200
+                    login-button mb-8" @onclick="UserPodeLicitar">
                         BID
                     </button>
                 }
                 else
                 {
                     <label for="block text-sm font-semibold text-gray-600">LEILÃO TERMINADO!</label>
-
                 }
                 @if (mostrarInputLicitar)
                 {
@@ -84,9 +97,9 @@ else
 
                                     <div class="mb-2">
                                         <button class="mb-5 w-full bg-blue-500 text-blue px-4 py-2
-                                                    rounded-md hover:bg-blue-600 focus:outline-none
-                                                    focus:border-blue-700 focus:ring focus:ring-blue-200
-                                                    login-button" @onclick="Licitar">
+                                                rounded-md hover:bg-blue-600 focus:outline-none
+                                                focus:border-blue-700 focus:ring focus:ring-blue-200
+                                                login-button" @onclick="Licitar">
                                             Confirmar Licitação
                                         </button>
                                     </div>
@@ -97,18 +110,16 @@ else
                     </div>
                 }
             </div>
-
         </div>
 
-        <div class="mx-auto dark:bg-gray-800 px-4 p-4">
-            <div class="grid grid-cols-2 gap-2">
-
-
-                <div class="text-xl font-bold">Car Details:</div>
+        <!-- Caixa com Detalhes Veículo -->
+        <div class="w-96 h-full bg-gray-800 p-4 rounded-lg">
+            <div class="grid grid-cols-2 gap-2 h-full">
+                <div class="text-xl font-bold mb-8">Car Details:</div>
                 <div></div>
 
                 <div>Model:</div>
-                <div>@marcaController.GetById(veiculo.IdMarca)</div>
+                <div>@marcaController.GetById(veiculo.IdMarca).Nome</div>
 
                 <div>Year:</div>
                 <div>@veiculo.Ano</div>
@@ -137,11 +148,15 @@ else
             </div>
         </div>
 
+        <!-- Caixa com Descrição do Leilão -->
+        <div class="w-96 h-full bg-gray-800 p-4 rounded-lg text-center">
+            <div class="text-xl font-bold mb-4">Auction Description:</div>
+            <div class="text-white">@leilao.Descricao</div>
+        </div>
     </div>
 
-    <div class="text-white text-center w-screen h-screen">
-        @leilao.Descricao
-    </div>
+
+
 }
 
 
@@ -166,7 +181,31 @@ else
     setInterval(updateCountdown, 1000);
 </script>
 
+
+<script>
+    var images = @ImagesJson;
+
+    function InitializeCarousel() {
+        var imageIndex = 0;
+        setInterval(function () {
+            SelectImage(images[imageIndex]);
+            imageIndex = (imageIndex + 1) % images.length;
+        }, 3000);
+
+        SelectImage(images[0]);
+    }
+
+    window.onload = function () {
+        InitializeCarousel();
+    }
+</script>
+
+
+
+
 @code {
+    private string selectedImage;
+    private string ImagesJson => GetImagesJson();
     [Parameter]
     public int? LeilaoId { get; set; }
     private Leilao leilao;
@@ -176,6 +215,11 @@ else
     private CustomAuthenticationStateProvider customAuthStateProvider { get; set; }
     private bool mostrarInputLicitar = false;
     private decimal valorLicitar;
+
+    private void SelectImage(string imagePath)
+    {
+        selectedImage = imagePath;
+    }
 
     private async Task InitializeAsync()
     {
@@ -189,6 +233,7 @@ else
         {
             leilao = leilaoController.GetByID(LeilaoId.Value);
             veiculo = leilaoController.GetVeiculo(LeilaoId.Value);
+            SelectImage(GetFirstImage(leilao));
         }
         else
         {
@@ -235,6 +280,29 @@ else
         }
     }
 
+    private string GetFirstImage(Leilao leilao)
+    {
+        string directoryPath = $"wwwroot/Images/{leilao.Id}";
+        try
+        {
+            if (Directory.Exists(directoryPath))
+            {
+                string[] imageFiles = Directory.GetFiles(directoryPath, "0.*");
+                if (imageFiles.Any())
+                {
+                    string firstImage = imageFiles.First();
+                    string relativePath = Path.GetRelativePath("wwwroot", firstImage);
+                    return "/" + relativePath.Replace(Path.DirectorySeparatorChar, '/');
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error accessing images: {ex.Message}");
+        }
+        return "";
+    }
+
     private void Licitar()
     {
         Licitacao licitacao;
@@ -270,27 +338,46 @@ else
             mensagem = "";
         }
     }
-    private string GetFirstImage(Leilao leilao)
+
+    private List<string> GetImagesPaths(int totalImages)
     {
+        List<string> imagePaths = new List<string>();
         string directoryPath = $"wwwroot/Images/{leilao.Id}";
         try
         {
             if (Directory.Exists(directoryPath))
             {
-                string[] imageFiles = Directory.GetFiles(directoryPath, "0.*");
-                if (imageFiles.Any())
+                for (int i = 0; i < totalImages; i++)
                 {
-                    string firstImage = imageFiles.First();
-                    string relativePath = Path.GetRelativePath("wwwroot", firstImage);
-                    return "/" + relativePath.Replace(Path.DirectorySeparatorChar, '/');
+                    string[] paths = Directory.GetFiles(directoryPath, $"{i}.*");
+                    if (paths.Length > 0)
+                    {
+                        string relativePath = Path.GetRelativePath("wwwroot", paths[0]);
+                        imagePaths.Add("/" + relativePath.Replace(Path.DirectorySeparatorChar, '/'));
+                    }
                 }
             }
         }
         catch (Exception ex)
         {
-            // Handle or log the exception
             Console.WriteLine($"Error accessing images: {ex.Message}");
         }
-        return "";
+        return imagePaths;
+    }
+
+    private string GetImagePath(string imageName)
+    {
+        string directoryPath = $"wwwroot/Images/{leilao.Id}";
+        string relativePath = Path.Combine(directoryPath, imageName);
+        return "/" + relativePath.Replace(Path.DirectorySeparatorChar, '/');
+    }
+
+
+
+    private string GetImagesJson()
+    {
+        var images = GetImagesPaths(leilao.Fotografias);
+        var json = JsonSerializer.Serialize(images);
+        return json;
     }
 }

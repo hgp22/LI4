@@ -211,7 +211,7 @@
         {
             leilao.IdVeiculo = veiculo.Id;
             leilao.UsernameAdmin = username;
-            leilao.Fotografias = "";
+            leilao.Fotografias = 0;
             leilao.VideoLink = "";
             leilao.IdLicitacaoAtual = -1;
             leilao.Descricao = "";
@@ -258,7 +258,7 @@
                     await file.OpenReadStream().CopyToAsync(fileStream);
                 }
 
-                leilao.Fotografias += $"{fileName};";
+                leilao.Fotografias++;
                 leilaoController.Update(leilao);
 
                 imageCounter++;
