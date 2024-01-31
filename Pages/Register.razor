@@ -30,6 +30,20 @@
             <input id="email" @bind="model.Email" type="email" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 username-input" placeholder="Email">
         </div>
 
+        <div class="mb-5">
+            <label for="nif" class="block text-sm font-semibold text-gray-600"></label>
+            <input id="nif" @bind="model.Nif" type="nif" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 username-input" placeholder="NIF">
+        </div>
+
+        <div class="mb-5">
+            <label for="name" class="block text-sm font-semibold text-gray-600"></label>
+            <input id="name" @bind="model.Name" type="name" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 username-input" placeholder="Name">
+        </div>
+
+        <div class="mb-5">
+            <label for="dateofbirth" class="block text-sm font-semibold text-gray-600"></label>
+            <input id="dn" @bind="model.Dn" type="dn" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 username-input" placeholder="Date of Birth">
+        </div>
 
         <button @onclick="RegisterAndLogin" class="mb-5 w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200">
             Register
