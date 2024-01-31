@@ -46,8 +46,8 @@ else
                 <a>current bid: €@(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.ValorInicial : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)</a>
             </div>
 
-            <div class="text-3xl capitalize mb-8">
-                Until: @leilao.DataFinal
+            <div class="font-bold text-xs mb-2">
+                <span class="countdown" data-leilao-id="@leilao.Id" data-end-time="@leilao.DataFinal.ToString("o")"></span>
             </div>
 
 
@@ -143,6 +143,28 @@ else
         @leilao.Descricao
     </div>
 }
+
+
+<script>
+    function updateCountdown() {
+        var elements = document.querySelectorAll('.countdown');
+
+        elements.forEach(function (element) {
+            var leilaoId = element.getAttribute('data-leilao-id');
+            var endTime = new Date(element.getAttribute('data-end-time')).getTime();
+            var timeRemaining = Math.max(0, (endTime - Date.now()) / 1000);
+
+            var days = Math.floor(timeRemaining / 86400);
+            var hours = Math.floor((timeRemaining % 86400) / 3600);
+            var minutes = Math.floor((timeRemaining % 3600) / 60);
+            var seconds = Math.floor(timeRemaining % 60);
+
+            element.innerHTML = 'Time Left: ' + days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's ';
+        });
+    }
+
+    setInterval(updateCountdown, 1000);
+</script>
 
 @code {
     [Parameter]
