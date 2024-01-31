@@ -57,12 +57,3 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
 app.Run();
-
-public class HangfireAuthorizationFilter : IDashboardAuthorizationFilter
-{
-    public bool Authorize(DashboardContext context)
-    {
-        // Implemente sua lógica de autorização aqui, por exemplo, verifique se o usuário está autenticado e tem permissão
-        return true;
-    }
-}

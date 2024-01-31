@@ -57,12 +57,20 @@ else
             </div>
 
             <div class="grid flex items-center justify-center text-center">
-                <button class="text-3xl mb-5  bg-blue-500 text-blue
-                    px-8 py-4 rounded-md hover:bg-blue-600 focus:outline-none
-                    focus:border-blue-700 focus:ring focus:ring-blue-200
-                    login-button mb-8" @onclick="UserPodeLicitar">
-                    BID
-                </button>
+                @if (!leilao.LeilaoAcabou)
+                {
+                    <button class="text-3xl mb-5  bg-blue-500 text-blue
+                        px-8 py-4 rounded-md hover:bg-blue-600 focus:outline-none
+                        focus:border-blue-700 focus:ring focus:ring-blue-200
+                        login-button mb-8" @onclick="UserPodeLicitar">
+                        BID
+                    </button>
+                }
+                else
+                {
+                    <label for="block text-sm font-semibold text-gray-600">LEILÃO TERMINADO!</label>
+
+                }
                 @if (mostrarInputLicitar)
                 {
                     <div class="">

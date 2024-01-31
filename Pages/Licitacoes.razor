@@ -9,6 +9,8 @@
 @inject IModeloController modeloController
 @inject ILicitacaoController licitacaoController
 @inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager NavigationManager
+
 @attribute [Authorize(Roles = "Administrator,User")]
 
 <div class="text-white">
@@ -23,15 +25,51 @@
 {
     <div class="row text-white flex justify-center">
         <div class="grid grid-cols-3 gap-4">
-            @foreach (var licitacao in licitacoes)
+            @foreach (var licitacao in licitacoes.OrderByDescending(l => l.Data))
             {
                 <div class="max-w-md border p-4">
                     <div class="grid p-4">
                         <div class="card ">
                             <div class="card-body">
-                                <div class="text-l font-bold mb-2">
+                                <button @onclick="(() => VerLeilao(leilaoController.GetByID(licitacao.IdLeilao).Id))">
                                     @leilaoController.GetByID(licitacao.IdLeilao).Titulo
-                                </div>
+                                </button>
+                                @if (leilaoController.GetByID(licitacao.IdLeilao).IdLicitacaoAtual == licitacao.Id && leilaoController.GetByID(licitacao.IdLeilao).LeilaoAcabou)
+                                {
+                                    <div class="font-bold text-red-500 text-xs mb-2">
+                                        AUCTION ENDED!
+                                        WINNER!
+                                    </div>
+                                }
+                                else if (leilaoController.GetByID(licitacao.IdLeilao).IdLicitacaoAtual == licitacao.Id && !leilaoController.GetByID(licitacao.IdLeilao).LeilaoAcabou)
+                                {
+                                    <div class="font-bold text-blue-500 text-xs mb-2">
+                                        BID IS WINNING!
+                                    </div>
+                                    <div class="font-bold text-blue-500 text-xs mb-2">
+                                        <button @onclick="(() => VerLeilao(leilaoController.GetByID(licitacao.IdLeilao).Id))">
+                                            <span class="countdown" data-leilao-id="@leilaoController.GetByID(licitacao.IdLeilao).Id" data-end-time="@leilaoController.GetByID(licitacao.IdLeilao).DataFinal.ToString("o")"></span>
+                                        </button>
+                                    </div>
+                                }
+                                else if (!leilaoController.GetByID(licitacao.IdLeilao).LeilaoAcabou)
+                                {
+                                    <div class="font-bold text-red-500 text-xs mb-2">
+                                        YOUR BID HAS BEEN COVERED!
+                                    </div>
+                                    <div class="font-bold text-blue-500 text-xs mb-2">
+
+                                        <button @onclick="(() => VerLeilao(leilaoController.GetByID(licitacao.IdLeilao).Id))">
+                                            <span class="countdown" data-leilao-id="@leilaoController.GetByID(licitacao.IdLeilao).Id" data-end-time="@leilaoController.GetByID(licitacao.IdLeilao).DataFinal.ToString("o")"></span>
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="font-bold text-red-500 text-xs mb-2">
+                                        AUCTION ENDED!
+                                    </div>
+                                }
                                 <div class="mb-2">
                                     @marcaController.GetById(veiculoController.GetById(leilaoController.GetByID(licitacao.IdLeilao).IdVeiculo).IdMarca).Nome
                                 </div>
@@ -62,6 +100,27 @@ else
 
 }
 
+<script>
+    function updateCountdown() {
+        var elements = document.querySelectorAll('.countdown');
+
+        elements.forEach(function (element) {
+            var leilaoId = element.getAttribute('data-leilao-id');
+            var endTime = new Date(element.getAttribute('data-end-time')).getTime();
+            var timeRemaining = Math.max(0, (endTime - Date.now()) / 1000);
+
+            var days = Math.floor(timeRemaining / 86400);
+            var hours = Math.floor((timeRemaining % 86400) / 3600);
+            var minutes = Math.floor((timeRemaining % 3600) / 60);
+            var seconds = Math.floor(timeRemaining % 60);
+
+            element.innerHTML = 'Time Left: ' + days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's ';
+        });
+    }
+
+    setInterval(updateCountdown, 1000);
+</script>
+
 @code {
     private List<Licitacao> licitacoes;
 
@@ -77,5 +136,10 @@ else
     protected override async Task OnInitializedAsync()
     {
         await InitializeAsync();
+    }
+
+    private void VerLeilao(int leilaoId)
+    {
+        NavigationManager.NavigateTo($"/detalhesleilao/{leilaoId}");
     }
 }

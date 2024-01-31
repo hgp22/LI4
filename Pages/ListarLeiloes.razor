@@ -1,11 +1,13 @@
 ﻿@page "/listarleiloes"
 @inject NavigationManager NavigationManager
 @using Controllers
+@using Models
 @inject ILeilaoController leilaoController
 @inject IMarcaController marcaController
 @inject IModeloController modeloController
 @inject IVeiculoController veiculoController
 @inject ILicitacaoController licitacaoController
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Auctions</PageTitle>
 
@@ -20,51 +22,54 @@
             <ul class="list-group">
                 @foreach (var leilao in leilaoController.GetAll())
                 {
-                    <li class="list-group-item">
-                        <div class="border border-blue-500 mb-8">
-                            <div class="grid grid-cols-2 flex p-4">
+                    if (!leilao.LeilaoAcabou)
+                    {
+                        <li class="list-group-item">
+                            <div class="border border-blue-500 mb-8">
+                                <div class="grid grid-cols-2 flex p-4">
 
-                                <div class="mx-auto">
-                                    <a>Imagem</a>
-                                </div>
+                                    <div class="mx-auto">
+                                        <a>Imagem</a>
+                                    </div>
 
-                                <div class="mx-auto">
+                                    <div class="mx-auto">
 
-                                    <div class="grid mb-4">
+                                        <div class="grid mb-4">
 
-                                        <div class="text-l font-bold mb-2">
-                                            <button @onclick="(() => VerLeilao(leilao.Id))">
-                                                @leilao.Titulo
-                                            </button>
+                                            <div class="text-l font-bold mb-2">
+                                                <button @onclick="(() => VerLeilao(leilao.Id))">
+                                                    @leilao.Titulo
+                                                </button>
+                                            </div>
+
+                                            <div class="text-blue-500 text-l mb-2">
+                                                <button @onclick="(() => VerLeilao(leilao.Id))">
+                                                    €@(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.ValorInicial : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)
+                                                </button>
+                                            </div>
+
+                                            <div>
+                                                <a class="text-xs">
+                                                    @marcaController.GetById(veiculoController.GetById(leilao.IdVeiculo).IdMarca).Nome
+                                                    @modeloController.GetById(veiculoController.GetById(leilao.IdVeiculo).IdModelo).Nome
+                                                    (@veiculoController.GetById(leilao.IdVeiculo).Ano)
+                                                </a>
+                                            </div>
                                         </div>
 
-                                        <div class="text-blue-500 text-l mb-2">
-                                            <button @onclick="(() => VerLeilao(leilao.Id))">
-                                                €@(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.ValorInicial : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)
-                                            </button>
-                                        </div>
+                                        <div class="mb-5 border-t"></div>
 
-                                        <div>
-                                            <a class="text-xs">
-                                                @marcaController.GetById(veiculoController.GetById(leilao.IdVeiculo).IdMarca).Nome
-                                                @modeloController.GetById(veiculoController.GetById(leilao.IdVeiculo).IdModelo).Nome
-                                                (@veiculoController.GetById(leilao.IdVeiculo).Ano)
-                                            </a>
+                                        <div class="font-bold text-xs mb-2">
+                                            <button @onclick="(() => VerLeilao(leilao.Id))">
+                                                <span class="countdown" data-leilao-id="@leilao.Id" data-end-time="@leilao.DataFinal.ToString("o")"></span>
+                                            </button>
                                         </div>
                                     </div>
 
-                                    <div class="mb-5 border-t"></div>
-
-                                    <div class="font-bold text-xs mb-2">
-                                        <button @onclick="(() => VerLeilao(leilao.Id))">
-                                            Time Left: (@leilao.DataFinal)
-                                        </button>
-                                    </div>
                                 </div>
-
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                    }
                 }
             </ul>
         </div>
@@ -72,6 +77,28 @@
 
 </div>
 
+
+
+<script>
+    function updateCountdown() {
+        var elements = document.querySelectorAll('.countdown');
+
+        elements.forEach(function (element) {
+            var leilaoId = element.getAttribute('data-leilao-id');
+            var endTime = new Date(element.getAttribute('data-end-time')).getTime();
+            var timeRemaining = Math.max(0, (endTime - Date.now()) / 1000);
+
+            var days = Math.floor(timeRemaining / 86400);
+            var hours = Math.floor((timeRemaining % 86400) / 3600);
+            var minutes = Math.floor((timeRemaining % 3600) / 60);
+            var seconds = Math.floor(timeRemaining % 60);
+
+            element.innerHTML = 'Time Left: ' + days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's ';
+        });
+    }
+
+    setInterval(updateCountdown, 1000);
+</script>
 
 @code {
     private void VerLeilao(int leilaoId)
