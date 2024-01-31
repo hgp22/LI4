@@ -3,62 +3,36 @@
 
 namespace UpShift.Data
 {
-    public class LeilaoService : IHostedService, IDisposable
+    public class LeilaoService
     {
-
         private readonly IServiceProvider _serviceProvider;
         private readonly TimeSpan _interval = TimeSpan.FromSeconds(5);
         private Timer _timer;
 
-        private readonly DataBaseContext _ctx;  
+        private readonly DataBaseContext _ctx;
         private VeiculoService _veiculoService;
 
         public LeilaoService(IServiceProvider serviceProvider, VeiculoService veiculoService, DataBaseContext ctx)
         {
             Console.WriteLine("LeilaoService foi criado.");
-            
+
             _ctx = ctx;
             _veiculoService = veiculoService;
-            _serviceProvider = serviceProvider;
+            _timer = new Timer(ConcluirLeiloes, null, TimeSpan.Zero, _interval);
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        private void ConcluirLeiloes(object state)
         {
-            _timer = new Timer(VerificarLeiloes, null, TimeSpan.Zero, _interval);
-            return Task.CompletedTask;
-        }
+            Console.WriteLine("Verificando se os leilões acabaram...");
 
-        private void VerificarLeiloes(object state)
-        {
-            Console.WriteLine("Auction review method called");
-            using (var scope = _serviceProvider.CreateScope())
-            {
-                var leilaoService = scope.ServiceProvider.GetRequiredService<LeilaoService>();
-                leilaoService.ConcluirLeiloes();
-            }
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _timer?.Change(Timeout.Infinite, 0);
-            return Task.CompletedTask;
-        }
-
-        public void Dispose()
-        {
-            _timer?.Dispose();
-        }
-
-        public void ConcluirLeiloes()
-        {
             List<Leilao> leiloes = _ctx.Leiloes.ToList();
             foreach (Leilao l in leiloes)
             {
-                if (DateTime.Now.CompareTo(l.DataFinal) >= 0)
+                if (DateTime.Now.CompareTo(l.DataFinal) >= 0 && !l.LeilaoAcabou)
                 {
-                    Console.WriteLine("Leilao Acabou!");
+                    Console.WriteLine($"Leilao {l.Id} Acabou!");
                     l.LeilaoAcabou = true;
-                    Update(l);
+                    Update(l, _ctx);
                 }
             }
         }
@@ -89,6 +63,29 @@ namespace UpShift.Data
             }
 
         }
+
+        public void Update(Leilao leilao, DataBaseContext context)
+        {
+            var existingLeilao = context.Leiloes.FirstOrDefault(v => v.Id == leilao.Id);
+            if (existingLeilao == null)
+            {
+                return;
+            }
+            existingLeilao.Titulo = leilao.Titulo;
+            existingLeilao.Fotografias = leilao.Fotografias;
+            existingLeilao.ValorInicial = leilao.ValorInicial;
+            existingLeilao.AumentoMinimo = leilao.AumentoMinimo;
+            existingLeilao.DataFinal = leilao.DataFinal;
+            existingLeilao.LeilaoAcabou = leilao.LeilaoAcabou;
+            existingLeilao.VideoLink = leilao.VideoLink;
+            existingLeilao.Descricao = leilao.Descricao;
+            existingLeilao.UsernameAdmin = leilao.UsernameAdmin;
+            existingLeilao.IdVeiculo = leilao.IdVeiculo;
+            existingLeilao.IdLicitacaoAtual = leilao.IdLicitacaoAtual;
+
+            context.SaveChanges();
+        }
+
 
         public void Update(Leilao leilao)
         {
