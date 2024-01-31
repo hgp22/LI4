@@ -2,66 +2,44 @@
 
 @using System.Collections.Generic
 
+<div class="text-white">
+    <div class="text-3xl font-bold dark:bg-gray-800 p-4 px-16">
+        FAQ
+    </div>
+</div>
 
-<style>
-    .faq-question {
-        box-sizing: border-box; 
-        cursor: pointer;
-        padding: 20px;
-        background-color: #071620;
-        color: #ffffff;
-        margin-bottom: 5px; 
-    }
+<div class="flex justify-center items-center min-h-screen">
+    <div class="flex w-3/4">
+        <!-- Tipos de perguntas -->
+        <div class="w-1/4 p-6 bg-gray-800 border-gray-300">
+            <ul class=" pl-4 text-white">
+                @foreach (var type in QuestionTypes)
+                {
+                    <li class="mb-4"><a class="@(type == selectedItem ? "underline text-blue-900" : "")" href="" @onclick:preventDefault="true" @onclick="() => SelectItem(type)">@type</a></li>
+                }
+            </ul>
+        </div>
 
-    .faq-question:hover {
-        background-color: #12232e;
-    }
-
-    .faq-answer {
-        box-sizing: border-box; 
-        padding: 20px;
-        margin-bottom: 20px;
-        background-color: #071620;
-        border-top: 2px solid #ffffff;
-        color: #ffffff; 
-    }
-    .text-left {
-        color: #ffffff; 
-    }
-    .faq-question span {
-        display: inline-block;
-        width: 0;
-        height: 0;
-        margin-left: 5px;
-        vertical-align: middle;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid #ffffff; /* seta para baixo */
-    }
-
-    .faq-question.open span {
-        border-top: 0;
-        border-bottom: 5px solid #ffffff; /* seta para cima */
-    }
-</style>
-
-<div class="row">
-    <!-- FAQ -->
-    <div class="col-md-12">
-        <h2 class="text-left">FAQ</h2>
-        <hr />
-        @foreach (var faq in Faqs.OrderBy(f => f.Id))
-        {
-            <div class="faq-item">
-                <div class="faq-question @((faq.IsOpen) ? "open" : "")" @onclick="() => ToggleFaq(faq)">
-                    @faq.Question
-                    <span></span>
-                </div>
-                <div class="faq-answer" style="display: @(faq.IsOpen ? "block" : "none")">
-                    @faq.Answer
-                </div>
-            </div>
-        }
+        <!-- FAQ -->
+        <div class="w-3/4 pl-10">
+            <h2 class="text-white text-3xl">@selectedItem</h2>
+            <hr />
+            @if (QuestionTypeFaqs.ContainsKey(selectedItem))
+            {
+                foreach (var faq in QuestionTypeFaqs[selectedItem].OrderBy(f => f.Id))
+                {
+                    <div class="my-4">
+                        <div class="@((faq.IsOpen) ? "faq-open" : "faq-closed") cursor-pointer p-5 bg-blue-900 text-white mb-1" @onclick="() => ToggleFaq(faq)">
+                            @faq.Question
+                            <span></span>
+                        </div>
+                        <div class="p-5 mb-5 bg-gray-800 border-t border-white text-white" style="display: @(faq.IsOpen ? "block" : "none")">
+                            @faq.Answer
+                        </div>
+                    </div>
+                }
+            }
+        </div>
     </div>
 </div>
 
@@ -71,14 +49,55 @@
         public int Id { get; set; }
         public string Question { get; set; }
         public string Answer { get; set; }
-        public bool IsOpen { get; set; } // Adicione esta linha
+        public bool IsOpen { get; set; }
     }
 
-    List<faq> Faqs = new List<faq>
+    Dictionary<string, List<faq>> QuestionTypeFaqs = new Dictionary<string, List<faq>>
     {
-        new faq { Id = 1, Question = "What is your first question?", Answer = "This is the answer to the first question." },
-        new faq { Id = 2, Question = "What is your second question?", Answer = "This is the answer to the second question." },
+        {
+            "Auctions", new List<faq>
+            {
+                new faq { Id = 1, Question = "What is your first auction question?", Answer = "This is the answer to the first auction question." },
+                new faq { Id = 2, Question = "What is your second auction question?", Answer = "This is the answer to the second auction question." },
+            }
+        },
+        {
+            "Buy", new List<faq>
+            {
+                new faq { Id = 3, Question = "What is your first buy question?", Answer = "This is the answer to the first buy question." },
+                new faq { Id = 4, Question = "What is your second buy question?", Answer = "This is the answer to the second buy question." },
+            }
+        },
+        {
+            "Sell", new List<faq>
+            {
+                new faq { Id = 5, Question = "What is your first sell question?", Answer = "This is the answer to the first sell question." },
+                new faq { Id = 6, Question = "What is your second sell question?", Answer = "This is the answer to the second sell question." },
+            }
+        },
+        {
+            "Privacy", new List<faq>
+            {
+                new faq { Id = 7, Question = "What is your first privacy question?", Answer = "This is the answer to the first privacy question." },
+                new faq { Id = 8, Question = "What is your second privacy question?", Answer = "This is the answer to the second privacy question." },
+            }
+        }
     };
+
+    string selectedItem = "Auctions";
+
+    List<string> QuestionTypes = new List<string>
+    {
+        "Auctions",
+        "Buy",
+        "Sell",
+        "Privacy",
+    };
+
+    void SelectItem(string item)
+    {
+        selectedItem = item;
+    }
 
     void ToggleFaq(faq faq)
     {

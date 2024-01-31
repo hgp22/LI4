@@ -7,30 +7,48 @@
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
 
-<div class="row">
-    <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
-        <div class="mb-3 text-center">
-            <h3>REGISTER</h3>
-        </div>
-        <div class="mb-5 text-center">
-            <label for="username" class="block text-sm font-semibold text-gray-600 text-center"></label>
-            <input @bind="model.UserName" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Username">
+<style>
+    .username-input {
+        background-color: #12232e;
+    }
+</style>
+
+<div class="flex grid grid-cols-2 text-white h-screen items-center">
+    <div class="mx-auto">
+        <div class="mb-5">
+            <label for="username" class="block text-sm font-semibold text-gray-600"></label>
+            <input @bind="model.UserName" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 username-input" placeholder="Username">
         </div>
 
-        <div class="mb-5 text-center">
-            <label for="password" class="block text-sm font-semibold text-gray-600 text-center"></label>
-            <input @bind="model.Password" type="password" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Password">
+        <div class="mb-5">
+            <label for="password" class="block text-sm font-semibold text-gray-600"></label>
+            <input @bind="model.Password" type="password" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 username-input" placeholder="Password">
         </div>
 
-        <div class="mb-5 text-center">
-            <label for="email" class="block text-sm font-semibold text-gray-600 text-center"></label>
-            <input @bind="model.Email" type="email" class="text-black w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" placeholder="Email">
+        <div class="mb-5">
+            <label for="email" class="block text-sm font-semibold text-gray-600"></label>
+            <input id="email" @bind="model.Email" type="email" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 username-input" placeholder="Email">
         </div>
 
-        <div class="mb-5 d-grid gap-2 text-center">
-            <button @onclick="RegisterAndLogin" class="mb-5 w-full bg-green-500 text-green px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200">
-                Register
-            </button>
+
+        <button @onclick="RegisterAndLogin" class="mb-5 w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200">
+            Register
+        </button>
+
+        <div class="mb-5">
+            <a>Already have an account?</a>
+            <a href="/login" class="text-blue-500 underline">Login here</a>
+        </div>
+    </div>
+
+    <div class="mx-auto dark:bg-gray-800">
+        <div style="width: 30rem; height: 30rem;"
+             class="flex items-center justify-center text-center">
+            <div style="padding-top: 150px; padding-right: 100px; padding-bottom: 150px; padding-left: 100px"
+                 class="border-2 border-blue-500 box-content">
+                <div class="text-lg font-bold">Register</div>
+                <div>Welcome to UpShift!</div>
+            </div>
         </div>
     </div>
 </div>

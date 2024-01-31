@@ -1,0 +1,56 @@
+@using UpShift.Authentication
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager navManager
+
+<nav class="dark:bg-gray-800 p-4">
+    <div class="container mx-auto flex items-center justify-between">
+        
+        <div class="text-white font-bold text-lg">
+            <a href="/">UpShift</a>
+        </div>
+
+        <div class="flex space-x-4">
+            <a href="/contactus" class="text-white">Contact Us</a>
+            <a href="/listarleiloes" class="text-white">Auctions</a>
+            <a href="/faq" class="text-white">FAQ</a>
+
+                <AuthorizeView Roles="Administrator">
+                    <Authorized>
+                        <a href="/criarleilao" class="text-white">Add Auction</a>
+                        <a href="/tickets" class="text-white">Tickets</a>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView Roles="Administrator, User">
+                    <Authorized>
+                        <a href="/licitacoes" class="text-white">My Auctions</a>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView Roles="Administrator, User">
+                    <Authorized>
+                        <a href="/perfil" class="text-white">Profile</a>
+                    </Authorized>
+                </AuthorizeView>
+                <AuthorizeView>
+                    <Authorized>
+                        <a @onclick="Logout" href="javascript:void(0)" class="text-white">Logout</a>
+                    </Authorized>
+                </AuthorizeView>
+
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <a href="/login" class="text-white">Login</a>
+                        <a href="/register" class="text-white">Register</a>
+                    </NotAuthorized>
+                </AuthorizeView>
+        </div>
+    </div>
+</nav>
+
+@code {
+    private async Task Logout()
+    {
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        await customAuthStateProvider.UpdateAuthenticationState(null);
+        navManager.NavigateTo("/", true);
+    }
+}

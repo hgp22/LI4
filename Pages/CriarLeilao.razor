@@ -5,113 +5,188 @@
 @using Models
 @inject ILeilaoController leilaoController
 @inject IVeiculoController veiculoController
+@attribute [Authorize(Roles = "Administrator")]
+
+<style>
+    .form-box {
+        background-color: #12232e;
+    }
+</style>
 
 <PageTitle>Detalhes do Veículo</PageTitle>
 
-
-<h3>Detalhes do Veículo</h3>
-
-<div class="row">
-    <div class="col-md-6">
-        <EditForm Model="@leilao" OnValidSubmit="Criar">
-            <DataAnnotationsValidator/>
-
-            <div class="form-group">
-                <label for="titulo">Título:</label>
-                <InputText class="form-control" @bind-Value="leilao.Titulo"/>
-                <ValidationMessage For="@(()=>leilao.Titulo)"/>
-            </div>
-
-            <div class="form-group">
-                <label for="ano">Ano:</label>
-                <InputNumber class="form-control" @bind-Value="veiculo.Ano" />
-                <ValidationMessage For="@(()=>veiculo.Ano)" />
-            </div>
-
-            <div class="form-group">
-                <label for="marca">Marca:</label>
-                <InputNumber class="form-control" @bind-Value="veiculo.IdMarca" />
-                <ValidationMessage For="@(()=>veiculo.IdMarca)" />
-            </div>
-
-            <div class="form-group">
-                <label for="modelo">Modelo:</label>
-                <InputNumber class="form-control" @bind-Value="veiculo.IdModelo" />
-                <ValidationMessage For="@(()=>veiculo.IdModelo)" />
-            </div>
-
-            <div class="form-group">
-                <label for="descricao">Descricao:</label>
-                <InputText class="form-control" @bind-Value="leilao.Descricao" />
-                <ValidationMessage For="@(()=>leilao.Descricao)" />
-            </div>
-
-            <div class="form-group">
-                <label for="TipoMotor">Tipo do Motor:</label>
-                <InputNumber class="form-control" @bind-Value="veiculo.TipoMotor" />
-                <ValidationMessage For="@(()=>veiculo.TipoMotor)" />
-            </div>
-
-            <div class="form-group">
-                <label for="cor">Cor:</label>
-                <InputText class="form-control" @bind-Value="veiculo.CorExterior" />
-                <ValidationMessage For="@(()=>veiculo.CorExterior)" />
-            </div>
-            <div class="form-group">
-                <label for="kilometragem">Kilometragem:</label>
-                <InputNumber class="form-control" @bind-Value="veiculo.Quilometragem" />
-                <ValidationMessage For="@(()=>veiculo.Quilometragem)" />
-            </div>
-
-            <div class="form-group">
-                <label for="cilindrada">Cilindrada:</label>
-                <InputNumber class="form-control" @bind-Value="veiculo.Cilindrada" />
-                <ValidationMessage For="@(()=>veiculo.Cilindrada)" />
-            </div>
-
-            <div class="form-group">
-                <label for="potencia">Potência:</label>
-                <InputNumber class="form-control" @bind-Value="veiculo.Potencia" />
-                <ValidationMessage For="@(()=>veiculo.Potencia)" />
-            </div>
-
-            <div class="form-group">
-                <label for="portas">Número de Portas:</label>
-                <InputNumber class="form-control" @bind-Value="veiculo.NumPortas" />
-                <ValidationMessage For="@(()=>veiculo.NumPortas)" />
-            </div>
-
-            <div class="form-group">
-                <label for="valorInicial">Preço Inicial:</label>
-                <InputNumber class="form-control" @bind-Value="leilao.ValorInicial" />
-                <ValidationMessage For="@(()=>leilao.ValorInicial)" />
-            </div>
-
-            <div class="form-group">
-                <label for="aumentoMinimo">Licitação Mínima:</label>
-                <InputNumber class="form-control" @bind-Value="leilao.AumentoMinimo" />
-                <ValidationMessage For="@(()=>leilao.AumentoMinimo)" />
-            </div>
-
-            <div class="form-group">
-                <label for="finalLeilao">Licitação Mínima:</label>
-                <InputDate Type="InputDateType.DateTimeLocal" class="form-control" @bind-Value="leilao.DataFinal" />
-                <ValidationMessage For="@(()=>leilao.DataFinal)" />
-            </div>
-
-            <div class="my-2">
-                @message
-            </div>
-
-            <div class="my-2">
-                <button type="submit" class="btn btn-primary">Começar Leilão</button>
-            </div>
-
-        </EditForm>
+<div class="text-white">
+    <div class="font-bold dark:bg-gray-800 p-4 px-16 mb-8">
+        <div class="text-4xl gap-4">New Auction</div>
     </div>
+
+    <EditForm Model="@leilao" OnValidSubmit="Criar">
+
+        <div class="items-center justify-center p-8">
+            <div class="grid grid-cols-2 min-h-screen space-x-8 inline-block mb-8">
+
+                <div class="dark:bg-gray-800 mb-8 p-4 px-4">
+
+                    <div class="text-xl underline mb-4">Car Details</div>
+
+                    <div class="form-group mb-4">
+                        <label for="titulo" class="block text-sm font-semibold text-gray-600">ID</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="leilao.Id" />
+                        <ValidationMessage For="@(()=>leilao.Id)" />
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="titulo" class="block text-sm font-semibold text-gray-600">Title</label>
+                        <InputText class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="leilao.Titulo" />
+                        <ValidationMessage For="@(()=>leilao.Titulo)" />
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="ano" class="block text-sm font-semibold text-gray-600">Year</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculo.Ano" />
+                        <ValidationMessage For="@(()=>veiculo.Ano)" />
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Brand</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculo.IdMarca" />
+                        <ValidationMessage For="@(()=>veiculo.IdMarca)" />
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Model</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculo.IdModelo" />
+                        <ValidationMessage For="@(()=>veiculo.IdModelo)" />
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="descricao" class="block text-sm font-semibold text-gray-600">Description</label>
+                        <textarea class="text-white w-full px-4 py-2 border rounded-md
+                        focus:outline-none focus:border-blue-500
+                        form-box" placeholder="Leave a message here" required>
+                        <InputText class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="leilao.Descricao" />
+                        <ValidationMessage For="@(()=>leilao.Descricao)" />
+                        </textarea>
+                    </div>
+
+                </div>
+
+                <div class="dark:bg-gray-800 mb-8 p-4 px-4">
+
+                    <div class="text-xl underline mb-4">Other Details</div>
+
+                    <!--Combustivel-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Fuel</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculo.TipoMotor" />
+                        <ValidationMessage For="@(()=>veiculo.TipoMotor)" />
+                    </div>
+
+                    <!--Cor-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Color</label>
+                        <InputText class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculo.CorExterior" />
+                        <ValidationMessage For="@(()=>veiculo.CorExterior)" />
+                    </div>
+                    <!--Portas-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Doors</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculo.NumPortas" />
+                        <ValidationMessage For="@(()=>veiculo.NumPortas)" />
+                    </div>
+                    <!--Lugares-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Seats</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculo.Lugares" />
+                        <ValidationMessage For="@(()=>veiculo.Lugares)" />
+                    </div>
+
+                    <!--Cilindrada-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Engine Capacity</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculo.Cilindrada" />
+                        <ValidationMessage For="@(()=>veiculo.Cilindrada)" />
+                    </div>
+
+                    <!--Potencia-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Power</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculo.Potencia" />
+                        <ValidationMessage For="@(()=>veiculo.Potencia)" />
+                    </div>
+
+                    <!--Mileage-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Mileage</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="veiculo.Quilometragem" />
+                        <ValidationMessage For="@(()=>veiculo.Quilometragem)" />
+                    </div>
+                </div>
+
+                <div class="dark:bg-gray-800 mb-8 p-4 px-4">
+
+                    <div class="text-xl underline mb-4">Auction Details</div>
+
+                    <!--Start Price-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Start Price</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                                        focus:border-blue-500 form-box" @bind-Value="leilao.ValorInicial" />
+                        <ValidationMessage For="@(()=>leilao.ValorInicial)" />
+                    </div>
+
+                    <!--Minimum Bid-->
+                    <div class="form-group mb-4">
+                        <label for="modelo" class="block text-sm font-semibold text-gray-600">Minimum Bid</label>
+                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="leilao.AumentoMinimo" />
+                        <ValidationMessage For="@(()=>leilao.AumentoMinimo)" />
+                    </div>
+                    <!--End Date-->
+                    <div class="form-group mb-4">
+                        <label for="endDate" class="block text-sm font-medium text-gray-600">End Date</label>
+                        <InputDate id="endDate" class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
+                        focus:border-blue-500 form-box" @bind-Value="leilao.DataFinal"></InputDate>
+                    </div>
+                </div>
+
+
+                <div class="dark:bg-gray-800 mb-8 p-4 px-4">
+
+                    <div class="text-xl underline mb-4">Images & Videos</div>
+                    <div>
+                        <input type="file" accept="image/*,video/*" multiple @onchange="HandleFiles">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex item-center justify-center">
+                <button type="submit" class="mb-5 bg-blue-500 text-blue
+                            px-8 p-2 rounded-md hover:bg-blue-600 focus:outline-none
+                            focus:border-blue-700 focus:ring focus:ring-blue-200
+                            login-button mb-8 text-3xl font-bold">
+                    Start Auction
+                </button>
+            </div>
+
+        </div>
+
+    </EditForm>
+
 </div>
-
-
 
 
 @code {
@@ -138,6 +213,16 @@
         else
         {
             message = "Leilão não foi adicionado!";
+        }
+    }
+
+    private async Task HandleFiles(ChangeEventArgs e)
+    {
+        var files = e.Value as IEnumerable<IBrowserFile>;
+        foreach (var file in files)
+        {
+            // Process each file here
+            // For example, you can read the file content and upload it to a server
         }
     }
 }

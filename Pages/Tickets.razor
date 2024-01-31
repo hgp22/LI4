@@ -4,6 +4,7 @@
 @using UpShift.Models
 @inject AuthenticationStateProvider authStateProvider
 @inject NavigationManager navManager
+@attribute [Authorize(Roles = "Administrator")]
 
 <AuthorizeView Roles="Administrator">
     <Authorized>

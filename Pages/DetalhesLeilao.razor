@@ -2,63 +2,139 @@
 @using Controllers
 @using Authentication
 @using Models
+@using Data
 @inject ILeilaoController leilaoController
 @inject IUserController userController
+@inject UtilizadorService userAccountService
 @inject NavigationManager navigationManager
-@inject IUserController userController
 @inject AuthenticationStateProvider authStateProvider
 @inject ILicitacaoController licitacaoController
 @inject IMarcaController marcaController
 @inject IModeloController modeloController
 
-<PageTitle>Detalhes do Leilão</PageTitle>
+<style>
+    .form-box {
+        background-color: #12232e;
+    }
+</style>
 
-<h3>Detalhes do Leilão</h3>
+<PageTitle>@leilao.Titulo</PageTitle>
 
-@if (leilao == null)
+    @if (leilao == null)
 {
-    <p>Leilão não existe.</p>
+    <div class="flex items-center justify-center h-screen">
+        <p class="text-white text-4xl text-center font-bold underline decoration-pink-500/30">Uhhh... The auction you're looking for does not exist.</p>
+    </div>
 }
 else
 {
-    <div class="card">
-        <div class="card-header">
-            <h5>@leilao.Titulo</h5>
-        </div>
-        <div class="card-body">
-            <p><strong>Marca:</strong> @marcaController.GetById(veiculo.IdMarca).Nome</p>
-            <p><strong>Modelo:</strong> @modeloController.GetById(veiculo.IdModelo).Nome</p>
-            <p><strong>Ano:</strong> @veiculo.Ano</p>
-            <p><strong>Descrição:</strong> @leilao.Descricao</p>
-            <p><strong>Tipo do Motor:</strong> @veiculo.TipoMotor</p>
-            <p><strong>Cor:</strong> @veiculo.CorExterior</p>
-            <p><strong>Kilometragem:</strong> @veiculo.Quilometragem</p>
-            <p><strong>Cilindrada:</strong> @veiculo.Cilindrada</p>
-            <p><strong>Potência:</strong> @veiculo.Potencia</p>
-            <p><strong>Número de Portas:</strong> @veiculo.NumPortas</p>
-            <p><strong>Preço Inicial:</strong> @leilao.ValorInicial€</p>
-            <p><strong>Licitação Mínima:</strong> @leilao.AumentoMinimo€</p>
-            <p><strong>LICITAÇÃO ATUAL:</strong> @(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.ValorInicial : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)€</p>
+    <div class="text-white text-3xl font-bold p-4 px-16">
+        @leilao.Titulo
+    </div>
 
-            <div class="my-2">
-                <button class="btn btn-primary" @onclick="UserPodeLicitar">Licitar</button>
+    <div class="text-white">
+        Imagens
+    </div>
+
+    <div class="grid grid-cols-2 text-white flex h-screen items-center justify-center">
+
+        <div class="mx-auto dark:bg-gray-800 px-4 p-4">
+            <div class="flex items-center justify-center text-center">
             </div>
 
-            @if (mostrarInputLicitar)
-            {
-                <AuthorizeView>
-                    <Authorized>
-                        <div class="form-group">
-                            <label for="valorLicitar">Valor da Licitação:</label>
-                            <InputNumber class="form-control" id="valorLicitar" @bind-Value="valorLicitar" />
-                            <button class="btn btn-success" @onclick="Licitar">Confirmar Licitação</button>
-                            @mensagem
-                        </div>
-                    </Authorized>
-                </AuthorizeView>
-            }
+            <div class="text-4xl capitalize mb-8">
+                <a>current bid: €@(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.ValorInicial : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)</a>
+            </div>
+
+            <div class="text-3xl capitalize mb-8">
+                Until: @leilao.DataFinal
+            </div>
+
+
+
+            <div class="text-xs mb-8">
+                Minimum Bid: €@leilao.AumentoMinimo
+            </div>
+
+            <div class="grid flex items-center justify-center text-center">
+                <button class="text-3xl mb-5  bg-blue-500 text-blue
+                    px-8 py-4 rounded-md hover:bg-blue-600 focus:outline-none
+                    focus:border-blue-700 focus:ring focus:ring-blue-200
+                    login-button mb-8" @onclick="UserPodeLicitar">
+                    BID
+                </button>
+                @if (mostrarInputLicitar)
+                {
+                    <div class="">
+                        <AuthorizeView>
+                            <Authorized>
+                                <div class="form-group text-white">
+                                    <div class="mb-4">
+                                        <label for="block text-sm font-semibold text-gray-600">Bidding Price</label>
+                                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 form-box" id="valorLicitar" @bind-Value="valorLicitar" />
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <button class="mb-5 w-full bg-blue-500 text-blue px-4 py-2
+                                                    rounded-md hover:bg-blue-600 focus:outline-none
+                                                    focus:border-blue-700 focus:ring focus:ring-blue-200
+                                                    login-button" @onclick="Licitar">
+                                            Confirmar Licitação
+                                        </button>
+                                    </div>
+                                    <div>@mensagem</div>
+                                </div>
+                            </Authorized>
+                        </AuthorizeView>
+                    </div>
+                }
+            </div>
+
         </div>
+
+        <div class="mx-auto dark:bg-gray-800 px-4 p-4">
+            <div class="grid grid-cols-2 gap-2">
+
+
+                <div class="text-xl font-bold">Car Details:</div>
+                <div></div>
+
+                <div>Model:</div>
+                <div>@marcaController.GetById(veiculo.IdMarca)</div>
+
+                <div>Year:</div>
+                <div>@veiculo.Ano</div>
+
+                <div>Doors:</div>
+                <div>@veiculo.NumPortas</div>
+
+                <div>Exterior Color:</div>
+                <div>@veiculo.CorExterior</div>
+
+                <div class="border-t mb-4"></div>
+                <div></div>
+
+                <div class="text-xl font-bold">Engine:</div><div></div>
+
+                <div>Fuel Type:</div>
+                <div>@veiculo.TipoMotor</div>
+
+                <div>Mileage:</div>
+                <div>@veiculo.Quilometragem</div>
+
+                <div>Power:</div>
+                <div>@veiculo.Potencia (hp)</div>
+
+                <div class="border-t mb-4"></div>
+            </div>
+        </div>
+
     </div>
+
+    <div class="text-white text-center w-screen h-screen">
+        @leilao.Descricao
+    </div>
+
 }
 
 @code {

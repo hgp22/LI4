@@ -1,14 +1,69 @@
 ﻿@page "/"
 @inject IJSRuntime js
 
+<h1 class="text-3xl text-white font-bold text-center mt-8">Bem-vindo ao UpShift</h1>
+
 <AuthorizeView>
     <Authorized>
-        <h1>Hello, @context.User.Identity.Name!</h1>
+        <div class="text-center mt-4">
+            <p class="text-blue-500">Olá, @context.User.Identity.Name! Bem-vindo de volta ao UpShift.</p>
+        </div>
     </Authorized>
 
     <NotAuthorized>
-        <h1>Hello, guest!</h1>
+        <div class="text-center mt-4">
+            <p class="text-red-500">Olá, visitante! Por favor, faça login para continuar.</p>
+        </div>
     </NotAuthorized>
 </AuthorizeView>
 
-Welcome to UpShift.
+<div class="container mx-auto mt-8">
+    <section class="mb-8">
+        <h2 class="text-2xl text-blue-500 font-bold mb-4 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+            Quem Somos
+        </h2>
+        <p class="text-white">
+            O Diogo Almeida, mais conhecido pela sua alcunha “O Porcas”, sempre foi apaixonado por
+            veículos de quatro rodas, nesse sentido decidiu investir no seu futuro como mecânico automóvel.
+            Apesar da sua alcunha, o ”Porcas” sempre se destacou com a sua perícia a reparar veículos e o seu profissionalismo.
+        </p>
+        <p class="text-white mt-4">
+            Francisco Bóias, um grande entusiasta de automóveis clássicos, e rapidamente se tornou amigo de Porcas. Após alguns anos de
+            trabalho e negócios em conjunto, decidiram unir-se e criar um negócio de Leilões Online, denominado de UPSHIFT.
+        </p>
+    </section>
+
+    <h2 class="text-2xl text-blue-500 font-bold mb-4 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6 mr-2">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+        Leilões Online
+    </h2>
+    <p class="text-white">
+        Através do website do leilão os fundadores têm como objetivo introduzir veículos e respetivas
+        características pertinentes para possibilitar a sua venda. Para além disto, procuram pessoas que possuam exemplares raros, veículos com história e até veículos de média e alta gama, para
+        que sejam introduzidos no leilão.
+    </p>
+    <p class="text-white mt-4">
+        Uma vez que haja um acordo do proprietário do veículo para leiloar o seu veículo, os fundadores
+        criam um anúncio informativo e descritivo com base nas informações disponibilizadas pelo
+        proprietário, desde o histórico do veículo e aspetos relevantes por quem está na posse de uma
+        máquina de quatro rodas.
+    </p>
+    <p class="text-white mt-4">
+        A intenção é atrair uma grande comunidade de entusiastas, tal
+        como os próprios fundadores, para um ambiente seguro, de grande interesse e paixão pelas
+        máquinas de quatro rodas.
+    </p>
+
+    <section class="mt-20 mb-8">
+        <div class="bg-blue-500 text-white p-4 rounded-md">
+            <h2 class="text-2xl font-bold mb-2">Junte-se a nós hoje!</h2>
+            <p class="mb-4">Faça parte da nossa comunidade de entusiastas de automóveis.</p>
+            <a href="/register" class="bg-white text-blue-500 px-4 py-2 rounded-md">Registe-se agora</a>
+        </div>
+    </section>
+</div>
