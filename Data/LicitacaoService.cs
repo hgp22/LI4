@@ -6,7 +6,6 @@ namespace UpShift.Data
     public class LicitacaoService
     {
         private readonly DataBaseContext _ctx;
-        private int nextId = 1;
 
         public LicitacaoService(DataBaseContext ctx)
         {
@@ -40,7 +39,6 @@ namespace UpShift.Data
 
         public void Add(Licitacao novaLicitacao)
         {
-            novaLicitacao.Id = nextId++;
             novaLicitacao.Data = DateTime.Now;
             _ctx.Licitacoes.Add(novaLicitacao);
             _ctx.SaveChanges();

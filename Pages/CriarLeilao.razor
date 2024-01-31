@@ -3,8 +3,10 @@
 @inject NavigationManager NavigationManager
 @using Controllers
 @using Models
+@using Authentication
 @inject ILeilaoController leilaoController
 @inject IVeiculoController veiculoController
+@inject AuthenticationStateProvider authStateProvider
 @attribute [Authorize(Roles = "Administrator")]
 
 <style>
@@ -27,14 +29,7 @@
 
                 <div class="dark:bg-gray-800 mb-8 p-4 px-4">
 
-                    <div class="text-xl underline mb-4">Car Details</div>
-
-                    <div class="form-group mb-4">
-                        <label for="titulo" class="block text-sm font-semibold text-gray-600">ID</label>
-                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none
-                        focus:border-blue-500 form-box" @bind-Value="leilao.Id" />
-                        <ValidationMessage For="@(()=>leilao.Id)" />
-                    </div>
+                    <div class="text-xl underline mb-4">Car Details</div>   
 
                     <div class="form-group mb-4">
                         <label for="titulo" class="block text-sm font-semibold text-gray-600">Title</label>
@@ -195,14 +190,27 @@
     private Leilao leilao = new();
     private Veiculo veiculo = new();
     private string message = String.Empty;
+    private string username { get; set; }
+    private CustomAuthenticationStateProvider customAuthStateProvider { get; set; }
+
+    private async Task InitializeAsync()
+    {
+        customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        username = (await customAuthStateProvider.GetAuthenticationStateAsync()).User.Identity.Name;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await InitializeAsync();
+    }
 
     private void Criar()
     {
 
         if (veiculoController.Create(veiculo))
         {
-            Console.WriteLine("Returned: {true}");
             leilao.IdVeiculo = veiculo.Id;
+            leilao.UsernameAdmin = username;
             if (leilaoController.Create(leilao))
             {
                 message = "Adicionado com Sucesso!";
