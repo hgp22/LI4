@@ -15,72 +15,78 @@
 
 <div class="text-white">
 
-    <div class="font-bold dark:bg-gray-800 p-4 px-16 mb-8">
-        <div class="text-3xl gap-4">My Auctions Record</div>
+    <div class="font-bold p-4 px-16 mb-8">
+        <div class="text-3xl gap-4">My Auctions</div>
     </div>
 
 </div>
 
 @if (licitacoes != null && licitacoes.Any())
 {
-    <div class="row text-white flex justify-center">
-        <div class="grid grid-cols-3 gap-4">
+    <div class="text-white flex justify-center">
+        <div class="grid grid-cols-1 gap-4 w-full max-w-screen-xl mx-auto">
             @foreach (var licitacao in licitacoes.OrderByDescending(l => l.Data))
             {
-                <div class="max-w-md border p-4">
-                    <div class="grid p-4">
-                        <div class="card ">
-                            <div class="card-body">
-                                <button @onclick="(() => VerLeilao(leilaoController.GetByID(licitacao.IdLeilao).Id))">
-                                    @leilaoController.GetByID(licitacao.IdLeilao).Titulo
-                                </button>
-                                @if (leilaoController.GetByID(licitacao.IdLeilao).IdLicitacaoAtual == licitacao.Id && leilaoController.GetByID(licitacao.IdLeilao).LeilaoAcabou)
-                                {
-                                    <div class="font-bold text-red-500 text-xs mb-2">
-                                        AUCTION ENDED!
-                                        WINNER!
-                                    </div>
-                                }
-                                else if (leilaoController.GetByID(licitacao.IdLeilao).IdLicitacaoAtual == licitacao.Id && !leilaoController.GetByID(licitacao.IdLeilao).LeilaoAcabou)
-                                {
-                                    <div class="font-bold text-blue-500 text-xs mb-2">
-                                        BID IS WINNING!
-                                    </div>
-                                    <div class="font-bold text-blue-500 text-xs mb-2">
-                                        <button @onclick="(() => VerLeilao(leilaoController.GetByID(licitacao.IdLeilao).Id))">
-                                            <span class="countdown" data-leilao-id="@leilaoController.GetByID(licitacao.IdLeilao).Id" data-end-time="@leilaoController.GetByID(licitacao.IdLeilao).DataFinal.ToString("o")"></span>
-                                        </button>
-                                    </div>
-                                }
-                                else if (!leilaoController.GetByID(licitacao.IdLeilao).LeilaoAcabou)
-                                {
-                                    <div class="font-bold text-red-500 text-xs mb-2">
-                                        YOUR BID HAS BEEN COVERED!
-                                    </div>
-                                    <div class="font-bold text-blue-500 text-xs mb-2">
+                <div class="w-full border p-4 mb-8 flex items-center mx-4">
+                    <div class="w-1/4 pr-4">
+                        <img src="@GetFirstImage(leilaoController.GetByID(licitacao.IdLeilao))" class="h-full w-full object-cover rounded">
+                    </div>
+                    <div class="w-3/4">
+                        <div class="grid p-4">
+                            <div class="card ">
+                                <div class="card-body">
+                                    <button @onclick="(() => VerLeilao(leilaoController.GetByID(licitacao.IdLeilao).Id))">
+                                        @leilaoController.GetByID(licitacao.IdLeilao).Titulo
+                                    </button>
 
-                                        <button @onclick="(() => VerLeilao(leilaoController.GetByID(licitacao.IdLeilao).Id))">
-                                            <span class="countdown" data-leilao-id="@leilaoController.GetByID(licitacao.IdLeilao).Id" data-end-time="@leilaoController.GetByID(licitacao.IdLeilao).DataFinal.ToString("o")"></span>
-                                        </button>
+                                    <div class="mb-2">
+                                        <a class="font-bold text-blue-500">Your Bid: €</a> <a class="font-bold text-blue-500">@licitacao.Valor</a>
                                     </div>
-                                }
-                                else
-                                {
-                                    <div class="font-bold text-red-500 text-xs mb-2">
-                                        AUCTION ENDED!
-                                    </div>
-                                }
-                                <div class="mb-2">
-                                    @marcaController.GetById(veiculoController.GetById(leilaoController.GetByID(licitacao.IdLeilao).IdVeiculo).IdMarca).Nome
+                                    @if (leilaoController.GetByID(licitacao.IdLeilao).IdLicitacaoAtual == licitacao.Id && leilaoController.GetByID(licitacao.IdLeilao).LeilaoAcabou)
+                                    {
+                                        <div class="font-bold text-blue-500 text-xs mb-2">
+                                            Time Left: SOLD!
+                                        </div>
+                                        <div class="font-bold text-green-500 text-xs mb-2">
+                                            WON!
+                                        </div>
+                                        
+                                    }
+                                    else if (leilaoController.GetByID(licitacao.IdLeilao).IdLicitacaoAtual == licitacao.Id && !leilaoController.GetByID(licitacao.IdLeilao).LeilaoAcabou)
+                                    {
+                                        <div class="font-bold text-blue-500 text-xs mb-2">
+                                            <button @onclick="(() => VerLeilao(leilaoController.GetByID(licitacao.IdLeilao).Id))">
+                                                <span class="countdown" data-leilao-id="@leilaoController.GetByID(licitacao.IdLeilao).Id" data-end-time="@leilaoController.GetByID(licitacao.IdLeilao).DataFinal.ToString("o")"></span>
+                                            </button>
+                                        </div>
+                                        <div class="font-bold text-green-500 text-xs mb-2">
+                                            BID IS WINNING!
+                                        </div>
+                                    }
+                                    else if (!leilaoController.GetByID(licitacao.IdLeilao).LeilaoAcabou)
+                                    {
+                                        <div class="font-bold text-blue-500 text-xs mb-2">
+
+                                            <button @onclick="(() => VerLeilao(leilaoController.GetByID(licitacao.IdLeilao).Id))">
+                                                <span class="countdown" data-leilao-id="@leilaoController.GetByID(licitacao.IdLeilao).Id" data-end-time="@leilaoController.GetByID(licitacao.IdLeilao).DataFinal.ToString("o")"></span>
+                                            </button>
+                                        </div>
+
+                                        <div class="font-bold text-red-500 text-xs mb-2">
+                                            YOUR BID HAS BEEN COVERED!
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="font-bold text-blue-500 text-xs mb-2">
+                                            Time Left: SOLD!
+                                        </div>
+                                    }
+
+                                    <div class="mb-2 border-t"></div>
+
+                                    <div class="font-bold text-xs">Date: @licitacao.Data</div>
                                 </div>
-
-                                <div class="mb-2">
-                                    <a>Valor da Licitação:</a> <a class="font-bold text-blue-500">@licitacao.Valor€</a>
-                                </div>
-
-                                <div class="mb-2 border-t"></div>
-
-                                <div class="font-bold text-xs">Data e Hora: @licitacao.Data</div>
                             </div>
                         </div>
                     </div>
@@ -141,5 +147,28 @@ else
     private void VerLeilao(int leilaoId)
     {
         NavigationManager.NavigateTo($"/detalhesleilao/{leilaoId}");
+    }
+
+    private string GetFirstImage(Leilao leilao)
+    {
+        string directoryPath = $"wwwroot/Images/{leilao.Id}";
+        try
+        {
+            if (Directory.Exists(directoryPath))
+            {
+                string[] imageFiles = Directory.GetFiles(directoryPath, "0.*");
+                if (imageFiles.Any())
+                {
+                    string firstImage = imageFiles.First();
+                    string relativePath = Path.GetRelativePath("wwwroot", firstImage);
+                    return "/" + relativePath.Replace(Path.DirectorySeparatorChar, '/');
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error accessing images: {ex.Message}");
+        }
+        return "";
     }
 }
