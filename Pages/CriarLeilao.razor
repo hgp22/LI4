@@ -163,7 +163,7 @@
 
                     <div class="text-xl underline mb-4">Images & Videos</div>
                     <div>
-                        <input type="file" accept="image/*,video/*" multiple @onchange="HandleFiles">
+                        <InputFile accept="image/*,video/*" multiple maxFileSize="50000000" OnChange="HandleFiles" />
                     </div>
                 </div>
             </div>
@@ -192,6 +192,7 @@
     private string message = String.Empty;
     private string username { get; set; }
     private CustomAuthenticationStateProvider customAuthStateProvider { get; set; }
+    private TaskCompletionSource<bool> auctionStartedTask = new TaskCompletionSource<bool>();
 
     private async Task InitializeAsync()
     {
@@ -206,31 +207,68 @@
 
     private void Criar()
     {
-
         if (veiculoController.Create(veiculo))
         {
             leilao.IdVeiculo = veiculo.Id;
             leilao.UsernameAdmin = username;
+            leilao.Fotografias = "";
+            leilao.VideoLink = "";
+            leilao.IdLicitacaoAtual = -1;
+            leilao.Descricao = "";
+
             if (leilaoController.Create(leilao))
             {
                 message = "Adicionado com Sucesso!";
-                veiculo = new();
-                leilao = new();
             }
         }
         else
         {
             message = "Leilão não foi adicionado!";
         }
+        auctionStartedTask.SetResult(true);
     }
 
-    private async Task HandleFiles(ChangeEventArgs e)
+    private async Task HandleFiles(InputFileChangeEventArgs e)
     {
-        var files = e.Value as IEnumerable<IBrowserFile>;
-        foreach (var file in files)
+        try
         {
-            // Process each file here
-            // For example, you can read the file content and upload it to a server
+            await auctionStartedTask.Task;
+
+            var files = e.GetMultipleFiles();
+            Console.WriteLine("HandleFiles");
+            Console.WriteLine(files);
+            Console.WriteLine(files.Count());
+
+            int imageCounter = 0;
+
+            foreach (var file in files)
+            {
+                string directoryPath = $"Images/{leilao.Id}";
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                Console.WriteLine("Created directory " + directoryPath);
+
+                string fileName = $"{imageCounter}{Path.GetExtension(file.Name)}";
+                string filePath = Path.Combine(directoryPath, fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.OpenReadStream().CopyToAsync(fileStream);
+                }
+
+                leilao.Fotografias += $"{fileName};";
+                leilaoController.Update(leilao);
+
+                imageCounter++;
+            }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine("EXCECAAAAOOOO: " + ex.Message);
+        }
+        leilao = new();
+        veiculo = new();
     }
 }

@@ -33,7 +33,7 @@ else
     </div>
 
     <div class="text-white">
-        Imagens
+        <img src="@GetFirstImage(leilao)">
     </div>
 
     <div class="grid grid-cols-2 text-white flex h-screen items-center justify-center">
@@ -269,5 +269,28 @@ else
             leilaoController.Update(leilao);
             mensagem = "";
         }
+    }
+    private string GetFirstImage(Leilao leilao)
+    {
+        string directoryPath = $"wwwroot/Images/{leilao.Id}";
+        try
+        {
+            if (Directory.Exists(directoryPath))
+            {
+                string[] imageFiles = Directory.GetFiles(directoryPath, "0.*");
+                if (imageFiles.Any())
+                {
+                    string firstImage = imageFiles.First();
+                    string relativePath = Path.GetRelativePath("wwwroot", firstImage);
+                    return "/" + relativePath.Replace(Path.DirectorySeparatorChar, '/');
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle or log the exception
+            Console.WriteLine($"Error accessing images: {ex.Message}");
+        }
+        return "";
     }
 }
