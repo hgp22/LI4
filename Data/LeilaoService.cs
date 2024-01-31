@@ -19,32 +19,78 @@ namespace UpShift.Data
 
             _ctx = ctx;
             _veiculoService = veiculoService;
-            _timer = new Timer(ConcluirLeiloes, null, TimeSpan.Zero, _interval);
+            _timer = new Timer(async state => await ConcluirLeiloesAsync(state), null, TimeSpan.Zero, _interval);
         }
 
-        private void ConcluirLeiloes(object state)
+        private async Task ConcluirLeiloesAsync(object state)
         {
             Console.WriteLine("Verificando se os leilões acabaram...");
 
             var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<DataBaseContext>();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+
             using (var context = new DataBaseContext(optionsBuilder.Options))
             {
-                foreach (Leilao l in context.Leiloes.ToList())
+                var leiloesAConcluir = context.Leiloes
+                    .Where(l => DateTime.Now.CompareTo(l.DataFinal) >= 0 && !l.LeilaoAcabou)
+                    .ToList();
+
+                foreach (var leilao in leiloesAConcluir)
                 {
-                    if (DateTime.Now.CompareTo(l.DataFinal) >= 0 && !l.LeilaoAcabou)
-                    {
-                        Console.WriteLine($"Leilao {l.Id} Acabou!");
-                        l.LeilaoAcabou = true;
-                        Update(l, _ctx);
-                    }
+                    Console.WriteLine($"Leilao {leilao.Id} Acabou!");
+                    leilao.LeilaoAcabou = true;
+                    await UpdateAsync(leilao, context);
                 }
             }
+        }
+
+        public async Task UpdateAsync(Leilao leilao, DataBaseContext context)
+        {
+            var existingLeilao = context.Leiloes.FirstOrDefault(v => v.Id == leilao.Id);
+            if (existingLeilao == null)
+            {
+                return;
+            }
+            existingLeilao.Titulo = leilao.Titulo;
+            existingLeilao.Fotografias = leilao.Fotografias;
+            existingLeilao.ValorInicial = leilao.ValorInicial;
+            existingLeilao.AumentoMinimo = leilao.AumentoMinimo;
+            existingLeilao.DataFinal = leilao.DataFinal;
+            existingLeilao.LeilaoAcabou = leilao.LeilaoAcabou;
+            existingLeilao.VideoLink = leilao.VideoLink;
+            existingLeilao.Descricao = leilao.Descricao;
+            existingLeilao.UsernameAdmin = leilao.UsernameAdmin;
+            existingLeilao.IdVeiculo = leilao.IdVeiculo;
+            existingLeilao.IdLicitacaoAtual = leilao.IdLicitacaoAtual;
+
+            await context.SaveChangesAsync();
+        }
+
+        public void Update(Leilao leilao)
+        {
+            var existingLeilao = Get(leilao.Id);
+            if (existingLeilao == null)
+            {
+                return;
+            }
+            existingLeilao.Titulo = leilao.Titulo;
+            existingLeilao.Fotografias = leilao.Fotografias;
+            existingLeilao.ValorInicial = leilao.ValorInicial;
+            existingLeilao.AumentoMinimo = leilao.AumentoMinimo;
+            existingLeilao.DataFinal = leilao.DataFinal;
+            existingLeilao.LeilaoAcabou = leilao.LeilaoAcabou;
+            existingLeilao.VideoLink = leilao.VideoLink;
+            existingLeilao.Descricao = leilao.Descricao;
+            existingLeilao.UsernameAdmin = leilao.UsernameAdmin;
+            existingLeilao.IdVeiculo = leilao.IdVeiculo;
+            existingLeilao.IdLicitacaoAtual = leilao.IdLicitacaoAtual;
+
+            _ctx.SaveChanges();
         }
 
         public List<Leilao> GetAll()
@@ -74,7 +120,7 @@ namespace UpShift.Data
 
         }
 
-        public void Update(Leilao leilao, DataBaseContext context)
+        public async Task Update(Leilao leilao, DataBaseContext context)
         {
             var existingLeilao = context.Leiloes.FirstOrDefault(v => v.Id == leilao.Id);
             if (existingLeilao == null)
@@ -93,30 +139,7 @@ namespace UpShift.Data
             existingLeilao.IdVeiculo = leilao.IdVeiculo;
             existingLeilao.IdLicitacaoAtual = leilao.IdLicitacaoAtual;
 
-            context.SaveChanges();
-        }
-
-
-        public void Update(Leilao leilao)
-        {
-            var existingLeilao = Get(leilao.Id);
-            if (existingLeilao == null)
-            {
-                return;
-            }
-            existingLeilao.Titulo = leilao.Titulo;
-            existingLeilao.Fotografias = leilao.Fotografias;    
-            existingLeilao.ValorInicial = leilao.ValorInicial;
-            existingLeilao.AumentoMinimo = leilao.AumentoMinimo;
-            existingLeilao.DataFinal = leilao.DataFinal;
-            existingLeilao.LeilaoAcabou = leilao.LeilaoAcabou;
-            existingLeilao.VideoLink = leilao.VideoLink;
-            existingLeilao.Descricao = leilao.Descricao;
-            existingLeilao.UsernameAdmin = leilao.UsernameAdmin;
-            existingLeilao.IdVeiculo = leilao.IdVeiculo;
-            existingLeilao.IdLicitacaoAtual = leilao.IdLicitacaoAtual;
-
-            _ctx.SaveChanges();
+            await context.SaveChangesAsync();
         }
 
         public Veiculo GetVeiculo(int id)

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class DataBaseContext : DbContext
 {
+
 	public DbSet<Marca> Marcas { get; set; }
 	public DbSet<Modelo> Modelos { get; set; }
 	public DbSet<Utilizador> Utilizadores { get; set; }
