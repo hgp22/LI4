@@ -1,4 +1,5 @@
-﻿using UpShift.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using UpShift.Models;
 
 
 namespace UpShift.Data
@@ -25,14 +26,23 @@ namespace UpShift.Data
         {
             Console.WriteLine("Verificando se os leilões acabaram...");
 
-            List<Leilao> leiloes = _ctx.Leiloes.ToList();
-            foreach (Leilao l in leiloes)
+            var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .Build();
+
+            var optionsBuilder = new DbContextOptionsBuilder<DataBaseContext>();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            using (var context = new DataBaseContext(optionsBuilder.Options))
             {
-                if (DateTime.Now.CompareTo(l.DataFinal) >= 0 && !l.LeilaoAcabou)
+                foreach (Leilao l in context.Leiloes.ToList())
                 {
-                    Console.WriteLine($"Leilao {l.Id} Acabou!");
-                    l.LeilaoAcabou = true;
-                    Update(l, _ctx);
+                    if (DateTime.Now.CompareTo(l.DataFinal) >= 0 && !l.LeilaoAcabou)
+                    {
+                        Console.WriteLine($"Leilao {l.Id} Acabou!");
+                        l.LeilaoAcabou = true;
+                        Update(l, _ctx);
+                    }
                 }
             }
         }
