@@ -15,7 +15,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                _marcaService.Add(marca); //mudar para a databse conection quando houver
+                _marcaService.Add(marca);
                 return true;
             }
             catch (Exception ex)
@@ -28,7 +28,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                _marcaService.Delete(id); //mudar para a databse conection quando houver
+                _marcaService.Delete(id); 
                 return true;
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                return _marcaService.GetAll(); //mudar para a databse conection quando houver
+                return _marcaService.GetAll(); 
             }
             catch (Exception ex)
             {
@@ -53,7 +53,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                return _marcaService.Get(id); //mudar para a databse conection quando houver
+                return _marcaService.Get(id); 
             }
             catch (Exception ex)
             {

@@ -7,7 +7,7 @@ namespace UpShift.Data
     public class LeilaoService
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly TimeSpan _interval = TimeSpan.FromSeconds(5);
+        private readonly TimeSpan _interval = TimeSpan.FromSeconds(40);
         private Timer _timer;
 
         private readonly DataBaseContext _ctx;

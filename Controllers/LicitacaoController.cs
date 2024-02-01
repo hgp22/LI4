@@ -16,7 +16,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                _licitacaoService.Add(licitacao); //mudar para a databse conection quando houver
+                _licitacaoService.Add(licitacao); 
                 return true;
             }
             catch (Exception ex)
@@ -29,7 +29,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                _licitacaoService.Delete(licitacao.Id); //mudar para a databse conection quando houver
+                _licitacaoService.Delete(licitacao.Id); 
                 return true;
             }
             catch (Exception ex)

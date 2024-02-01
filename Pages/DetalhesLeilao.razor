@@ -49,70 +49,68 @@ else
     </div>
 
 
+    <div class="grid text-white flex justify-center items-center space-x-4 px-8">
 
+        <div class="grid-rows-2 mb-8 p-4">
 
+            <div class="w-96 h-full bg-gray-800 p-4 rounded-lg mb-8">
+                <div class="flex items-center justify-center text-center">
+                </div>
 
-    <div class="flex justify-center items-center space-x-4">
-        <!-- Caixa com Bid -->
-        <div class="w-96 h-full bg-gray-800 p-4 rounded-lg">
-            <div class="flex items-center justify-center text-center">
-            </div>
+                <div class="text-4xl capitalize mb-8">
+                    <a>current bid: €@(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.ValorInicial : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)</a>
+                </div>
 
-            <div class="text-4xl capitalize mb-8">
-                <a>current bid: €@(licitacaoController.GetByID(leilao.IdLicitacaoAtual) == null ? leilao.ValorInicial : licitacaoController.GetByID(leilao.IdLicitacaoAtual).Valor)</a>
-            </div>
+                <div class="font-bold text-xs mb-2">
+                    <span class="countdown" data-leilao-id="@leilao.Id" data-end-time="@leilao.DataFinal.ToString("o")"></span>
+                </div>
 
-            <div class="font-bold text-xs mb-2">
-                <span class="countdown" data-leilao-id="@leilao.Id" data-end-time="@leilao.DataFinal.ToString("o")"></span>
-            </div>
+                <div class="text-xs mb-8">
+                    Minimum Bid: €@leilao.AumentoMinimo
+                </div>
 
-            <div class="text-xs mb-8">
-                Minimum Bid: €@leilao.AumentoMinimo
-            </div>
+                <div class="grid flex items-center justify-center text-center">
+                    @if (!leilao.LeilaoAcabou)
+                    {
+                        <button class="text-3xl mb-5 bg-blue-500 text-blue
+                        px-8 py-4 rounded-md hover:bg-blue-600 focus:outline-none
+                        focus:border-blue-700 focus:ring focus:ring-blue-200
+                        login-button mb-8" @onclick="UserPodeLicitar">
+                            BID
+                        </button>
+                    }
+                    else
+                    {
+                        <label for="block text-sm font-semibold text-gray-600">LEILÃO TERMINADO!</label>
+                    }
+                    @if (mostrarInputLicitar)
+                    {
+                        <div class="">
+                            <AuthorizeView>
+                                <Authorized>
+                                    <div class="form-group text-white">
+                                        <div class="mb-4">
+                                            <label for="block text-sm font-semibold text-gray-600">Bidding Price</label>
+                                            <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 form-box" id="valorLicitar" @bind-Value="valorLicitar" />
+                                        </div>
 
-            <div class="grid flex items-center justify-center text-center">
-                @if (!leilao.LeilaoAcabou)
-                {
-                    <button class="text-3xl mb-5 bg-blue-500 text-blue
-                    px-8 py-4 rounded-md hover:bg-blue-600 focus:outline-none
-                    focus:border-blue-700 focus:ring focus:ring-blue-200
-                    login-button mb-8" @onclick="UserPodeLicitar">
-                        BID
-                    </button>
-                }
-                else
-                {
-                    <label for="block text-sm font-semibold text-gray-600">LEILÃO TERMINADO!</label>
-                }
-                @if (mostrarInputLicitar)
-                {
-                    <div class="">
-                        <AuthorizeView>
-                            <Authorized>
-                                <div class="form-group text-white">
-                                    <div class="mb-4">
-                                        <label for="block text-sm font-semibold text-gray-600">Bidding Price</label>
-                                        <InputNumber class="text-white w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500 form-box" id="valorLicitar" @bind-Value="valorLicitar" />
+                                        <div class="mb-2">
+                                            <button class="mb-5 w-full bg-blue-500 text-blue px-4 py-2
+                                                    rounded-md hover:bg-blue-600 focus:outline-none
+                                                    focus:border-blue-700 focus:ring focus:ring-blue-200
+                                                    login-button" @onclick="Licitar">
+                                                Confirmar Licitação
+                                            </button>
+                                        </div>
+                                        <div>@mensagem</div>
                                     </div>
-
-                                    <div class="mb-2">
-                                        <button class="mb-5 w-full bg-blue-500 text-blue px-4 py-2
-                                                rounded-md hover:bg-blue-600 focus:outline-none
-                                                focus:border-blue-700 focus:ring focus:ring-blue-200
-                                                login-button" @onclick="Licitar">
-                                            Confirmar Licitação
-                                        </button>
-                                    </div>
-                                    <div>@mensagem</div>
-                                </div>
-                            </Authorized>
-                        </AuthorizeView>
-                    </div>
-                }
-            </div>
+                                </Authorized>
+                            </AuthorizeView>
+                        </div>
+                    }
+                </div>
         </div>
 
-        <!-- Caixa com Detalhes Veículo -->
         <div class="w-96 h-full bg-gray-800 p-4 rounded-lg">
             <div class="grid grid-cols-2 gap-2 h-full">
                 <div class="text-xl font-bold mb-8">Car Details:</div>
@@ -148,11 +146,16 @@ else
             </div>
         </div>
 
-        <!-- Caixa com Descrição do Leilão -->
-        <div class="w-96 h-full bg-gray-800 p-4 rounded-lg text-center">
-            <div class="text-xl font-bold mb-4">Auction Description:</div>
-            <div class="text-white">@leilao.Descricao</div>
         </div>
+
+        <div>
+            <div class="w-96 h-full bg-gray-800 p-4 rounded-lg text-center">
+                <div class="text-xl font-bold mb-4">Auction Description:</div>
+                <div class="text-white">@leilao.Descricao</div>
+            </div>
+        </div>
+
+
     </div>
 
 

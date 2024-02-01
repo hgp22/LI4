@@ -20,7 +20,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                _leilaoService.Add(leilao); //mudar para a databse conection quando houver
+                _leilaoService.Add(leilao); 
                 return true;
             }
             catch(Exception ex)
@@ -33,7 +33,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                _leilaoService.Delete(id); //mudar para a databse conection quando houver
+                _leilaoService.Delete(id);
                 return true;
             }
             catch (Exception ex)
@@ -46,7 +46,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                return _leilaoService.GetAll(); //mudar para a databse conection quando houver
+                return _leilaoService.GetAll();
             }
             catch (Exception ex)
             {
@@ -58,7 +58,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                return _leilaoService.Get(id); //mudar para a databse conection quando houver
+                return _leilaoService.Get(id); 
             }
             catch (Exception ex)
             {

@@ -15,7 +15,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                _modeloService.Add(modelo); //mudar para a databse conection quando houver
+                _modeloService.Add(modelo); 
                 return true;
             }
             catch (Exception ex)
@@ -28,7 +28,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                _modeloService.Delete(id); //mudar para a databse conection quando houver
+                _modeloService.Delete(id);
                 return true;
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                return _modeloService.GetAll(); //mudar para a databse conection quando houver
+                return _modeloService.GetAll();
             }
             catch (Exception ex)
             {
@@ -53,7 +53,7 @@ namespace UpShift.Controllers
         {
             try
             {
-                return _modeloService.Get(id); //mudar para a databse conection quando houver
+                return _modeloService.Get(id);
             }
             catch (Exception ex)
             {

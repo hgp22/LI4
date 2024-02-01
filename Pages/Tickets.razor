@@ -8,33 +8,45 @@
 
 <AuthorizeView Roles="Administrator">
     <Authorized>
-        <h3 class="text-center mb-4">Tickets</h3>
+        <div class="text-white">
 
-        @if (tickets != null && tickets.Any())
-        {
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                @foreach (var ticket in tickets)
+            <div class="font-bold p-4 px-16 mb-8">
+                <div class="text-3xl gap-4">Tickets</div>
+            </div>
+
+        </div>
+        <div class="text-white flex justify-center">
+            <div class="grid grid-cols-1 gap-4 w-full max-w-screen-xl mx-auto">
+
+                @if (tickets != null && tickets.Any())
                 {
-                    <div class="border p-4 rounded-md">
-                        <p class="font-bold">ID: @ticket.Id</p>
-                        <p>Nome: @ticket.ClientName</p>
-                        <p>Email: @ticket.ClientEmail</p>
-                        <p>Telefone: @ticket.ClientPhoneNumber</p>
-                        <p>Mensagem: @ticket.Message</p>
-                        <button class="bg-red-500 text-white p-2 mt-2 rounded-md" @onclick="() => DeleteTicket(ticket)">Excluir</button>
-                    </div>
+                    @foreach (var ticket in tickets)
+                    {
+                        <div class="w-full border p-4 mb-8 flex items-center mx-4">
+                            <div class="border p-4 rounded-md w-3/4">
+                                <p class="font-bold">FROM: @ticket.ClientName</p>
+                                <p>Email: @ticket.ClientEmail</p>
+                                <p>Telefone: @ticket.ClientPhoneNumber</p>
+                                <p>Mensagem: @ticket.Message</p>
+                            </div>
+                            <div class="w-1/4 flex justify-end items-center">
+                                <button class="bg-blue-500 text-white p-5 mt-2" @onclick="() => DeleteTicket(ticket)">Delete</button>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-center">Não há tickets :).</p>
                 }
             </div>
-        }
-        else
-        {
-            <p class="text-center">Não há tickets :).</p>
-        }
+        </div>
     </Authorized>
     <NotAuthorized>
         <p class="text-center">Sem permissão para aceder a esta página.</p>
     </NotAuthorized>
 </AuthorizeView>
+
 
 @code {
     private List<ClientMessage> tickets;
